@@ -1,0 +1,11 @@
+#!/bin/bash
+if kill -0 $(cat ~/.pid/mic.pid)
+then
+  kill -INT $(cat ~/.pid/mic.pid)
+  rm ~/.pid/mic.pid
+else
+  . ~/.bu-config
+  cd $MIC_SAVING_PATH
+  nohup arecord $(date +'%Y.%m.%d-%H.%M.%S').wav &
+  echo $! > ~/.pid/mic.pid
+fi
