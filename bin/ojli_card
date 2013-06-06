@@ -1,0 +1,4 @@
+#!/bin/bash
+. ~/.bashrc
+echo | dmenu-wrapper "Что надо" > ~/.ojli/$(date +%s)
+echo "Added to OjLI" | dzen2 -p 1 -bg "#00ee00" -fg "#000000" 

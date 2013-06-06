@@ -1,0 +1,9 @@
+#!/bin/bash
+# Враппер для dmenu, который устанавливает стиль и кодировку
+if [[ $2 ]] ; then
+        LINES="-l $2"
+else
+        LINES=""
+fi
+
+cat /dev/stdin | dmenu $LINES -nb "#000" -nf "#fff" -p "$1:" -fn '-*-terminus-*-r-*-*-16-*-*-*-*-*-iso10646-*'

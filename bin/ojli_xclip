@@ -1,0 +1,4 @@
+#!/bin/bash
+DATE=$(date +%s)
+xclip -o > ~/.ojli/$DATE
+echo "From clipboard to OjLI" | dzen2 -p 1 -bg "#00ee00" -fg "#000000" 
