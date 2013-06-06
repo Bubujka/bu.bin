@@ -1,0 +1,1 @@
+bindsym $mod+v exec /home/bubujka/.bu.bin/bin/toggle-video-recording
