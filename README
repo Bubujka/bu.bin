@@ -5,3 +5,5 @@ $ wget -O - https://raw.github.com/Bubujka/bu.bin/master/install  | bash
 
 Обновление
 $ bu-bin-update
+
+

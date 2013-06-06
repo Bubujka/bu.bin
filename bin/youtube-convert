@@ -1,0 +1,18 @@
+#!/bin/bash
+# Конвертирует видео под ютуб
+#  crf - качество
+#   от 0 до 51
+#    0  - без потерь
+#    18 - визуально без потерь
+#    21 - по умолчанию
+#    51 - самое плохое
+ffmpeg -i $1 \
+  -acodec libvorbis \
+  -ab 128k \
+  -ac 2 \
+  -vcodec libx264 \
+  -preset medium \
+  -s 1152x720 \
+  -crf 25 \
+  -threads 0 \
+  $1_youtube.mp4
