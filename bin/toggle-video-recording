@@ -1,0 +1,14 @@
+#!/bin/bash
+if kill -0 $(cat ~/.pid/video.pid)
+then
+  kill -INT $(cat ~/.pid/video.pid)
+  rm ~/.pid/video.pid
+else
+  cd ~/.db/history/video
+  nohup \
+    avconv -f alsa -ac 2 -i pulse \
+    -r 24 -g 10 -s 1440x900 -f x11grab -i :0.0 \
+    -vcodec libx264 -preset ultrafast  \
+    $(date +'%Y.%m.%d-%H.%M.%S').mkv &
+  echo $! > ~/.pid/video.pid
+fi
