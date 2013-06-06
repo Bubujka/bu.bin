@@ -3,3 +3,4 @@ cd
 git clone git@github.com:Bubujka/bu.bin.git .bu.bin
 echo >> ~/.bashrc
 echo 'PATH=$PATH:$HOME/.bu.bin/bin' >> ~/.bashrc
+PATH=$PATH:$HOME/.bu.bin/bin

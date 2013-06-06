@@ -6,13 +6,14 @@
 #    18 - визуально без потерь
 #    21 - по умолчанию
 #    51 - самое плохое
+. ~/.bu-config
 ffmpeg -i $1 \
   -acodec libvorbis \
   -ab 128k \
   -ac 2 \
   -vcodec libx264 \
   -preset medium \
-  -s 1152x720 \
+  -s $VIDEO_CONVERT_RESOLUTION \
   -crf 25 \
   -threads 0 \
   $1_youtube.mp4

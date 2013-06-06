@@ -6,4 +6,18 @@ $ wget -O - https://raw.github.com/Bubujka/bu.bin/master/install  | bash
 Обновление
 $ bu-bin-update
 
+-----------
 
+Для того чтобы всё работало
+- Надо установить всё что прописано в файле dependencies
+- Надо заполнить файл passwords и сохранить его в ~/.passwords
+- Надо поправить файл bu-config и сохранить его в ~/.bu-config
+
+-----------
+
+Файл: bu-config
+  Содержит в себе настройки для скриптов. 
+  В скриптах он подключается как 
+  . ~/.bu-config
+
+Файл: passwords - это пароли и ключи к api
