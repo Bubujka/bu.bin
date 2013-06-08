@@ -3,7 +3,10 @@ if kill -0 $(cat ~/.pid/mic.pid)
 then
   kill -INT $(cat ~/.pid/mic.pid)
   rm ~/.pid/mic.pid
+  amixer set Master unmute
 else
+  amixer set Master mute
+  amixer set Capture 100%
   . ~/.bu-config
   cd $MIC_SAVING_PATH
   nohup arecord $(date +'%Y.%m.%d-%H.%M.%S').wav &
