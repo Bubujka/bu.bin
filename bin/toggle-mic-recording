@@ -9,6 +9,6 @@ else
   amixer set Capture 100%
   . ~/.bu-config
   cd $MIC_SAVING_PATH
-  nohup arecord $(date +'%Y.%m.%d-%H.%M.%S').wav &
+  nohup arecord -f dat $(date +'%Y.%m.%d-%H.%M.%S').wav &
   echo $! > ~/.pid/mic.pid
 fi
