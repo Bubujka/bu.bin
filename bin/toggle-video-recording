@@ -6,10 +6,12 @@ then
 else
   . ~/.bu-config
   cd $VIDEO_SAVING_PATH
+  DATE=`date +'%Y.%m.%d-%H.%M.%S'`
+  ~/.bu.bin/bin/dmenu-wrapper 'Название видео' > $DATE.mkv.txt
   nohup \
     avconv -f alsa -ac 2 -i pulse \
     -r 24 -g 10 -s $VIDEO_RECORDING_RESOLUTION -f x11grab -i :0.0 \
     -vcodec libx264 -preset ultrafast  \
-    $(date +'%Y.%m.%d-%H.%M.%S').mkv &
+    $DATE.mkv &
   echo $! > ~/.pid/video.pid
 fi

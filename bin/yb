@@ -1,4 +1,4 @@
 #!/bin/bash
 # Конвертирует видео для ютуба и заливает его туда
 youtube-convert "$1"
-to-youtube "${1}_youtube.mp4" "$2"
+to-youtube "${1}_youtube.mp4" "$(cat $1.txt)"

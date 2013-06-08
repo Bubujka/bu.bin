@@ -1,0 +1,3 @@
+#!/bin/bash
+cd ~/.db/history/video
+yb $(ls -t *.mkv | head -1)
