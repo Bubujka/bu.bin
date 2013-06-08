@@ -1,0 +1,12 @@
+username: BASECAMP_LOGIN
+password: BASECAMP_PASSWORD
+targets: 
+  TARGET_NAME:
+    account: ACC_ID
+    project: PRJ_ID
+    todolist: TODOLIST_ID
+    assignee: PERSON_ID_(OPTIONAL)
+  TARGET_NAME_2:
+    account: ACC_ID
+    project: PRJ_ID
+    todolist: TODOLIST_ID

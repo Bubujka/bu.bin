@@ -1,0 +1,74 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+"SoRrY fOr My RuBy"
+
+require 'rubygems'
+require 'yaml'
+require 'thor'
+require 'json'
+require 'httparty'
+require 'pp'
+class Puffy < Thor
+  @@cfg = YAML.load_file(File.expand_path("~/.puffyrc"))
+  desc "targets", "Show all targets"
+  def targets
+    puts @@cfg['targets'].keys
+  end
+
+  desc "sync", "Синхронизировать незалитые таски в бэйскамп (если инет не работал)"
+  def sync
+    Dir[File.expand_path("~/.puffy")+"/*"].each do |pth|
+      info = YAML.load_file(pth)
+      tgt = @@cfg['targets'][info[:target]]
+      data = {}
+      data["content"] = info[:text]
+      if tgt['assignee']
+        data["assignee"] = { "type"=>"Person", "id"=>tgt['assignee'] }
+      end
+      data = data.to_json
+      p = HTTParty.post("https://basecamp.com/#{tgt['account']}/api/v1/projects/#{tgt['project']}/todolists/#{tgt['todolist']}/todos.json",
+                    :basic_auth => { :username => @@cfg['username'], :password => @@cfg['password'] },
+                    :body => data,
+                    :headers => {
+                      "User-Agent" => 'Bubujka.Todo.Creator (zendzirou@gmail.com)',
+                      "Content-Type" => "application/json"} )
+      if p.code == 201
+        File.unlink pth
+      end
+    end
+  end
+
+  desc "create TARGET TEXT", "Create task in target"
+  def create target, text
+    unless(@@cfg['targets'].keys.include? target)
+      puts "Fucked target!"
+      exit 1
+    end
+    info = { target: target, text: text }
+
+    backup_file_name = Time.now.to_f.to_s
+    backup_file_name = File.expand_path("~/.puffy/#{backup_file_name}")
+    File.open(backup_file_name, 'w') {|f| f.write(info.to_yaml) }
+
+    tgt = @@cfg['targets'][info[:target]]
+    data = {}
+    data["content"] = info[:text]
+    if tgt['assignee']
+      data["assignee"] = { "type"=>"Person", "id"=>tgt['assignee'] }
+    end
+    data = data.to_json
+    p = HTTParty.post("https://basecamp.com/#{tgt['account']}/api/v1/projects/#{tgt['project']}/todolists/#{tgt['todolist']}/todos.json",
+                  :basic_auth => { :username => @@cfg['username'], :password => @@cfg['password'] },
+                  :body => data,
+                  :headers => {
+                    "User-Agent" => 'Bubujka.Todo.Creator (zendzirou@gmail.com)',
+                    "Content-Type" => "application/json"} )
+    if p.code == 201
+      puts "All good"
+      File.unlink backup_file_name
+      exit 0;
+    end
+    exit 2
+  end
+end
+Puffy.start
