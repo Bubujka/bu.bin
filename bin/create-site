@@ -1,0 +1,25 @@
+#!/bin/bash
+# создаём из ветки репа сайт...
+#
+# create-site git@github.com:Username/rep.git ololo canine
+
+echo "server {" | sudo tee -a /etc/nginx/sites-enabled/$2
+echo "  listen *:80;" | sudo tee -a /etc/nginx/sites-enabled/$2
+echo "  server_name $2.$3;" | sudo tee -a /etc/nginx/sites-enabled/$2
+echo "  root /home/www/$2;" | sudo tee -a /etc/nginx/sites-enabled/$2
+echo "  include /home/www/$2/nginx.conf;" | sudo tee -a /etc/nginx/sites-enabled/$2
+echo "}" | sudo tee -a file/etc/nginx/sites-enabled/$2
+
+cd /home/www/
+mkdir $2
+cd $2
+git init
+git remote add origin $1
+sed -i "s/\*/$2/g" .git/config
+git pull
+git checkout origin/$2
+git checkout -b $2
+git push -u origin $2
+cd
+ln -s /home/www/$2 
+sudo service nginx reload
