@@ -8,7 +8,7 @@ echo "  listen *:80;" | sudo tee -a /etc/nginx/sites-enabled/$2
 echo "  server_name $2.$3;" | sudo tee -a /etc/nginx/sites-enabled/$2
 echo "  root /home/www/$2;" | sudo tee -a /etc/nginx/sites-enabled/$2
 echo "  include /home/www/$2/nginx.conf;" | sudo tee -a /etc/nginx/sites-enabled/$2
-echo "}" | sudo tee -a file/etc/nginx/sites-enabled/$2
+echo "}" | sudo tee -a /etc/nginx/sites-enabled/$2
 
 cd /home/www/
 mkdir $2
