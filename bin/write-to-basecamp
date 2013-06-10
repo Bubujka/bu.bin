@@ -1,5 +1,5 @@
 #!/bin/bash
 . ~/.bashrc
-TARGET="$(puffy targets | dmenu-wrapper 'Куда писать')"
 TEXT="$(echo | dmenu-wrapper 'Что')"
+TARGET="$(puffy targets | dmenu-wrapper 'Куда')"
 puffy create "$TARGET" "$TEXT"
