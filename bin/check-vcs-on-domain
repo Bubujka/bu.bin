@@ -1,0 +1,4 @@
+#!/bin/bash
+
+wget -O - http://$1/.git/config 2> /dev/null | head 
+wget -O - http://$1/.svn/entries 2> /dev/null | head 
