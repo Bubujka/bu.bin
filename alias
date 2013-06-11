@@ -1,0 +1,37 @@
+for file in ~/.bu.bin/include/*
+do
+  . "$file"
+done
+alias pdf='zathura'
+alias ls='ls -1 --color=auto --group-directories-first'
+alias tdmesg='dmesg | tail'
+alias grep='grep --color=auto'
+alias sar='source .ssh_agent_info'
+alias xargs='xargs -I{}'
+alias rtmux='tmux -2 att -d '
+alias xterm='xterm -bg black'
+alias ssh-koi8='luit -encoding "KOI8-R" ssh'
+
+alias xpdf='xpdf -z width'
+
+
+function cd_(){
+	mkdir $1
+	cd $1
+}
+
+alias scpresume="rsync --partial --progress --rsh=ssh"
+
+alias I='fetchmail -v'
+
+alias smv='mv --backup=t'
+ 
+function bb(){
+        w3m "$1" | fmt -80 | vim -
+}
+
+alias ci='curl -I'
+
+alias xx='xterm &'
+
+alias su-www-data='sudo su -s /bin/bash www-data'
