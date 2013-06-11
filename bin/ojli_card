@@ -1,4 +1,10 @@
 #!/bin/bash
 . ~/.bashrc
-echo | dmenu-wrapper "Что надо" > ~/.ojli/$(date +%s)
-echo "Added to OjLI" | dzen2 -p 1 -bg "#00ee00" -fg "#000000" 
+
+TEXT=`echo | dmenu-wrapper "Что надо"`
+if [ ! -n "$TEXT" ] ; then
+  echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000" 
+  exit
+fi
+echo "$TEXT" > ~/.ojli/$(date +%s)
+echo "Added to ojli" | dzen2 -p 1 -bg "#00ee00" -fg "#000000" 

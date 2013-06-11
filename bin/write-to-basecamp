@@ -1,5 +1,12 @@
 #!/bin/bash
 . ~/.bashrc
+
 TEXT="$(echo | dmenu-wrapper 'Что')"
+if [ ! -n "$TEXT" ] ; then
+  echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000" 
+  exit
+fi
 TARGET="$(puffy targets | dmenu-wrapper 'Куда')"
 puffy create "$TARGET" "$TEXT"
+
+echo "Writed" | dzen2 -p 1 -bg "#00ee00" -fg "#000000" 
