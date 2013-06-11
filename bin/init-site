@@ -1,0 +1,28 @@
+#!/bin/bash
+# init-site git@github.com:Username/rep.git ololo canine
+
+echo "server {" | sudo tee -a /etc/nginx/sites-enabled/$2
+echo "  listen *:80;" | sudo tee -a /etc/nginx/sites-enabled/$2
+echo "  server_name $2.$3;" | sudo tee -a /etc/nginx/sites-enabled/$2
+echo "  root /home/www/$2;" | sudo tee -a /etc/nginx/sites-enabled/$2
+echo "  include /home/www/$2/nginx.conf;" | sudo tee -a /etc/nginx/sites-enabled/$2
+echo "}" | sudo tee -a /etc/nginx/sites-enabled/$2
+
+cd /home/www/
+mkdir $2
+cd $2
+git init
+git remote add origin $1
+sed -i "s/\*/master/g" .git/config
+git pull
+git checkout --orphan $2
+sed -i "s/master/$2/g" .git/config
+echo $2 > README
+touch nginx.conf
+echo 'location / { index index.html }' > nginx.conf
+git add .
+git commit -m 'Initial commit'
+git push -u origin $2
+cd
+ln -s /home/www/$2 
+
