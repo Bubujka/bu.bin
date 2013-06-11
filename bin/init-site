@@ -25,4 +25,5 @@ git commit -m 'Initial commit'
 git push -u origin $2
 cd
 ln -s /home/www/$2 
-
+sudo service nginx stop
+sudo service nginx start
