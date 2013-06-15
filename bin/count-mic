@@ -1,0 +1,2 @@
+#!/bin/bash
+echo $(ls ~/.db/history/mic | wc -l )
