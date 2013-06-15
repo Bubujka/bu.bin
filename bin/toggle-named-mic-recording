@@ -1,0 +1,21 @@
+#!/bin/bash
+if kill -0 $(cat ~/.pid/mic.pid)
+then
+  kill -INT $(cat ~/.pid/mic.pid)
+  rm ~/.pid/mic.pid
+  amixer set Master unmute
+else
+  TEXT="$(echo | dmenu-wrapper 'О чём расскажешь')"
+  if [ ! -n "$TEXT" ] ; then
+    echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000" 
+    exit
+  fi
+
+  amixer set Master mute
+  amixer set Capture 100%
+  . ~/.bu-config
+  cd $NAMED_MIC_SAVING_PATH
+
+  nohup arecord -f dat "$(date +'%Y.%m.%d')-$TEXT.wav" &
+  echo $! > ~/.pid/mic.pid
+fi

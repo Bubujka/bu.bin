@@ -2,4 +2,5 @@ export VIDEO_RECORDING_RESOLUTION='1440x900'
 export VIDEO_CONVERT_RESOLUTION='1152x720'
 export VIDEO_SAVING_PATH=~/.db/history/video
 export MIC_SAVING_PATH=~/.db/history/mic
+export NAMED_MIC_SAVING_PATH=~/.db/history/talk
 export PRJ_REPOSITORY="git@github.com:username/rep.git"
