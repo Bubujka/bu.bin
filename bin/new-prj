@@ -1,0 +1,17 @@
+#!/bin/bash
+. ~/.bu-config
+
+cd ~/.db/prj/
+mkdir $1
+cd $1
+
+git init
+git remote add origin $PRJ_REPOSITORY
+sed -i "s/\*/master/g" .git/config
+git pull
+git checkout --orphan $1
+sed -i "s/master/$1/g" .git/config
+touch README.md
+git add .
+git commit -m 'Initial commit'
+git push -u origin $1
