@@ -3,12 +3,13 @@ if kill -0 $(cat ~/.pid/video.pid)
 then
   kill -INT $(cat ~/.pid/video.pid)
   rm ~/.pid/video.pid
+  youtube-latest-video
 else
   . ~/.bu-config
   cd $VIDEO_SAVING_PATH
 
   DATE=`date +'%Y.%m.%d-%H.%M.%S'`
-  NAME=`~/.bu.bin/bin/dmenu-wrapper 'Название видео'`
+  NAME=`cat ~/.db/history/video/*.txt | ~/.bu.bin/bin/dmenu-wrapper 'Название видео' 5`
   if [ ! -n "$NAME" ] ; then
     echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000" 
     exit
