@@ -1,0 +1,35 @@
+#!/bin/bash
+. ~/.bu-config
+
+if kill -0 $(cat ~/.pid/mic.pid)
+then
+  kill -INT $(cat ~/.pid/mic.pid)
+  rm ~/.pid/mic.pid
+  amixer set Master unmute
+
+  TEXT="$(echo | dmenu-wrapper 'Тема письма')"
+  if [ ! -n "$TEXT" ] ; then
+    echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000" 
+    exit
+  fi
+
+  TO="$(cat ~/.friends-emails | dmenu-wrapper 'Кому')"
+  if [ ! -n "$TO" ] ; then
+    echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000" 
+    exit
+  fi
+
+  cd $VOICEMAIL_SAVING_PATH
+  LAST_FILE=`ls -t | head -n1`
+  rm /tmp/letter.mp3
+  lame -h -b 64 "$LAST_FILE" "/tmp/letter.mp3"
+  echo "Мне лень печатать, но я хотел бы тебе сказать вот что: " | mutt -s "$TEXT" -a /tmp/letter.mp3 -- "$TO"
+else
+
+  amixer set Master mute
+  amixer set Capture 100%
+  cd $VOICEMAIL_SAVING_PATH
+  nohup arecord -f dat "$(date +'%Y.%m.%d-%H.%M.%S').wav" &
+  echo $! > ~/.pid/mic.pid
+fi
+
