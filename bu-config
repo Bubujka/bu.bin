@@ -5,3 +5,4 @@ export MIC_SAVING_PATH=~/.db/history/mic
 export VOICEMAIL_SAVING_PATH=~/.db/history/voicemail
 export NAMED_MIC_SAVING_PATH=~/.db/history/talk
 export PRJ_REPOSITORY="git@github.com:username/rep.git"
+export ADMIN_EMAIL="zendzirou@gmail.com"
