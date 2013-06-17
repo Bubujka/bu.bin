@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+def hanoi_scheme_letter i
+  letters = { 0=> 'a', 1=> 'b', 2=> 'c', 3=>'d', 4=>'e', 5=>'f', 6=>'g', 7=>'h' }
+  for t in [7,6,5,4,3,2,1,0]
+    if (it = (i % 2**t)) == 0
+      return letters[t]
+    end
+  end
+end
+def today_letter
+  day = 3600 * 24
+  hanoi_scheme_letter(Time.now.to_i / day )
+end
+print today_letter

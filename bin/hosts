@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo vim /etc/hosts
