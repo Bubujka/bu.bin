@@ -1,0 +1,11 @@
+#!/bin/bash
+. ~/.bashrc
+
+PROJECT="$(timi projects | dmenu-wrapper 'Проект')"
+if [ ! -n "$PROJECT" ] ; then
+  echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000" 
+  exit
+fi
+timi start "$PROJECT"
+
+echo "Started" | dzen2 -p 1 -bg "#00ee00" -fg "#000000" 

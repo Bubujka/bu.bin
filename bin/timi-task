@@ -1,0 +1,11 @@
+#!/bin/bash
+. ~/.bashrc
+
+TEXT="$(echo | dmenu-wrapper 'Что')"
+if [ ! -n "$TEXT" ] ; then
+  echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000" 
+  exit
+fi
+timi task "$TEXT"
+
+echo "Added" | dzen2 -p 1 -bg "#00ee00" -fg "#000000" 
