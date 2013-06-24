@@ -1,0 +1,2 @@
+#!/bin/bash
+curl http://underscorejs.org/underscore-min.js > jquery.js
