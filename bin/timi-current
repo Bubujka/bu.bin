@@ -1,0 +1,4 @@
+#!/bin/bash
+. ~/.bashrc
+timi current | dzen2 -l 10 -p 3 -bg "#ffffff" -fg "#000000" -w 500 -x 940 -y 5 -ta r -sa l \
+  -e 'onstart=uncollapse,unhide'
