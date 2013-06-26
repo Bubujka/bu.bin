@@ -1,0 +1,4 @@
+#!/bin/bash
+cd ~/cloud9
+./bin/cloud9 -l 0.0.0.0 -w /home/www/dogs
+
