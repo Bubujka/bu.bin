@@ -1,0 +1,13 @@
+#!/bin/bash
+. ~/.bashrc
+while true; do
+  T=$(timi current | head -1)
+  if [[ "$T" == *"stopped"* ]]
+  then
+    echo -n '^fg(#ff0000)' 
+  else
+    echo -n '^fg(#00ff00)' 
+  fi
+  echo "$T"
+  sleep 30
+done |  dzen2 -p 60 -bg "#000000" -fg "#00ff00" -w 400 -y 881 -x 470 
