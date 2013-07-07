@@ -10,7 +10,7 @@ else
   cd $VIDEO_SAVING_PATH
 
   DATE=`date +'%Y.%m.%d-%H.%M.%S'`
-  NAME=`cat ~/.db/history/video/*.txt | ~/.bu.bin/bin/dmenu-wrapper 'Название видео' 5`
+  NAME=`cat ~/.db/history/video/*.txt | sort | uniq | ~/.bu.bin/bin/dmenu-wrapper 'Название видео' 15`
   if [ ! -n "$NAME" ] ; then
     echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000" 
     exit
