@@ -70,7 +70,10 @@ class Bubu < Thor
 
     def run_task task
       notice "./#{task}"
-      system("./#{task}")
+      out = `./#{task}`
+      result=$?.success?
+      puts out
+      result
     end
 
     def is_good status

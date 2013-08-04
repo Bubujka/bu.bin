@@ -1,0 +1,10 @@
+api_key: asana_key
+targets: 
+  TARGET_NAME:
+    workspace: WORKSPACE_ID
+    project: PRJ_ID_(OPTIONAL)
+    assignee: PERSON_ID_(OPTIONAL)
+  TARGET_NAME_2:
+    workspace: WORKSPACE_ID
+    project: PRJ_ID_(OPTIONAL)
+    assignee: PERSON_ID_(OPTIONAL)
