@@ -1,0 +1,3 @@
+#!/bin/bash
+killall -KILL skype
+killall -KILL pidgin

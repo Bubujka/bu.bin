@@ -1,0 +1,7 @@
+#!/bin/bash
+cd ~/.db/music
+echo Playlist:
+echo ------------------------------------
+find . -type f -iname '*.mp3' -regex ".*$1.*"  
+echo ------------------------------------
+find . -type f -iname '*.mp3' -regex ".*$1.*"  | mplayer -shuffle -really-quiet -loop 0 -playlist - 2> /dev/null
