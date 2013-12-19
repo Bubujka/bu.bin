@@ -1,0 +1,20 @@
+#!/bin/bash
+source ~/.bashrc
+export DISPLAY=":0"
+rm ~/screenshot.png
+import ~/screenshot.png 
+NAME=`date +%X | sed 's/:/-/g'`_`cat ~/screenshot.png | md5sum |  head -c10`
+NAME_LOW=$NAME.jpg
+NAME_HIGH=$NAME.png
+convert -quality 60 -resize 70% ~/screenshot.png ~/screenshot.jpg
+cd ~/.db/history/screenshot
+DIRECTORY=`date +%F | sed 's/-/\//g'`
+mkdir -p $DIRECTORY 2> /dev/null
+cd $DIRECTORY
+cp ~/screenshot.png ./$NAME_HIGH
+cp ~/screenshot.jpg ./$NAME_LOW
+rm ~/screenshot.jpg ~/screenshot.png
+cd ~/.db/history/screenshot
+echo "http://ss.bubujka.org/$DIRECTORY/$NAME_HIGH" | xclip 
+echo "http://ss.bubujka.org/$DIRECTORY/$NAME_HIGH" >> ~/.db/wiki/screenshots
+s3cmd sync ./ s3://ss.bubujka.org
