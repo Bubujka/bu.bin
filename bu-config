@@ -1,8 +1,8 @@
-export VIDEO_RECORDING_RESOLUTION='1440x900'
-export VIDEO_CONVERT_RESOLUTION='1152x720'
-export VIDEO_SAVING_PATH=~/.db/history/video
+export VIDEO_RECORDING_RESOLUTION='1440x900' # у меня такой экран
+export VIDEO_CONVERT_RESOLUTION='1152x720' # ютуб до такого размера пожмёт всё равно. Заливать меньше
+export VIDEO_SAVING_PATH=~/.db/history/video 
 export MIC_SAVING_PATH=~/.db/history/mic
 export VOICEMAIL_SAVING_PATH=~/.db/history/voicemail
 export NAMED_MIC_SAVING_PATH=~/.db/history/talk
-export PRJ_REPOSITORY="git@github.com:username/rep.git"
+export PRJ_REPOSITORY="git@github.com:username/rep.git" # реп для мелких приватных проектов
 export ADMIN_EMAIL="zendzirou@gmail.com"
