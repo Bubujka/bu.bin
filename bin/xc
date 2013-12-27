@@ -1,0 +1,3 @@
+#!/bin/bash
+cat /dev/stdin | xclip -selection pri
+xclip -o | xclip -selection cli

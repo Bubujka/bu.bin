@@ -1,2 +1,2 @@
 #!/bin/bash
-WINEPREFIX=~/.diablo/ol wine ~/.diablo/ol/drive_c/Program\ Files/Diablo\ II/Diablo\ II.exe -w
+WINEPREFIX=~/.diablo/ol wine ~/.diablo/ol/drive_c/Program\ Files/Diablo\ II/Diablo\ II.exe -w -skiptobnet
