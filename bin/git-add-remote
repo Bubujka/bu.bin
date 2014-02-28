@@ -1,0 +1,2 @@
+#!/bin/bash
+git remote set-url --add $@
