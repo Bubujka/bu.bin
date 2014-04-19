@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$#" -eq 0 ]; then
+      echo "Illegal number of parameters"
+      exit
+fi
 DIR=`pwd`
 
 webcam 2> /dev/null > /dev/null
