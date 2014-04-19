@@ -1,2 +1,3 @@
 #!/bin/bash
-sudo vim /etc/hosts
+sudo vim /etc/hosts.d/$1
+cat /etc/hosts.d/* | sudo tee /etc/hosts > /dev/null
