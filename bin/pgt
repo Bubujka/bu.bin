@@ -1,0 +1,5 @@
+#!/bin/bash
+length=9
+read -s key
+hash=`echo -n $key | md5php`
+echo -n ${hash:0:$length} | xclip
