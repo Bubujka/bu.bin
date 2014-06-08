@@ -1,0 +1,5 @@
+#!/bin/bash
+
+ffmpeg -i "$1" -b 1500k -vcodec libx264 -vpre slow -vpre baseline -g 30 "$1.mp4"
+#ffmpeg -i "$1" -b 1500k -vcodec libvpx -acodec libvorbis -ab 160000 -f webm -g 30 "$1.webm"
+#ffmpeg -i "$1" -b 1500k -vcodec libtheora -acodec libvorbis -ab 160000 -g 30 "$1.ogv"
