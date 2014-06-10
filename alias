@@ -26,10 +26,6 @@ alias I='fetchmail -v'
 
 alias smv='mv --backup=t'
  
-function bb(){
-        w3m "$1" | fmt -80 | vim -
-}
-
 alias ci='curl -I'
 
 alias xx='xterm &'
