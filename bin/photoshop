@@ -1,0 +1,4 @@
+#!/bin/bash
+export WINEPREFIX=$HOME/.wine
+cd ~/.wine/drive_c/Program\ Files/Adobe/Photoshop\ 7.0/
+wine Photoshop.exe
