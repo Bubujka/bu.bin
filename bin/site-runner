@@ -9,7 +9,7 @@ unless app_name.empty?
   File.open(File.expand_path "~/.sites").each do |line|
     t = line.split
     if t[0] == app_name
-      system "/usr/bin/google-chrome --app=#{t[1]}"
+      system "/usr/bin/chromium-browser --app=#{t[1]}"
     end
   end
 end
