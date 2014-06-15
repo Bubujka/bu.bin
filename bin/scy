@@ -90,6 +90,7 @@ _start_video_recording() {
 _toggle_recording() {
 	if _video_process_running ; then
 		_stop_video_recording
+		notify-send "_Снято_"
 	else
 		_start_video_recording
 	fi
@@ -115,15 +116,15 @@ _convert_video() {
 _upload_video() {
 	TITLE=$(cat $1.txt)
 	FILE="${1}_youtube.mp4" 
-	notify-send "_Загружаю видео на youtube.com"
+	notify-send "_Загружаю видео на youtube.com_"
 	youtube-upload \
-		--private \
+		--unlisted \
 		--category=Howto \
 		--email=$YOUTUBE_LOGIN \
 		--description=" " \
 		--password=$YOUTUBE_PASSWORD --title="$TITLE" "$FILE" | xc >> ~/.db/wiki/screencasts
 	xclip -o
-	notify-send "_Видео загружено."
+	notify-send "_Видео загружено._"
 }
 
 case "$1" in
