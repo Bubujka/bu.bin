@@ -1,2 +1,2 @@
 #!/bin/bash
-/opt/java/jre1.7.0_45/bin/java -jar ~/.db/game/Minecraft.jar
+/opt/jre1.7.0_60/bin/java -jar ~/.db/game/Minecraft.jar

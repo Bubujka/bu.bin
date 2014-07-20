@@ -6,4 +6,4 @@ else
         LINES=""
 fi
 
-cat /dev/stdin | dmenu $LINES -nb "#000" -nf "#fff" -p "$1:" -fn '-*-terminus-*-r-*-*-16-*-*-*-*-*-*-*'
+cat /dev/stdin | dmenu $LINES -nb "#000" -nf "#fff" -p "$1:" -fn Pt\ Sans\ 20
