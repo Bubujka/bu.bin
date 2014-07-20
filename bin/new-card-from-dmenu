@@ -1,0 +1,9 @@
+#!/bin/bash
+. ~/.bashrc
+cd ~/.db/$1
+trim() { echo $1; }
+CONTENT=`echo ' ' | dmenu_wrapper "$2"`
+if [ -n "$(trim $CONTENT)" ]
+then
+        echo "$CONTENT" >> `next-n-in-dir`
+fi
