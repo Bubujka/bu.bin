@@ -2,7 +2,7 @@
 source ~/.bashrc
 export DISPLAY=":0"
 rm ~/screenshot.png
-scrot ~/screenshot.png  2> one > oone
+scrot ~/screenshot.png  2> /dev/null > /dev/null
 NAME=`date +%X | sed 's/:/-/g'`_`cat ~/screenshot.png | md5sum |  head -c10`
 NAME_LOW=$NAME.jpg
 NAME_HIGH=$NAME.png
