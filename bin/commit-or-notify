@@ -3,7 +3,7 @@
 if [ $(git status --porcelain | wc -l ) != 0 ] ;
 then
   git add . --all
-  git commit -m "$(pwd) update - $(date)"
+  git commit -m "$(hostname):$(pwd) update - $(date)"
 fi
 
 git pull
@@ -14,7 +14,7 @@ then
   echo "Вот что говорит \`git status\`:" >> $TEMP
   git status --porcelain >> $TEMP
   cat $TEMP | mail \
-    -s "Не получается в каталоге '$(pwd)' безболезненно сделать \`git pull\`" \
+    -s "Не получается в каталоге '$(hostname):$(pwd)' безболезненно сделать \`git pull\`" \
     $1
 
   rm $TEMP
