@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $(git status --porcelain | wc -l ) != 0 ] ;
+then
+  git add . --all
+  git commit -m "$(pwd) update - $(date)"
+fi
+
+git pull
+
+if [ $(git status --porcelain | wc -l ) != 0 ] ;
+then
+  TEMP=$(mktemp)
+  echo "Вот что говорит \`git status\`:" >> $TEMP
+  git status --porcelain >> $TEMP
+  cat $TEMP | mail \
+    -s "Не получается в каталоге '$(pwd)' безболезненно сделать \`git pull\`" \
+    $1
+
+  rm $TEMP
+  git add . --all
+  git reset --hard HEAD
+else
+  git push
+fi
