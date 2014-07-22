@@ -122,7 +122,7 @@ _upload_video() {
 		--category=Howto \
 		--email=$YOUTUBE_LOGIN \
 		--description=" " \
-		--password=$YOUTUBE_PASSWORD --title="$TITLE" "$FILE" | xc >> ~/.db/wiki/screencasts
+		--password=$YOUTUBE_PASSWORD --title="$TITLE" "$FILE" | xc >> ~/.db/wiki/screencasts-$(hostname)
 	xclip -o
 	notify-send "_Видео загружено._"
 }
