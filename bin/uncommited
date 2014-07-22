@@ -1,8 +1,0 @@
-#!/bin/bash
-for dir in $@; 
-do 
-  cd $dir;
-  echo $dir
-  git status --short
-  cd ..
-done
