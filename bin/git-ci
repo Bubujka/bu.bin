@@ -5,7 +5,6 @@ if [ "$#" -eq 0 ]; then
 fi
 DIR=`pwd`
 
-webcam 2> /dev/null > /dev/null
 
 mkdir /tmp/webshot 2> /dev/null
 cd /tmp/webshot
@@ -28,7 +27,6 @@ convert -quality 70 -flop /tmp/webshot/00000040.png_bak $NAME_LOW
 
 cd ~/.db/history/camshot
 echo "http://cs.bubujka.org/$DIRECTORY/$NAME_LOW" | xc  
-echo "http://cs.bubujka.org/$DIRECTORY/$NAME_LOW" >> ~/.db/wiki/camshots
 
 cd "$DIR"
 

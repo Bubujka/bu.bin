@@ -23,7 +23,7 @@ convert -quality 70 -flop /tmp/webshot/00000040.png_bak $NAME_LOW
 
 cd ~/.db/history/camshot
 echo "http://cs.bubujka.org/$DIRECTORY/$NAME_LOW" | xc  
-echo "http://cs.bubujka.org/$DIRECTORY/$NAME_LOW" >> ~/.db/wiki/camshots-$(hostname)
+#echo "http://cs.bubujka.org/$DIRECTORY/$NAME_LOW" >> ~/.db/wiki/camshots-$(hostname)
 echo "Сфотографировано =)" | dzen2-wrapper green
 s3cmd sync $HOME/.db/history/camshot/ s3://cs.bubujka.org
 
