@@ -9,6 +9,9 @@ require 'json'
 require 'httparty'
 require 'pp'
 class Puffy < Thor
+  @@username = ENV['BASECAMP_LOGIN']
+  @@password = ENV['BASECAMP_PASSWORD']
+
   @@cfg = YAML.load_file(File.expand_path("~/.puffyrc"))
   desc "targets", "Show all targets"
   def targets
@@ -27,7 +30,7 @@ class Puffy < Thor
       end
       data = data.to_json
       p = HTTParty.post("https://basecamp.com/#{tgt['account']}/api/v1/projects/#{tgt['project']}/todolists/#{tgt['todolist']}/todos.json",
-                    :basic_auth => { :username => @@cfg['username'], :password => @@cfg['password'] },
+                    :basic_auth => { :username => @@username, :password => @@password },
                     :body => data,
                     :headers => {
                       "User-Agent" => 'Bubujka.Todo.Creator (zendzirou@gmail.com)',
@@ -58,7 +61,7 @@ class Puffy < Thor
     end
     data = data.to_json
     p = HTTParty.post("https://basecamp.com/#{tgt['account']}/api/v1/projects/#{tgt['project']}/todolists/#{tgt['todolist']}/todos.json",
-                  :basic_auth => { :username => @@cfg['username'], :password => @@cfg['password'] },
+                  :basic_auth => { :username => @@username, :password => @@password },
                   :body => data,
                   :headers => {
                     "User-Agent" => 'Bubujka.Todo.Creator (zendzirou@gmail.com)',

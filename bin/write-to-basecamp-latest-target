@@ -1,7 +1,7 @@
 #!/bin/bash
 . ~/.bashrc
 
-TARGET="$(puffy targets | dmenu-wrapper 'Куда')"
+TARGET=$(cat ~/.puffy-latest-target)
 if [ ! -n "$TARGET" ]; then
   echo "Aborted" | dzen2-wrapper red ; exit
 fi
@@ -14,3 +14,4 @@ fi
 
 puffy create "$TARGET" "$TEXT"
 echo "Writed" | dzen2-wrapper green
+

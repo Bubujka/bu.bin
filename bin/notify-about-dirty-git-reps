@@ -19,6 +19,7 @@ done
 if [ $(cat $TEMP | wc -l) != 0 ];
 then
   cat $TEMP | mail \
+    -a "From: $MSMTP_FROM" \
     -s "У '$(hostname)' есть незакомиченные репы" \
     $1
 fi

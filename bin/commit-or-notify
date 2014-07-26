@@ -14,6 +14,7 @@ then
   echo "Вот что говорит \`git status\`:" >> $TEMP
   git status --porcelain >> $TEMP
   cat $TEMP | mail \
+    -a "From: $MSMTP_FROM" \
     -s "Не получается в каталоге '$(hostname):$(pwd)' безболезненно сделать \`git pull\`" \
     $1
 
