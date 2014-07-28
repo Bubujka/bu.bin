@@ -18,6 +18,26 @@ class Puffy < Thor
     puts @@cfg['targets'].keys
   end
 
+  desc "my", "Выводит список моих тасков в бэйскампе"
+  def my
+    @@cfg['accounts'].each do |account, me|
+      res = HTTParty.get("https://basecamp.com/#{account}/api/v1/people/#{me}/assigned_todos.json",
+                    :basic_auth => { :username => @@username, :password => @@password },
+                    :headers => {
+                      "User-Agent" => 'Bubujka.Todo.Creator (zendzirou@gmail.com)',
+                      "Content-Type" => "application/json"} )
+      if res.code == 200
+        t = JSON.parse( res.body )
+        t.each do |prj|
+          prj['assigned_todos'].each do |todo|
+            larr = ' ← '
+            puts (todo['content'] + larr + prj['name'] + larr + prj['bucket']['name'])
+          end
+        end
+      end
+    end
+  end
+
   desc "sync", "Синхронизировать незалитые таски в бэйскамп (если инет не работал)"
   def sync
     Dir[File.expand_path("~/.puffy")+"/*"].each do |pth|
