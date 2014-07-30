@@ -29,10 +29,14 @@ class Puffy < Thor
       if res.code == 200
         t = JSON.parse( res.body )
         t.each do |prj|
+          title = '+++++  ' + prj['bucket']['name'] + ' ' + prj['name']
+          puts title.gsub("\n", ' ')
           prj['assigned_todos'].each do |todo|
             larr = ' ← '
-            puts (todo['content'] + larr + prj['name'] + larr + prj['bucket']['name'])
+            itm = (todo['content'] + larr + prj['name'] + ' (' + prj['bucket']['name']+')') 
+            puts itm.gsub("\n", ' ')
           end
+          puts '.                 '
         end
       end
     end
