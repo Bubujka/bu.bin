@@ -8,6 +8,49 @@ require 'thor'
 require 'json'
 require 'httparty'
 require 'pp'
+
+def _read_my_file 
+  JSON.parse( File.read(File.expand_path('~/.puffy-my-cache.json')))
+end
+
+def _write_my_file data
+  File.open(File.expand_path('~/.puffy-my-cache.json'), 'w') { |file| file.write(data.to_json) }
+end
+
+
+$larr = ' ← '
+
+def format_my_list data
+  plain = []
+  data.each do |account, t|
+    t.each do |prj|
+      prj['assigned_todos'].each do |todo|
+        itm = (todo['content'] + $larr + prj['name'] + ' (' + prj['bucket']['name']+')') 
+        plain.push({name: itm, date: DateTime.rfc3339(todo['created_at'])})
+      end
+    end
+  end
+  plain.sort! { |x,y| y[:date] <=> x[:date] }
+
+  puts '_____Newest_____'
+  plain.first(5).each do |itm|
+    puts itm[:name]
+  end
+  puts '.                 '
+  puts '.                 '
+  data.each do |account, t|
+    t.each do |prj|
+      title = '     ' + prj['bucket']['name'] + ': ' + prj['name']
+      puts title.gsub("\n", ' ')
+      prj['assigned_todos'].each do |todo|
+        itm = (todo['content'] + $larr + prj['name'] + ' (' + prj['bucket']['name']+')') 
+        puts itm.gsub("\n", ' ')
+      end
+      puts '.                 '
+      puts '.                 '
+    end
+  end
+end
 class Puffy < Thor
   @@username = ENV['BASECAMP_LOGIN']
   @@password = ENV['BASECAMP_PASSWORD']
@@ -18,28 +61,30 @@ class Puffy < Thor
     puts @@cfg['targets'].keys
   end
 
+  desc "mycached", "Выводит список моих тасков в бэйскампе из кэша"
+  def mycached 
+    format_my_list _read_my_file
+  end
+
   desc "my", "Выводит список моих тасков в бэйскампе"
   def my
+    data = {}
+
     @@cfg['accounts'].each do |account, me|
       res = HTTParty.get("https://basecamp.com/#{account}/api/v1/people/#{me}/assigned_todos.json",
                     :basic_auth => { :username => @@username, :password => @@password },
                     :headers => {
                       "User-Agent" => 'Bubujka.Todo.Creator (zendzirou@gmail.com)',
                       "Content-Type" => "application/json"} )
+      
+
       if res.code == 200
         t = JSON.parse( res.body )
-        t.each do |prj|
-          title = '+++++  ' + prj['bucket']['name'] + ' ' + prj['name']
-          puts title.gsub("\n", ' ')
-          prj['assigned_todos'].each do |todo|
-            larr = ' ← '
-            itm = (todo['content'] + larr + prj['name'] + ' (' + prj['bucket']['name']+')') 
-            puts itm.gsub("\n", ' ')
-          end
-          puts '.                 '
-        end
+        data[account] = t
       end
     end
+    format_my_list data
+    _write_my_file data
   end
 
   desc "sync", "Синхронизировать незалитые таски в бэйскамп (если инет не работал)"
