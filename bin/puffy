@@ -10,19 +10,21 @@ require 'httparty'
 require 'pp'
 
 def _read_my_file 
-  JSON.parse( File.read(File.expand_path('~/.puffy-my-cache.json')))
+  JSON.parse( File.read(File.expand_path('~/.puffy-my-tasks.json')))
 end
 
 def _write_my_file data
-  File.open(File.expand_path('~/.puffy-my-cache.json'), 'w') { |file| file.write(data.to_json) }
+  File.open(File.expand_path('~/.puffy-my-tasks.json'), 'w') { |file| file.write(data.to_json) }
 end
 
 
 $larr = ' ← '
 
-def format_my_list data
+def format_my_list ids
+  data = _read_my_file
   plain = []
   data.each do |account, t|
+    next unless ids.include? account
     t.each do |prj|
       prj['assigned_todos'].each do |todo|
         itm = (todo['content'] + $larr + prj['name'] + ' (' + prj['bucket']['name']+')') 
@@ -39,6 +41,7 @@ def format_my_list data
   puts '.                 '
   puts '.                 '
   data.each do |account, t|
+    next unless ids.include? account
     t.each do |prj|
       title = '     ' + prj['bucket']['name'] + ': ' + prj['name']
       puts title.gsub("\n", ' ')
@@ -61,34 +64,38 @@ class Puffy < Thor
     puts @@cfg['targets'].keys
   end
 
-  desc "mycached", "Выводит список моих тасков в бэйскампе из кэша"
-  def mycached 
-    format_my_list _read_my_file
+  desc "my", "Выводит список моих тасков в бэйскампе из кэша"
+  def my(*args)
+    if args.size == 0
+      args = @@cfg['accounts'].keys
+    end
+    format_my_list args
   end
 
-  desc "my", "Выводит список моих тасков в бэйскампе"
-  def my
+  desc "fetchmytasks", "Забирает задачи из бэйскампа и кладёт в кэш"
+  def fetchmytasks
     data = {}
-
-    @@cfg['accounts'].each do |account, me|
-      res = HTTParty.get("https://basecamp.com/#{account}/api/v1/people/#{me}/assigned_todos.json",
+    
+    @@cfg['accounts'].each do |name, account|
+      res = HTTParty.get("https://basecamp.com/#{account['id']}/api/v1/people/#{account['me']}/assigned_todos.json",
                     :basic_auth => { :username => @@username, :password => @@password },
                     :headers => {
                       "User-Agent" => 'Bubujka.Todo.Creator (zendzirou@gmail.com)',
                       "Content-Type" => "application/json"} )
-      
-
       if res.code == 200
-        t = JSON.parse( res.body )
-        data[account] = t
+        data[name] = JSON.parse( res.body )
+      else
+        puts "Что то пошло не так"
+        die 1
       end
     end
-    format_my_list data
     _write_my_file data
   end
 
   desc "sync", "Синхронизировать незалитые таски в бэйскамп (если инет не работал)"
   def sync
+    fetchmytasks
+
     Dir[File.expand_path("~/.puffy")+"/*"].each do |pth|
       info = YAML.load_file(pth)
       tgt = @@cfg['targets'][info[:target]]
