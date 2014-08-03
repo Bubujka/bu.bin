@@ -72,6 +72,13 @@ class Puffy < Thor
     format_my_list args
   end
 
+  desc "browser", "Открыть туду лист в браузере"
+  def browser list
+    itm = @@cfg['targets'][list]
+    `google-chrome https://basecamp.com/#{itm['account']}/projects/#{itm['project']}/todolists/#{itm['todolist']}`   
+    `xdotool key F2`
+  end
+
   desc "fetchmytasks", "Забирает задачи из бэйскампа и кладёт в кэш"
   def fetchmytasks
     data = {}
