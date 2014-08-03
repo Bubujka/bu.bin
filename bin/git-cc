@@ -4,5 +4,5 @@ if [ "$#" -eq 0 ]; then
       exit
 fi
 DIR=`pwd`
-
-git commit -m "$@"
+COMMIT="$@"
+git commit -m "$COMMIT"
