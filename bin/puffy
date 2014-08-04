@@ -38,8 +38,8 @@ def format_my_list ids
   plain.first(5).each do |itm|
     puts itm[:name]
   end
-  puts '.                 '
-  puts '.                 '
+  puts '                  '
+  puts '                  '
   data.each do |account, t|
     next unless ids.include? account
     t.each do |prj|
@@ -49,8 +49,8 @@ def format_my_list ids
         itm = (todo['content'] + $larr + prj['name'] + ' (' + prj['bucket']['name']+')') 
         puts itm.gsub("\n", ' ')
       end
-      puts '.                 '
-      puts '.                 '
+      puts '                  '
+      puts '                  '
     end
   end
 end
