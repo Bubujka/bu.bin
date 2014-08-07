@@ -30,7 +30,7 @@ def format_my_list ids
         itm = (todo['content'] + $larr + prj['name'] + ' (' + prj['bucket']['name']+')') 
         plain.push({name: itm, date: DateTime.rfc3339(todo['created_at'])})
       end
-    end
+  end
   end
   plain.sort! { |x,y| y[:date] <=> x[:date] }
 
@@ -75,7 +75,7 @@ class Puffy < Thor
   desc "browser", "Открыть туду лист в браузере"
   def browser list
     itm = @@cfg['targets'][list]
-    `google-chrome https://basecamp.com/#{itm['account']}/projects/#{itm['project']}/todolists/#{itm['todolist']}`   
+    `google-chrome https://basecamp.com/#{itm['account']}/projects/#{itm['project']}/todolists`   
     `xdotool key F2`
   end
 

@@ -4,18 +4,28 @@ export DISPLAY=":0"
 rm ~/screenshot.png
 scrot ~/screenshot.png  2> /dev/null > /dev/null
 NAME=`date +%X | sed 's/:/-/g'`_`cat ~/screenshot.png | md5sum |  head -c10`
+NAME_TN=$NAME.tn.jpg
 NAME_LOW=$NAME.jpg
 NAME_HIGH=$NAME.png
-convert -quality 60 -resize 70% ~/screenshot.png ~/screenshot.jpg
+NAME_TXT=$NAME.txt
 cd ~/.db/history/screenshot
 DIRECTORY=`date +%F | sed 's/-/\//g'`
 mkdir -p $DIRECTORY 2> /dev/null
 cd $DIRECTORY
+
+if [ "$#" -eq 1 ]; then
+  echo | dmenu-wrapper 'Комментарий' > ./$NAME_TXT
+fi
+
+convert -quality 60 -resize 40% ~/screenshot.png ~/screenshot.tn.jpg
+convert -quality 60 -resize 70% ~/screenshot.png ~/screenshot.jpg
 cp ~/screenshot.png ./$NAME_HIGH
 cp ~/screenshot.jpg ./$NAME_LOW
-rm ~/screenshot.jpg ~/screenshot.png
+cp ~/screenshot.tn.jpg ./$NAME_TN
+rm ~/screenshot.jpg ~/screenshot.png ~/screenshot.tn.jpg
 cd ~/.db/history/screenshot
-notify-send -t 1 "__Screenshot!__"
+echo "Screenshot!" | dzen2-wrapper green
 echo "http://ss.bubujka.org/$DIRECTORY/$NAME_HIGH" | xc 
 echo "http://ss.bubujka.org/$DIRECTORY/$NAME_HIGH" >> ~/.db/wiki/screenshots-$(hostname)
+
 s3cmd sync ./ s3://ss.bubujka.org
