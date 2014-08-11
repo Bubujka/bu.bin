@@ -2,5 +2,5 @@
 . ~/.password 
 . ~/.rvm/environments/default 
 echo "updating..." | dzen2-wrapper
-~/.bu.bin/bin/puffy my > ~/.puffy-my
+~/.bu.bin/bin/puffy sync
 ~/.bu.tgl/tgl
