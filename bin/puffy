@@ -12,12 +12,16 @@ require 'json'
 require 'httparty'
 require 'pp'
 
-def _read_my_file 
+def _read_my_file
   JSON.parse( File.read(File.expand_path('~/.puffy-my-tasks.json')))
 end
 
 def _write_my_file data
   File.open(File.expand_path('~/.puffy-my-tasks.json'), 'w') { |file| file.write(data.to_json) }
+end
+
+def _account_to_id acc
+  $cfg['accounts'][acc]['id']
 end
 
 
@@ -32,7 +36,7 @@ def format_my_list ids
     next unless ids.include? account
     t.each do |prj|
       prj['assigned_todos'].each do |todo|
-        itm = (todo['content'] + $larr + prj['name'] + ' (' + prj['bucket']['name']+')') 
+        itm = (todo['content'] + $larr + prj['name'] + ' (' + prj['bucket']['name']+')')
         if(todo['due_at'] == Time.now().strftime('%Y-%m-%d'))
           today.push(itm)
         end
@@ -42,7 +46,7 @@ def format_my_list ids
   end
 
   plain.sort! { |x,y| y[:date] <=> x[:date] }
-  
+
   $cfg['toggl']['common-tasks'].each do |t|
     puts t
   end
@@ -62,14 +66,19 @@ def format_my_list ids
   end
   puts '                  '
   puts '                  '
-  
+
   data.each do |account, t|
     next unless ids.include? account
     t.each do |prj|
       title = '     ' + prj['bucket']['name'] + ': ' + prj['name']
       puts title.gsub("\n", ' ')
       prj['assigned_todos'].each do |todo|
-        itm = (todo['content'] + $larr + prj['name'] + ' (' + prj['bucket']['name']+')') 
+        itm = (
+          todo['content'] +
+          $larr +
+          prj['name'] +
+          ' (' + prj['bucket']['name']+')')
+          #"                                    pfy:#{_account_to_id(account)}:#{prj['bucket']['id']}:#{prj['id']}:#{todo['id']}")
         puts itm.gsub("\n", ' ')
       end
       puts '                  '
@@ -77,6 +86,7 @@ def format_my_list ids
     end
   end
 end
+
 class Puffy < Thor
   @@username = ENV['BASECAMP_LOGIN']
   @@password = ENV['BASECAMP_PASSWORD']
@@ -97,14 +107,14 @@ class Puffy < Thor
   desc "browser", "Открыть туду лист в браузере"
   def browser list
     itm = $cfg['targets'][list]
-    `google-chrome https://basecamp.com/#{itm['account']}/projects/#{itm['project']}/todolists`   
+    `google-chrome https://basecamp.com/#{itm['account']}/projects/#{itm['project']}`
     `xdotool key F2`
   end
 
   desc "fetchmytasks", "Забирает задачи из бэйскампа и кладёт в кэш"
   def fetchmytasks
     data = {}
-    
+
     $cfg['accounts'].each do |name, account|
       res = HTTParty.get("https://basecamp.com/#{account['id']}/api/v1/people/#{account['me']}/assigned_todos.json",
                     :basic_auth => { :username => @@username, :password => @@password },
@@ -120,6 +130,23 @@ class Puffy < Thor
     end
     _write_my_file data
   end
+
+  desc "commenttodo", "Откомментировать задачу"
+  def commenttodo uid, comment, subscribers
+    nothing, account, project, todolist, todo = uid.split(':')
+    subscribers = subscribers.split(',').map(&:to_i)
+    # https://basecamp.com/2704671/projects/6605804/todos/118942695
+    p = HTTParty.post("https://basecamp.com/#{account}/api/v1/projects/#{project}/todos/#{todo}/comments.json",
+                  :basic_auth => { :username => @@username, :password => @@password },
+                  :body => {
+                    "content" => comment,
+                    "subscribers" => subscribers
+                  }.to_json,
+                  :headers => {
+                    "User-Agent" => 'Bubujka.Todo.Creator (zendzirou@gmail.com)',
+                    "Content-Type" => "application/json"} )
+  end
+
 
   desc "sync", "Синхронизировать незалитые таски в бэйскамп (если инет не работал)"
   def sync
