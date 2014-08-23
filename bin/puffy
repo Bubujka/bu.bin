@@ -11,6 +11,7 @@ require 'thor'
 require 'json'
 require 'httparty'
 require 'pp'
+require 'date'
 
 def _read_my_file
   JSON.parse( File.read(File.expand_path('~/.puffy-my-tasks.json')))
@@ -37,8 +38,11 @@ def format_my_list ids
     t.each do |prj|
       prj['assigned_todos'].each do |todo|
         itm = (todo['content'] + $larr + prj['name'] + ' (' + prj['bucket']['name']+')')
-        if(todo['due_at'] == Time.now().strftime('%Y-%m-%d'))
-          today.push(itm)
+        if(todo['due_at'])
+          due = Date.strptime(todo['due_at'], "%Y-%m-%d")
+          if(due <= Time.now().to_date())
+            today.push(itm)
+          end
         end
         plain.push({name: itm, date: DateTime.rfc3339(todo['created_at'])})
       end

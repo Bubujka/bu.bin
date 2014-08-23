@@ -1,4 +1,3 @@
 #!/bin/bash
 . ~/.bashrc
-touch ~/stop-toggl-working
 ~/.bu.tgl/tgl stop

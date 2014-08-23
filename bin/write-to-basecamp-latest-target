@@ -1,7 +1,14 @@
 #!/bin/bash
 . ~/.bashrc
+AGE=$(($(date +%s) - $(stat -L --format %Y ~/.puffy-latest-target)))
+echo $AGE
+if [ $AGE -gt 30 ] ; then
+  write-to-basecamp
+  exit
+fi
 
 TARGET=$(cat ~/.puffy-latest-target)
+
 if [ ! -n "$TARGET" ]; then
   echo "Aborted" | dzen2-wrapper red ; exit
 fi
