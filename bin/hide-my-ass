@@ -1,0 +1,6 @@
+#!/bin/bash
+# Создаёт защищённый туннель до моего сервера 
+
+k9 ssh 2> /dev/null
+rm /tmp/ssh-waserd@ru.najomi.org\:22 2> /dev/null
+ssh -f -C -D 9999 $1 -N && notify-send "Ass hidden!"
