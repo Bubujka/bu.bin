@@ -1,8 +1,3 @@
 #!/bin/bash
 # алиас для поиска текста по файлам
-if [ $# == 2 ]
-then
-    grep -nri "$1" * | grep "$2"
-else
-    grep -nri "$1" *
-fi
+ack-grep $@
