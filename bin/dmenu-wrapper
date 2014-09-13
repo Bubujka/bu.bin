@@ -1,4 +1,4 @@
 #!/bin/bash
 # Враппер для dmenu, который устанавливает стиль и кодировку
-LINES="-l 200"
+LINES="-l 42"
 cat /dev/stdin | dmenu $LINES -nb "#000" -nf "#fff" -p "$1:" -i -fn Pt\ Sans\ 20
