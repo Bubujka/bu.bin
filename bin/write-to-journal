@@ -8,4 +8,5 @@ fi
 
 echo $(date -Is)':' "$TARGET" >> ~/.db/wiki/_journal
 
-echo "Writed" | dzen2-wrapper green
+echo "Writed" | dzen2-wrapper green &
+write-to-journal

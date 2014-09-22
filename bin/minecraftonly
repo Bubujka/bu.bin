@@ -1,0 +1,3 @@
+#!/bin/bash
+/opt/jre1.7.0_60/bin/java -jar ~/.db/game/minecraftonly.jar
+

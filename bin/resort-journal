@@ -1,0 +1,57 @@
+#!/usr/bin/env php
+<?php
+$r = array();
+$f = explode("\n", file_get_contents('php://stdin'));
+
+function _is_comment($t){
+  return preg_match('/^#/', $t);
+}
+
+function _is_date_comment($t){
+  return preg_match('/^# \d\d\d\d-\d\d-\d\d$/', $t);
+}
+
+function _date_from_comment($t){
+  return str_replace('# ', '', $t);
+}
+function _is_record($t){
+  return preg_match('/^[0-9T:+-]+: .*$/', $t);
+}
+function _parse($t){
+  list($time, $text) = explode(': ', $t, 2);
+  list($date, $rest) = explode('T', $time);
+  return array($date, $time, $text);
+}
+$date = '';
+$comments = array();
+foreach($f as $v){
+  $v = trim($v);
+
+  if(_is_date_comment($v))
+    continue;
+
+  if(!trim($v))
+    continue;
+
+  if(_is_comment($v)){
+    $comments[] = $v;
+    continue;
+  }
+
+  if(_is_record($v)){
+    list($vdate, $time, $text) = _parse($v);
+    if($date != $vdate){
+      $date = $vdate;
+      $r[] = '';
+      $r[] = '# '.$vdate;
+      foreach($comments as $vv){
+        $r[] = $vv;
+      }
+      $comments = array();
+    }
+  }
+  $r[] = $v;
+}
+if($r[0] == '')
+  unset($r[0]);
+echo implode("\n", $r);
