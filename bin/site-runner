@@ -7,10 +7,9 @@ unless app_name.empty?
   #file = wiki_file
   puts app_name
   File.open(File.expand_path "~/.sites").each do |line|
-
     t = line.split
     if line.chomp == app_name
-      system "/usr/bin/google-chrome #{t[1]}"
+      system "/usr/bin/google-chrome #{t.last}"
       system "xdotool key F2"
     end
   end

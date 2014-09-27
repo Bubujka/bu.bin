@@ -111,7 +111,7 @@ class Puffy < Thor
   desc "browser", "Открыть туду лист в браузере"
   def browser list
     itm = $cfg['targets'][list]
-    `google-chrome https://basecamp.com/#{itm['account']}/projects/#{itm['project']}`
+    `google-chrome https://basecamp.com/#{itm['account']}/projects/#{itm['project']}#todolist_#{itm['todolist']}`
     `xdotool key F2`
   end
 
