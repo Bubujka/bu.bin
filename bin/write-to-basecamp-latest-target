@@ -2,7 +2,7 @@
 . ~/.bashrc
 AGE=$(($(date +%s) - $(stat -L --format %Y ~/.puffy-latest-target)))
 echo $AGE
-if [ $AGE -gt 30 ] ; then
+if [ $AGE -gt 180 ] ; then
   write-to-basecamp
   exit
 fi
