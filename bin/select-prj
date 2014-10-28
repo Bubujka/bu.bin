@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+def dmenu_gets variants, opts
+  ret = nil
+  IO.popen(['/home/bubujka/.bu.bin/bin/dmenu-wrapper', opts['title'].to_s, opts['rows'].to_s], 'r+') do |p|
+    variants.each do |line|
+      p.puts line[:display]
+    end
+    p.close_write
+    ret = "#{p.gets}".chomp
+    variants.each do |line|
+      if line[:display] == ret
+        ret = line
+        break
+      end
+    end
+  end
+  ret
+end
+
+names = Dir['/home/bubujka/.db/prj/*'].map do |f|
+  { display: 'prj/'+File.basename(f), value: f }
+end + Dir['/home/bubujka/.db/dokuro/prj/*'].map do |f|
+  { display: 'dokuro/'+File.basename(f), value: f }
+end
+
+select = dmenu_gets(names, { 'title' => 'Heeeelo', 'rows' => 5})
+unless select.is_a? String
+   system "gvim --remote-send '<esc><esc>:1,100bd<CR>'"
+   system "gvim --remote-send '<esc><esc>:cd #{select[:value]}<CR>'"
+   system "xdotool key F1"
+end
