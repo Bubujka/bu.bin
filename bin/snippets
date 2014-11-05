@@ -1,0 +1,9 @@
+#!/bin/bash
+# Вывести в читаемом виде все мои сниппеты для вима
+cd ~/.vim/snippets
+for file in `find -type f -iname '*.snippets'`;
+do
+  echo ${file/.snippets/} | sed 's/\.\///g'
+  cat $file | grep snippet | sed 's/^snippet/ /g'
+  echo
+done

@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
+# Чтение и запись в бэйскамп
+# SoRrY fOr My RuBy
 # encoding: UTF-8
 
 require 'yaml'
 $cfg = YAML.load_file(File.expand_path("~/.puffyrc"))
 
-"SoRrY fOr My RuBy"
 
 require 'rubygems'
 require 'thor'
@@ -26,7 +27,7 @@ def _account_to_id acc
 end
 
 
-$larr = ' ← '
+$larr = ' ← ';
 
 def format_my_list ids
   data = _read_my_file
@@ -74,6 +75,9 @@ def format_my_list ids
   data.each do |account, t|
     next unless ids.include? account
     t.each do |prj|
+      if prj['name'] =~ /^-/ then
+        next
+      end
       title = '     ' + prj['bucket']['name'] + ': ' + prj['name']
       puts title.gsub("\n", ' ')
       prj['assigned_todos'].each do |todo|

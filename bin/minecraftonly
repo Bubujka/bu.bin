@@ -1,3 +1,4 @@
 #!/bin/bash
-/opt/jre1.7.0_60/bin/java -jar ~/.db/game/minecraftonly.jar
+
+/usr/lib/jvm/java-7-openjdk-i386/jre/bin/java -jar ~/.db/game/minecraftonly.jar
 
