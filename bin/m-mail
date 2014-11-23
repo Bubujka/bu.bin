@@ -1,0 +1,13 @@
+#!/bin/bash
+xterm -e " cd ~/.db/prj/betamails; nf start " &
+google-chrome \
+  'http://localhost:5000' \
+  'https://us9.admin.mailchimp.com/templates/' \
+  'https://mail.yandex.ru/neo2/#inbox' \
+  'https://e.mail.ru/messages/inbox/' \
+  'https://mail.rambler.ru/#/folder/INBOX/' \
+  'https://mail.google.com/mail/u/0'
+gvim --remote-send '<esc><esc>:1,100bd<CR>'
+gvim --remote-send '<esc><esc>:cd ~/.db/prj/betamails<CR>'
+xdotool key F1
+
