@@ -39,4 +39,6 @@ cd ~/.db/history/screenshot
 echo "Screenshot!" | dzen2-wrapper green
 echo "http://ss.bubujka.org/$DIRECTORY/$NAME_HIGH" >> ~/.db/wiki/screenshots-$(hostname)
 
-s3cmd sync ./ s3://ss.bubujka.org
+cd ~/.db/history/screenshot
+cd $DIRECTORY
+s3cmd put ./$NAME_TN  ./$NAME_LOW ./$NAME_HIGH s3://ss.bubujka.org/$DIRECTORY/
