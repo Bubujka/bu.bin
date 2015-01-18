@@ -1,0 +1,4 @@
+#!/bin/bash
+xdotool key F2
+sleep 0.1
+xdotool key "Control_L+t"

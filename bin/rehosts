@@ -1,0 +1,3 @@
+#!/bin/bash
+cat ~/.db/hosts.d/* | sudo tee /etc/hosts > /dev/null
+google-chrome 'chrome://net-internals/#dns'

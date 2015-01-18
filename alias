@@ -25,11 +25,11 @@ alias scpresume="rsync --partial --progress --rsh=ssh"
 alias I='fetchmail -v'
 
 alias smv='mv --backup=t'
- 
+
 alias ci='curl -I'
 
 alias xx='xterm &'
 
 alias su-www-data='sudo su -s /bin/bash www-data'
 
-alias dotfiles='cd ~/.dotfiles'
+alias dotfiles='cd ~/.db/dotfiles'

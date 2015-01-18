@@ -1,0 +1,2 @@
+#!/bin/bash
+knife solo cook root@$1
