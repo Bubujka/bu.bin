@@ -1,3 +1,3 @@
 #!/bin/bash
-gvim --remote-send ':sp /home/bubujka/.db/plan.txt<CR>'
+gvim --remote-send ':sp /home/bubujka/.db/wiki/plan.md<CR>'
 xdotool key F1
