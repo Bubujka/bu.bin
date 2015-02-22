@@ -4,7 +4,6 @@ alias web-mail='cd ~/www/_mail'
 
 alias tmp='cd ~/.db/tmp'
 alias bin='cd ~/.bu.bin/bin'
-alias db='cd ~/.db'
 alias www='cd /home/www'
 alias aux='cd ~/.db/aux'
 alias shared='cd /home/shared'

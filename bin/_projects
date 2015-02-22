@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+names = []
+
+projects = {
+  my: '/home/bubujka/.db/prj/*',
+  omega: '/home/bubujka/.db/omega/*',
+  beta: '/home/bubujka/.db/beta/*',
+}
+
+projects.each do |key, value|
+  names = names + Dir[value].select do |f|
+    File.directory? f
+  end.map do |f|
+    { display: File.basename(f), client: key, value: f }
+  end
+end
+
+longest = 0
+
+names.each do |i|
+  if i[:display].size > longest
+    longest = i[:display].size
+  end
+end
+
+names.each do |v|
+  v[:display] = v[:client].to_s+'/'+v[:display]
+end
+
+if ARGV[0] == '-e'
+  name = names.select do |v|
+    v[:display].include? ARGV[1]
+  end.first
+  puts name[:value]
+else
+  names.select do |v|
+    if(ARGV[0])
+      v[:display].include? ARGV[0]
+    else
+      true
+    end
+  end.each do |v|
+    puts v[:display]
+  end
+end
