@@ -27,7 +27,7 @@ end + Dir['/home/bubujka/.db/beta/*'].map do |f|
   { display: 'beta/'+File.basename(f), value: f }
 end
 
-select = dmenu_gets(names, { 'title' => 'Heeeelo', 'rows' => 5})
+select = dmenu_gets(names.reverse, { 'title' => 'Heeeelo', 'rows' => 5})
 unless select.is_a? String
    system "gvim --remote-send '<esc><esc>:1,100bd<CR>'"
    system "gvim --remote-send '<esc><esc>:cd #{select[:value]}<CR>'"

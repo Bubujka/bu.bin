@@ -1,0 +1,2 @@
+#!/bin/bash
+cp "$(ls -t "$1" | head -n1)" "$2"

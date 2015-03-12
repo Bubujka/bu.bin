@@ -29,7 +29,7 @@ end
 
 if ARGV[0] == '-e'
   name = names.select do |v|
-    v[:display].include? ARGV[1]
+    v[:display] == ARGV[1]
   end.first
   puts name[:value]
 else
