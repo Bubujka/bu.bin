@@ -5,6 +5,7 @@ projects = {
   my: '/home/bubujka/.db/prj/*',
   omega: '/home/bubujka/.db/omega/*',
   beta: '/home/bubujka/.db/beta/*',
+  dokuro: '/home/bubujka/.db/dokuro/prj/*',
 }
 
 projects.each do |key, value|
