@@ -75,9 +75,9 @@ def format_my_list ids
   data.each do |account, t|
     next unless ids.include? account
     t.each do |prj|
-      if prj['name'] =~ /^-/ then
-        next
-      end
+      #if prj['name'] =~ /^-/ then
+      #  next
+      #end
       title = '     ' + prj['bucket']['name'] + ': ' + prj['name']
       puts title.gsub("\n", ' ')
       prj['assigned_todos'].each do |todo|
