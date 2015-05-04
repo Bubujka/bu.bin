@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+var exec = require('child_process').exec;
+var furl = '';
+exec('git config --get remote.origin.url', function(err,url){
+
+  if(err){
+    console.log(err);
+    process.exit(1);
+  }
+
+
+  if(!url.length){
+    console.log("Empty output =(");
+    process.exit(1);
+  }
+
+
+  if(url.match(/github\.com/)){
+    furl = 'http://github.com/'+url.replace(/.*github\.com:/, '');
+  }else if(url.match(/bitbucket\.org/)){
+    furl = 'http://bitbucket.org/'+url.replace(/.*bitbucket\.org:/, '').replace(/\.git$/,'')+'/src';
+  }else{
+    console.log("Unknown origin: " + url);
+    process.exit(1);
+  }
+
+  exec('google-chrome "'+furl+'"', function(){
+    exec('xdotool key F2', function() { });
+  });
+});

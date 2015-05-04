@@ -1,12 +1,17 @@
 #!/usr/bin/env ruby
+$file = "~/.sites"
+if ARGV.length == 1
+  $file = ARGV[0]
+end
+
 def dmenu_gets prefix, rows = 20
-  `cat ~/.sites | grep -v '^$' | ~/.bu.bin/bin/dmenu-wrapper #{prefix} #{rows} `.chomp
+  `cat #{$file} | grep -v '^$' | ~/.bu.bin/bin/dmenu-wrapper #{prefix} #{rows} `.chomp
 end
 app_name = dmenu_gets "Open_app"
 unless app_name.empty?
   #file = wiki_file
   puts app_name
-  File.open(File.expand_path "~/.sites").each do |line|
+  File.open(File.expand_path $file).each do |line|
     t = line.split
     if line.chomp == app_name
       system "/usr/bin/google-chrome #{t.last}"
