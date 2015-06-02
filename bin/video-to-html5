@@ -1,6 +1,25 @@
 #!/bin/bash
-mkdir -p "$2"k  2> /dev/null
+if [ "$#" -eq 0 ]; then
+      echo "Нужно указать имя файла +_+"
+      exit
+fi
 
-avconv -i "$1" -s $3 -b "$2"k -vcodec libx264 -acodec   libvorbis -ab 160000 -preset slow -g 30 "${2}k/$1.mp4" &
-avconv -i "$1" -s $3 -b "$2"k -vcodec libvpx -acodec    libvorbis -ab 160000 -f webm -g 30 "${2}k/$1.webm" &
-avconv -i "$1" -s $3 -b "$2"k -vcodec libtheora -acodec libvorbis -ab 160000 -g 30 "${2}k/$1.ogv" &
+echo -n "Битрэйт (600k): "
+read bitrate
+if [ "$bitrate" == "" ]; then
+  bitrate='600'
+fi
+
+echo -n "размер (1280x720): "
+read size
+if [ "$size" == "" ]; then
+  size='1280x720'
+fi
+
+DIR="${bitrate}k_${size}"
+mkdir -p "$DIR" 2> /dev/null
+options="-y -s $size -b ${bitrate}k -acodec libvorbis -ab 160000 -g 30"
+
+avconv -i "${1}" $options -vcodec libx264   -preset slow "${DIR}/$1.mp4" &
+avconv -i "${1}" $options -vcodec libvpx    -f webm      "${DIR}/$1.webm" &
+avconv -i "${1}" $options -vcodec libtheora              "${DIR}/$1.ogv" &
