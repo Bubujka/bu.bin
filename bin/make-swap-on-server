@@ -1,0 +1,15 @@
+#!/bin/bash
+if [ "$#" -ne 2 ]; then
+      echo "Надо передать 2 параметра: адрес сервера и объём свап файла!"
+      exit
+fi
+
+ssh $1 "
+  rm /swapfile 2> /dev/null
+  fallocate -l $2 /swapfile
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
+  echo '/swapfile   none    swap    sw    0   0' >> /etc/fstab
+";
+

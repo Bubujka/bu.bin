@@ -138,7 +138,27 @@ class Puffy < Thor
                       "User-Agent" => 'Bubujka.Todo.Creator (zendzirou@gmail.com)',
                       "Content-Type" => "application/json"} )
       if res.code == 200
-        data[name] = JSON.parse( res.body )
+        t = JSON.parse( res.body )
+        t.each do |prj|
+          if prj['remaining_count'] > prj['assigned_todos'].size
+            res2 = HTTParty.get(prj['url'],
+                          :basic_auth => { :username => @@username, :password => @@password },
+                          :headers => {
+                            "User-Agent" => 'Bubujka.Todo.Creator (zendzirou@gmail.com)',
+                            "Content-Type" => "application/json"} )
+            if res2.code == 200
+              t2 = JSON.parse( res2.body )
+              prj['assigned_todos'] = t2['todos']['remaining'].keep_if do |itm|
+                r = false
+                if itm['assignee']
+                   r =itm['assignee']['id'] == account['me']
+                end
+                r
+              end
+            end
+          end
+        end
+        data[name] = t
       else
         puts "Что то пошло не так"
         die 1
