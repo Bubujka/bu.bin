@@ -3,6 +3,7 @@ var exec = require('child_process').exec;
 var request = require('request');
 var async = require('async');
 var printf = require('printf');
+var fs = require('fs');
 
 
 
@@ -101,9 +102,11 @@ async.parallel({
     console.log(err);
     process.exit(0);
   }
-  console.log(data.gh_starred.join('\n'));
-  console.log('');
-  console.log(data.gh.join('\n'));
-  console.log('');
-  console.log(data.bb.join('\n'));
+  var t = "";
+  t = t + data.gh_starred.join('\n');
+  t = t + '\n';
+  t = t + data.gh.join('\n');
+  t = t + '\n';
+  t = t + data.bb.join('\n');
+  fs.writeFileSync('/home/bubujka/.reps', t);
 });

@@ -1,0 +1,10 @@
+#!/bin/bash
+. ~/.bashrc
+
+TARGET="$(dmenu-wrapper 'Что?' 0 1)"
+if [ ! -n "$TARGET" ]; then
+  echo "Aborted" | dzen2-wrapper red ; exit
+fi
+
+echo "$TARGET" >> ~/.db/wiki/plan.md
+echo "Writed" | dzen2-wrapper green
