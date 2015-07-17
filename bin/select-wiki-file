@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
-prefix = '/home/bubujka/.db/wiki/'
+sprefix = ''
+if ARGV[0]
+  sprefix = ARGV[0]+'/'
+end
+prefix = "/home/bubujka/.db/#{sprefix}wiki/"
 files = Dir[prefix+'*']
 names = files.map { |f| File.basename f }
 Dir.chdir(prefix)
