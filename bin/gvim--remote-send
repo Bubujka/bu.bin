@@ -1,0 +1,3 @@
+#!/bin/bash
+vim --servername gvim --remote-send "$1"
+

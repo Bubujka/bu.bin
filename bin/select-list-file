@@ -10,7 +10,7 @@ wiki_file = dmenu_gets "File", names, 40
 puts wiki_file
 unless wiki_file.empty?
   file = wiki_file
-  system "gvim --remote-send \":sp #{File.expand_path(file).gsub(' ', '\\ ')}<CR>\""
+  system "gvim--remote-send \":sp #{File.expand_path(file).gsub(' ', '\\ ')}<CR>\""
   # Это у меня хоткей для перехода к первому рабочему столу - там вим
   system "xdotool key F1" 
 end

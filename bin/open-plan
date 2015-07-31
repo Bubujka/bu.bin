@@ -1,4 +1,4 @@
 #!/bin/bash
-gvim --remote-send ':sp /home/bubujka/.db/wiki/plan.md<CR>'
+gvim--remote-send ':sp /home/bubujka/.db/wiki/plan.md<CR>'
 sleep 0.3
 xdotool key F1

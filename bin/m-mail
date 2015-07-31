@@ -7,7 +7,7 @@ google-chrome \
   'https://e.mail.ru/messages/inbox/' \
   'https://mail.rambler.ru/#/folder/INBOX/' \
   'https://mail.google.com/mail/u/0'
-gvim --remote-send '<esc><esc>:1,100bd<CR>'
-gvim --remote-send '<esc><esc>:cd ~/.db/prj/betamails<CR>'
+gvim--remote-send '<esc><esc>:1,100bd<CR>'
+gvim--remote-send '<esc><esc>:cd ~/.db/prj/betamails<CR>'
 xdotool key F1
 

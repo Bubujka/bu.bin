@@ -15,7 +15,7 @@ puts wiki_file
 unless wiki_file.empty?
   file = wiki_file
   system "touch #{File.expand_path file}"
-  system "gvim --remote-send '<esc><esc>:sp #{File.expand_path file}<CR>'"
+  system "gvim--remote-send '<esc><esc>:sp #{File.expand_path file}<CR>'"
   #system "atom #{File.expand_path file}"
   # Это у меня хоткей для перехода к первому рабочему столу - там вим
   system "xdotool key F1"

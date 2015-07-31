@@ -12,6 +12,6 @@ unless wiki_file.empty?
   file = wiki_file
   system "touch #{File.expand_path file}"
   system "chmod +x #{File.expand_path file}"
-  system "gvim --remote-send '<esc><esc>:sp #{File.expand_path file}<CR>'"
+  system "gvim--remote-send '<esc><esc>:sp #{File.expand_path file}<CR>'"
   system "xdotool key F1"
 end
