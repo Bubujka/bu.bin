@@ -119,10 +119,10 @@ _upload_video() {
 	notify-send "_Загружаю видео на youtube.com_"
 	youtube-upload \
 		--privacy=unlisted \
-		--category=Howto \
     --auth-browser \
+    --credentials-file=/home/bubujka/.youtube-credential.json \
 		--description=" " \
-		--title="$TITLE" "$FILE" | xc >> ~/.db/wiki/screencasts-$(hostname)
+    --title="$TITLE" "$FILE" | echo "http://youtu.be/"$(cat -) | xc >> ~/.db/wiki/screencasts-$(hostname)
 	xclip -o
 	notify-send "_Видео загружено._"
 }
@@ -134,7 +134,7 @@ case "$1" in
 	upload)
 		_change_directory
 		LATEST=$(_latest_video_filename)
-		#_convert_video "$LATEST"
+		_convert_video "$LATEST"
 		_upload_video "$LATEST"
 		;;
 	stahp)

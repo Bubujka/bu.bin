@@ -1,0 +1,4 @@
+#!/bin/bash
+killall -KILL gvim
+sleep 0.1
+gvim
