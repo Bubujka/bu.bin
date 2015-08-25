@@ -1,0 +1,3 @@
+#!/bin/bash
+. ~/.bashrc
+~/.bu.tgl/tgl puffy -a beta,grape,spitz,agency1 -w 358026
