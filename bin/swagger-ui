@@ -1,0 +1,3 @@
+#!/bin/bash
+cp -r ~/.db/prj/swagger-ui/dist swagger
+vim swagger/index.html

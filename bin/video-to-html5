@@ -22,7 +22,7 @@ options="-y -s $size -b ${bitrate}k -acodec libvorbis -ab 160000 -g 30"
 
 for file in "$@"
 do
-  avconv -i "${file}" $options -vcodec libx264   -preset slow "${DIR}/${file}.mp4"
-  avconv -i "${file}" $options -vcodec libvpx    -f webm      "${DIR}/${file}.webm"
-  avconv -i "${file}" $options -vcodec libtheora              "${DIR}/${file}.ogv"
+  avconv -i "${file}" -an $options -vcodec libx264   -preset slow "${DIR}/${file}.mp4"
+  avconv -i "${file}" -an $options -vcodec libvpx    -f webm      "${DIR}/${file}.webm"
+  avconv -i "${file}" -an $options -vcodec libtheora              "${DIR}/${file}.ogv"
 done
