@@ -1,2 +1,8 @@
 #!/usr/bin/env bash
-google-chrome "$@"
+if [ "$#" -eq 0 ]; then
+  LINK=`cat /dev/stdin`
+  google-chrome "$LINK"
+else
+  google-chrome "$1"
+fi
+xdotool key F2
