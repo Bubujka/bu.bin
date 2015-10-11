@@ -33,7 +33,6 @@ def format_my_list ids
   data = _read_my_file
   plain = []
   today = []
-
   data.each do |account, t|
     next unless ids.include? account
     t.each do |prj|
@@ -78,9 +77,22 @@ def format_my_list ids
       #if prj['name'] =~ /^-/ then
       #  next
       #end
+      cnt = 0
+      prj['assigned_todos'].each do |todo|
+        if todo['content'].match(/^[0-9]/)
+          cnt = cnt + 1
+        end
+      end
+
+      if cnt == 0
+        next
+      end
       title = '     ' + prj['bucket']['name'] + ': ' + prj['name']
       puts title.gsub("\n", ' ')
       prj['assigned_todos'].each do |todo|
+        if !todo['content'].match(/^[0-9]/)
+          next
+        end
         itm = (
           todo['content'] +
           $larr +

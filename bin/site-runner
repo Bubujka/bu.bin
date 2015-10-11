@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
-$file = "~/.sites"
+$def_file = "~/.sites ~/.sites-private"
 if ARGV.length == 1
   $file = ARGV[0]
+else
+  `cat #{$def_file} > ~/.sites-combined`
+  $file = "~/.sites-combined"
 end
 
 def dmenu_gets prefix, rows = 20
