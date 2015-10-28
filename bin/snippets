@@ -1,9 +1,38 @@
-#!/bin/bash
+#!/usr/bin/env php
+<?php
+function _prefix(){
+  return $_SERVER['HOME'].'/.vim/snippets/'; 
+}
+
+function _all_files(){
+  return glob(_prefix().'**/*.snippets');
+}
+
+function _snippets(){
+  $r = array_map(function($v){
+    return str_replace(_prefix(), '', $v);
+  }, _all_files());
+
+  if(isset($_SERVER['argv'][1])){
+    $r = array_filter($r, function($v){
+      return strstr($v, $_SERVER['argv'][1]) !== false;
+    });   
+  }
+  return $r;
+}
+
+function read_snippets($pth){
+  return file_get_contents(_prefix().$pth);
+}
+
+foreach(_snippets() as $k=>$v){
+  echo read_snippets($v);
+}
 # Вывести в читаемом виде все мои сниппеты для вима
-cd ~/.vim/snippets
-for file in `find -type f -iname '*.snippets'`;
-do
-  echo ${file/.snippets/} | sed 's/\.\///g'
-  cat $file | grep snippet | sed 's/^snippet/ /g'
-  echo
-done
+# cd ~/.vim/snippets
+# for file in `find -type f -iname '*.snippets'`;
+# do
+  # echo ${file/.snippets/} | sed 's/\.\///g'
+  # cat $file | grep '^#\|snippet' | sed 's/^snippet/ /g'
+  # echo
+# done
