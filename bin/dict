@@ -1,0 +1,7 @@
+#!/bin/bash
+umo
+cd
+mkdir mnt 2> /dev/null
+sudo mount -t vfat -o iocharset=utf8,uid=1000,gid=1000 /dev/disk/by-id/usb-SONY_IC_RECORDER_021BA841FCB1-0:0-part1 mnt
+mocp mnt/VOICE/RECORDS
+umo
