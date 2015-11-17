@@ -1,0 +1,23 @@
+{
+  "name": "bubujka-bin",
+  "version": "1.0.0",
+  "description": "Набор моих консольных команд, что нужны мне в работе",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bubujka/bu.bin.git"
+  },
+  "author": "Aleksej Kamynin <zendzirou@gmail.com> (http://bubujka.org/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bubujka/bu.bin/issues"
+  },
+  "homepage": "https://github.com/bubujka/bu.bin#readme",
+  "dependencies": {
+    "js-yaml": "^3.4.3",
+    "underscore": "^1.8.3"
+  }
+}
