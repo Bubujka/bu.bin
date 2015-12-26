@@ -1,0 +1,2 @@
+#!/bin/bash
+LANG=en_US gtypist -b -e 0 -S --scoring=cpm
