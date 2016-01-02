@@ -1,0 +1,7 @@
+#!/bin/bash
+kill-skype 2> /dev/null
+kill-skype 2> /dev/null
+kill-skype 2> /dev/null
+rm -rf ~/.Skype-bak
+cp -r ~/.Skype ~/.Skype-bak
+

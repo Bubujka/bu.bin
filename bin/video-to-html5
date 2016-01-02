@@ -16,13 +16,13 @@ if [ "$size" == "" ]; then
   size='1280x720'
 fi
 
-DIR="${bitrate}k_${size}"
-mkdir -p "$DIR" 2> /dev/null
-options="-y -s $size -b ${bitrate}k -acodec libvorbis -ab 160000 -g 30"
 
 for file in "$@"
 do
-  avconv -i "${file}" -an $options -vcodec libx264   -preset slow "${DIR}/${file}.mp4"
-  avconv -i "${file}" -an $options -vcodec libvpx    -f webm      "${DIR}/${file}.webm"
-  avconv -i "${file}" -an $options -vcodec libtheora              "${DIR}/${file}.ogv"
+  DIR="${bitrate}k_${size}"
+  mkdir -p "$DIR" 2> /dev/null
+  options="-y -s $size -b ${bitrate}k -ab 160000 -g 30"
+  avconv -i "${file}"  $options -acodec aac -strict experimental -vcodec libx264   -preset slow "${DIR}/${file}.mp4" &
+  avconv -i "${file}"  $options -acodec libvorbis -vcodec libvpx    -f webm      "${DIR}/${file}.webm" &
+  avconv -i "${file}"  $options -acodec libvorbis -vcodec libtheora              "${DIR}/${file}.ogv" &
 done
