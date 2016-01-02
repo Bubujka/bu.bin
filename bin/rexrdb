@@ -1,0 +1,2 @@
+#!/bin/bash
+xrdb -load ~/.Xresources
