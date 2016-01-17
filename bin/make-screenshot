@@ -37,7 +37,6 @@ cp ~/screenshot.tn.jpg ./$NAME_TN
 rm ~/screenshot.jpg ~/screenshot.png ~/screenshot.tn.jpg
 cd ~/.db/history/screenshot
 echo "Screenshot!" | dzen2-wrapper green
-echo "http://ss.bubujka.org/$DIRECTORY/$NAME_HIGH" >> ~/.db/wiki/screenshots-$(hostname)
 
 cd ~/.db/history/screenshot
 cd $DIRECTORY
