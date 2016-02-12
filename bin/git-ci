@@ -3,6 +3,8 @@ if [ "$#" -eq 0 ]; then
       echo "Illegal number of parameters"
       exit
 fi
+git cc $@
+exit
 DIR=`pwd`
 
 
@@ -26,12 +28,12 @@ NAME_LOW=$NAME.jpg
 convert -quality 70 -flop /tmp/webshot/00000040.png_bak $NAME_LOW
 
 cd ~/.db/history/camshot
-echo "http://cs.bubujka.org/$DIRECTORY/$NAME_LOW" | xc  
+echo "http://cs.bubujka.org/$DIRECTORY/$NAME_LOW" | xc
 
 cd "$DIR"
 
 COMMIT="$@"
-git commit -m "$COMMIT  
+git commit -m "$COMMIT
 
 Photo: http://cs.bubujka.org/$DIRECTORY/$NAME_LOW $CAMERA"
 
