@@ -9,13 +9,13 @@ var spawn = require('child_process').spawn;
 
 
 function dmenu(list, title, lines, cb){
-  var p = spawn('dmenu', 
+  var p = spawn('dmenu',
                 [
                 '-l', lines, '-nb', '#000', '-nf', '#fff', '-p', title, '-i', '-fn', 'Pt Sans 20'
                 ]
                 );
 
-  
+
   p.stdin.write(_.keys(list).sort().join('\n'));
   p.stdin.end();
   var d = '';
@@ -61,9 +61,9 @@ dmenu(targets, "Какой проект выбираем:", 30, function(tkey, t
   }).value();
   dmenu(lists,  tkey+": какой лист открыть:", 30, function(lname, lid){
     if(lname){
-    spawn('google-chrome', 
+    spawn('google-chrome',
           ['https://basecamp.com/'+tval.account+'/projects/'+tval.project+'/todolists/'+lid]);
-    spawn('xdotool', ['key', 'F2']); 
+    spawn('i3-workspace', ['www']);
     }
   });
 });

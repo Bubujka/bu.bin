@@ -12,5 +12,5 @@ unless wiki_file.empty?
   file = wiki_file
   system "gvim--remote-send \":sp #{File.expand_path(file).gsub(' ', '\\ ')}<CR>\""
   # Это у меня хоткей для перехода к первому рабочему столу - там вим
-  system "xdotool key F1" 
+  system "i3-workspace vim"
 end

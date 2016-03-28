@@ -25,6 +25,6 @@ exec('git config --get remote.origin.url', function(err,url){
   }
 
   exec('google-chrome "'+furl+'"', function(){
-    exec('xdotool key F2', function() { });
+    exec('i3-workspace www', function() { });
   });
 });

@@ -129,14 +129,14 @@ class Puffy < Thor
     $cfg['targets'].each do |key, itm|
       `google-chrome https://basecamp.com/#{itm['account']}/projects/#{itm['project']}#todolist_#{itm['todolist']}`
     end
-    `xdotool key F2`
+    `i3-workspace www`
   end
 
   desc "browser", "Открыть туду лист в браузере"
   def browser list
     itm = $cfg['targets'][list]
     `google-chrome https://basecamp.com/#{itm['account']}/projects/#{itm['project']}#todolist_#{itm['todolist']}`
-    `xdotool key F2`
+    `i3-workspace www`
   end
 
   desc "fetchmytasks", "Забирает задачи из бэйскампа и кладёт в кэш"

@@ -10,7 +10,7 @@ unless app_name.empty?
     t = line.split
     if line.chomp == app_name
       system "/usr/bin/google-chrome #{t.last}"
-      system "xdotool key F2"
+      system "i3-workspace www"
     end
   end
 end

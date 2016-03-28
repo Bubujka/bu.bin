@@ -1,4 +1,4 @@
 #!/bin/bash
-xdotool key F2
+i3-workspace www
 sleep 0.1
 xdotool key "Control_L+t"

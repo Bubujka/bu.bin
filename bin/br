@@ -5,4 +5,4 @@ if [ "$#" -eq 0 ]; then
 else
   google-chrome "$1"
 fi
-xdotool key F2
+i3-workspace www
