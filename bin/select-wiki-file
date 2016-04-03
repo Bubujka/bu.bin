@@ -1,22 +1,85 @@
-#!/usr/bin/env ruby
-sprefix = ''
-if ARGV[0]
-  sprefix = ARGV[0]+'/'
-end
-prefix = "/home/bubujka/.db/#{sprefix}wiki/"
-files = Dir[prefix+'*']
-names = files.map { |f| File.basename f }
-Dir.chdir(prefix)
-def dmenu_gets prefix, variants, rows
-  `ls | /home/bubujka/.bu.bin/bin/dmenu-wrapper #{prefix} #{rows} `.chomp
-end
-wiki_file = dmenu_gets "File", names, 5
-puts wiki_file
-unless wiki_file.empty?
-  file = wiki_file
-  system "touch #{File.expand_path file}"
-  system "gvim--remote-send '<esc><esc>:sp #{File.expand_path file}<CR>'"
-  #system "atom #{File.expand_path file}"
-  # Это у меня хоткей для перехода к первому рабочему столу - там вим
-  system "i3-workspace vim"
-end
+#!/usr/bin/env python3
+"""
+Скрипт для выбора файла в каталоге и
+открытия его в редакторе
+"""
+
+import sys
+import os
+
+from subprocess import check_output, call
+
+
+def directory():
+    """
+    Возвращает нормализованный путь до каталога
+    в котором мы работаем
+    """
+    return os.path.expanduser(sys.argv[1])
+
+def check_args():
+    """
+    Проверяем корректность параметров переданных
+    """
+    if len(sys.argv) < 3:
+        sys.exit("Нужно как минимум 2 аргумента")
+    if not os.path.isdir(directory()):
+        sys.exit('Каталог "{}" не существет'.format(directory()))
+
+def grep_pattern():
+    """
+    Превращает расширение файла в шаблон, который подойдёт для
+    grep и sed
+    """
+    return "\\.{}$".format(sys.argv[2])
+
+def extension():
+    """
+    Возвращает расширение, с которым мы работаем
+    """
+    return sys.argv[2]
+
+def ask_for_file():
+    """
+    Список файлов в каталоге передаёт dmenu-wrapper
+    и возвращает путь до файла из него
+    """
+    ret = check_output("""
+        find . | sort | grep "{0}" | sed 's/{0}//' | dmenu-wrapper "{1}" {2}
+    """.format(grep_pattern(), "Select file", 10), shell=True).decode('utf-8').strip()
+    if len(ret) > 0:
+        return "{}.{}".format(ret, extension())
+    else:
+        sys.exit("Не выбран файл")
+
+
+def ensure_directory_exists(pth):
+    """
+    Удостоверяется что родительская директория для заданного пути - существет
+    """
+    dirname = os.path.dirname(pth)
+    if len(dirname) and not os.path.exists(dirname):
+        os.makedirs(dirname, 0o755, True)
+
+def touch_file(filepth):
+    """
+    Создаёт файл, если его не существовало
+    """
+    open(filepth, 'a').close()
+
+def open_file_in_editor(filepth):
+    """
+    Открывает файл у меня в редакторе и воркспэйс переключает
+    """
+    filepth = os.path.abspath(filepth)
+    call(["gvim--remote-send", "<esc><esc>:sp {}<CR>".format(filepth)])
+    call(["i3-workspace", "vim"])
+
+if __name__ == "__main__":
+    check_args()
+    os.chdir(directory())
+    FILE = ask_for_file()
+    ensure_directory_exists(FILE)
+    if not os.path.exists(FILE):
+        touch_file(FILE)
+    open_file_in_editor(FILE)
