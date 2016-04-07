@@ -1,6 +1,6 @@
 #!/bin/bash
-. ~/.password 
-. ~/.rvm/environments/default 
+. ~/.password
+. ~/.rvm/environments/default
 echo "updating..." | dzen2-wrapper
 ~/.bu.bin/bin/puffy sync
-~/.bu.tgl/tgl
+tgl
