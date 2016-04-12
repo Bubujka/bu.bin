@@ -1,6 +1,5 @@
 #!/bin/bash
 source ~/.bashrc
-export DISPLAY=":0"
 rm ~/screenshot.png 2> /dev/null
 if [ "$1" == "select" ]; then
   maim --select ~/screenshot.png  2> /dev/null > /dev/null
