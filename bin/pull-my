@@ -1,0 +1,13 @@
+#!/bin/bash
+echo "Downloading..."
+for dir in \
+  ~/.db/wiki \
+  ~/.db/gnucash \
+  ~/.db/dotfiles \
+  ~/.db/dotfiles-private \
+  ~/.myi3status
+do
+  cd $dir
+  git pull &
+done
+
