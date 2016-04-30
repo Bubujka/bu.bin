@@ -1,5 +1,8 @@
 #!/bin/bash
 # vim: tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab
+export VIDEO_RECORDING_RESOLUTION='1920x1080' # у меня такой экран
+export VIDEO_CONVERT_RESOLUTION='1280x720' # ютуб до такого размера пожмёт всё равно. Заливать меньше
+
 red_echo() {
 	echo -e "\e[1;31m$@\e[0m"
 }
@@ -57,14 +60,14 @@ _ensure_we_have_directory_for_video() {
 }
 
 _change_directory() {
-	cd $VIDEO_SAVING_PATH 
+	cd $VIDEO_SAVING_PATH
 }
 
 _start_recording() {
 	FILENAME="$1"
 	NAME=`cat $VIDEO_SAVING_PATH/*.txt | sort | uniq | ~/.bu.bin/bin/dmenu-wrapper 'Название видео' 15`
 	if [ ! -n "$NAME" ] ; then
-		echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000" 
+		echo "Aborted" | dzen2 -p 1 -bg "#ffffff" -fg "#000000"
 		exit
 	fi
 
@@ -115,7 +118,7 @@ _convert_video() {
 
 _upload_video() {
 	TITLE=$(cat $1.txt)
-	FILE="${1}_youtube.mp4" 
+	FILE="${1}_youtube.mp4"
 	notify-send "_Загружаю видео на youtube.com_"
 	youtube-upload \
 		--privacy=unlisted \
