@@ -4,6 +4,7 @@ names = []
 projects = {
   my: '/home/bubujka/.db/prj/*',
   omega: '/home/bubujka/.db/omega/*',
+  stud: '/home/bubujka/.db/stud/*',
   beta: '/home/bubujka/.db/beta/*',
   dokuro: '/home/bubujka/.db/dokuro/prj/*',
 }
