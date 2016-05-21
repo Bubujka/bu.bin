@@ -1,2 +1,7 @@
 #!/bin/bash
-swagger-tools validate swagger/swagger.yaml
+for file in $(find . -iname swagger.yaml); do
+  echo "Checking $file"
+  swagger-tools validate "$file"
+  echo
+  echo
+done
