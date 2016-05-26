@@ -1,0 +1,2 @@
+#!/bin/bash
+find vendor/ -type d -name ".git" -exec rm -rf {} \;
