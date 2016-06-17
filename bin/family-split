@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+$s = (int)trim(file_get_contents('php://stdin'));
+echo "Оля: ".(int)($s*0.25)."\n";
+echo "Лена: ".(int)($s*0.75 / 2)."\n";
+echo "Я: ".(int)($s*0.75 / 2)."\n";
+echo "Всего: ".(int)($s)."\n";
+
