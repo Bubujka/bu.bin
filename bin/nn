@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+if($argc == 1){
+  $pth = [];
+  if(file_exists('test')){
+    $pth[] = 'test';
+  }
+  if(file_exists('test-db')){
+    $pth[] = 'test-db';
+  }
+  if(count($pth)){
+    $pth = implode(' ', $pth);
+  }else{
+    $pth = 'test';
+  }
+}else{
+  array_shift($argv);
+  $pth = implode(' ', $argv);
+}
+$l = `find $pth -type f -exec cat {} \; | grep -- '\[E[0-9]*\]'`;
+$file = explode("\n", $l);
+$max = 0;
+foreach($file as $line){
+  $i = preg_replace('/.*\[E0*(\d+)\].*/', '\1', $line);
+  if((int)$i > $max){
+    $max = $i;
+  }
+}
+printf("[E%'.03d]", $max+1);
+
+
