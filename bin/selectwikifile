@@ -46,7 +46,7 @@ def ask_for_file():
     """
     ret = check_output("""
         find . | sort | grep "{0}" | sed 's/{0}//' | dmenu-wrapper "{1}" {2}
-    """.format(grep_pattern(), "Select file", 10), shell=True).decode('utf-8').strip()
+    """.format(grep_pattern(), "Select file", 40), shell=True).decode('utf-8').strip()
     if len(ret) > 0:
         return "{}.{}".format(ret, extension())
     else:
@@ -75,6 +75,25 @@ def open_file_in_editor(filepth):
     call(["gvim--remote-send", "<esc><esc>:sp {}<CR>".format(filepth.replace(' ', '\\ '))])
     call(["i3-workspace", "vim"])
 
+def copy_to_clipboard(filepth):
+    """
+    Копирует содержимое файла в буфер обмена
+    """
+    filepth = os.path.abspath(filepth)
+    call(["xclip", "-selection", "pri", filepth])
+    call(["xclip", "-selection", "cli", filepth])
+
+
+def operation():
+    """
+    Узнать в каком режиме запущена команда - в режиме открытия файла или копирования
+    в буфер обмена
+    """
+    if len(sys.argv) == 3:
+        return "open"
+    if sys.argv[3] == "copy":
+        return "copy"
+
 if __name__ == "__main__":
     check_args()
     os.chdir(directory())
@@ -82,4 +101,7 @@ if __name__ == "__main__":
     ensure_directory_exists(FILE)
     if not os.path.exists(FILE):
         touch_file(FILE)
-    open_file_in_editor(FILE)
+    if operation() == "open":
+        open_file_in_editor(FILE)
+    if operation() == "copy":
+        copy_to_clipboard(FILE)
