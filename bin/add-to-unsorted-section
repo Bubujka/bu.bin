@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+$line = $argv[1];
+$file = $argv[2];
+if(!file_exists($file)){
+  printf("File '%s' not exists!", $file);exit;
+}
+
+$f = file_get_contents($file);
+$rgxp = "/# \[unsorted\]\s*\n/";
+$ptrn = "# [unsorted]\n";
+if(!preg_match($rgxp, $f)){
+  $f = trim("$ptrn\n$f");
+}
+$f = preg_replace($rgxp, $ptrn.trim($line)."\n", $f);
+file_put_contents($file, trim($f));
