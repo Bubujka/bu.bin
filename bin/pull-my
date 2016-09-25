@@ -5,6 +5,8 @@ for dir in \
   ~/.db/gnucash \
   ~/.db/dotfiles \
   ~/.db/dotfiles-private \
+  ~/.password-store \
+  ~/.bu.bin \
   ~/.myi3status
 do
   cd $dir
