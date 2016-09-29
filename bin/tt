@@ -1,3 +1,11 @@
 #!/bin/bash
-echo $1 > ~/.timer
-notify-send "Таймер запущен на $1 секунд"
+seconds=$1
+if [[ $1 =~ ^.*m$ ]]; then
+  let seconds="${1/m/} * 60"
+fi
+if [[ $1 =~ ^.*h$ ]]; then
+  let seconds="${1/h/} * 3600"
+fi
+echo $seconds > ~/.timer
+let minutes="$seconds / 60"
+notify-send "Таймер запущен на $minutes минут"
