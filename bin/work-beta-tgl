@@ -2,5 +2,5 @@
 . ~/.bashrc
 tgl puffy -w 358026
 if [[ $# -eq 0 ]] ; then
-  tt 30m
+  tt 25m
 fi
