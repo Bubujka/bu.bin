@@ -1,5 +1,4 @@
 #!/bin/bash
 BG='#ffee00'
 if [ "$1" ]; then BG="$1"; fi
-
-cat /dev/stdin | dzen2 -w 300 -x -301 -y 40 -h 30 -p 2 -bg "$BG"
+notify-send "Dzen2 wrapper" "$(cat /dev/stdin)"
