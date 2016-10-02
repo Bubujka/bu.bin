@@ -1,0 +1,2 @@
+#!/bin/bash
+pngquant --force --ext ".png" *.png
