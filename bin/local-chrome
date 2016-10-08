@@ -1,0 +1,7 @@
+#!/bin/bash
+killall -w chrome
+google-chrome \
+  --user-data-dir=~/.config/work-chrome \
+  --host-rules='MAP * 127.0.0.1, exclude *google*, exclude *beta.agency*, exclude *betaagency.ru*, exclude *pir.ru*, exclude *pirexpo.com*' \
+  http://local.bubujka.org:3000
+

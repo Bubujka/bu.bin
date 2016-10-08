@@ -1,4 +1,5 @@
 #!/bin/bash
 . ~/.bashrc
-tgl start "Тупление в инете"
+#tgl start "Тупление в инете"
+tgl stop
 tt 5m
