@@ -2,5 +2,7 @@
 . ~/.bashrc
 tgl puffy
 if [[ $# -eq 0 ]] ; then
-  tt $(cat ~/.timer-interval)
+  if [ ! -f ~/.timer ]; then
+    tt $(cat ~/.timer-interval)
+  fi
 fi
