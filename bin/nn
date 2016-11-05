@@ -17,7 +17,7 @@ if($argc == 1){
   array_shift($argv);
   $pth = implode(' ', $argv);
 }
-$l = `find $pth -type f -exec cat {} \; | grep -- '\[E[0-9]*\]'`;
+$l = `find $pth -type f -not -path '*\/.*' -exec cat {} \; | grep -- '\[E[0-9]*\]'`;
 $file = explode("\n", $l);
 $max = 0;
 foreach($file as $line){

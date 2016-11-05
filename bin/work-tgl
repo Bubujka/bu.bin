@@ -2,7 +2,5 @@
 . ~/.bashrc
 tgl puffy
 if [[ $# -eq 0 ]] ; then
-  if [ ! -f ~/.timer ]; then
-    tt $(cat ~/.timer-interval)
-  fi
+  dmenu-timer
 fi

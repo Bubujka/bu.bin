@@ -1,0 +1,3 @@
+#!/bin/bash
+dosbox -c 'mount d: ~/.dosbox' -c 'd:' -c 'cd CIVILI~1' -c 'CIV.bat'
+
