@@ -1,0 +1,2 @@
+#!/bin/bash
+dosbox  -c 'mount d: /home/bubujka/.dosbox' -c 'd:' -c 'cd civili~1' -c 'civ.bat'
