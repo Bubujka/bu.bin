@@ -4,7 +4,7 @@ if [ "$#" -eq 0 ]; then
       exit
 fi
 
-echo -n "Битрэйт (600k): "
+echo -n "Битрэйт (600): "
 read bitrate
 if [ "$bitrate" == "" ]; then
   bitrate='600'

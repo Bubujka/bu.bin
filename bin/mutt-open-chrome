@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+echo '<html><meta charset="utf8">' > "${1}_utf8"
+cat "$1" >> "${1}_utf8"
+google-chrome "${1}_utf8"
+i3-workspace www
+
