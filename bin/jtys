@@ -1,0 +1,2 @@
+#!/bin/bash
+cat - | json-schema-generator  | tail -n +2 | json2yml
