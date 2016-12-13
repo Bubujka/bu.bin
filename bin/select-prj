@@ -19,6 +19,8 @@ end
 
 names = Dir['/home/bubujka/.db/prj/*'].map do |f|
   { display: 'prj/'+File.basename(f), value: f }
+end + Dir['/home/bubujka/.db/pir/*'].map do |f|
+  { display: 'pir/'+File.basename(f), value: f }
 end + Dir['/home/bubujka/.db/dokuro/prj/*'].map do |f|
   { display: 'dokuro/'+File.basename(f), value: f }
 end + Dir['/home/bubujka/.db/omega/*'].map do |f|
