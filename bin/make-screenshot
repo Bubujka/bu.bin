@@ -15,9 +15,11 @@ NAME_TXT=$NAME.txt
 
 cd ~/.db/history/screenshot
 DIRECTORY=`date +%F | sed 's/-/\//g'`
+FILE=`date +%F`
+mkdir -p by_date 2> /dev/null
+cp ~/screenshot.png by_date/${FILE}_$NAME_HIGH
 mkdir -p $DIRECTORY 2> /dev/null
 cd $DIRECTORY
-
 echo "http://ss.bubujka.org/$DIRECTORY/$NAME_HIGH" | xc
 
 if [ "$1" == "comment" ]; then
@@ -32,6 +34,7 @@ convert -quality 60 -resize 70% ~/screenshot.png ~/screenshot.jpg
 cp ~/screenshot.png ./$NAME_HIGH
 cp ~/screenshot.jpg ./$NAME_LOW
 cp ~/screenshot.tn.jpg ./$NAME_TN
+
 
 rm ~/screenshot.jpg ~/screenshot.png ~/screenshot.tn.jpg
 cd ~/.db/history/screenshot
