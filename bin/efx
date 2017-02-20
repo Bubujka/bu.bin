@@ -1,6 +1,7 @@
 #!/bin/bash
 TMPFILE=$(mktemp)
-prettier --stdin > $TMPFILE
+cat > $TMPFILE
+#prettier --stdin > $TMPFILE
 eslint --fix $TMPFILE > /dev/null
 cat $TMPFILE
 rm $TMPFILE
