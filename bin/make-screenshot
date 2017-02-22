@@ -2,7 +2,7 @@
 source ~/.bashrc
 rm ~/screenshot.png 2> /dev/null
 if [ "$1" == "select" ]; then
-  maim --select ~/screenshot.png  2> /dev/null > /dev/null
+  import ~/screenshot.png  2> /dev/null > /dev/null
 else
   maim ~/screenshot.png  2> /dev/null > /dev/null
 fi
@@ -17,7 +17,7 @@ cd ~/.db/history/screenshot
 DIRECTORY=`date +%F | sed 's/-/\//g'`
 FILE=`date +%F`
 mkdir -p by_date 2> /dev/null
-cp ~/screenshot.png by_date/${FILE}_$NAME_HIGH
+cat ~/screenshot.png | pngquant --speed 1 - > by_date/${FILE}_$NAME_HIGH
 mkdir -p $DIRECTORY 2> /dev/null
 cd $DIRECTORY
 echo "http://ss.bubujka.org/$DIRECTORY/$NAME_HIGH" | xc
