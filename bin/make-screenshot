@@ -2,7 +2,8 @@
 source ~/.bashrc
 rm ~/screenshot.png 2> /dev/null
 if [ "$1" == "select" ]; then
-  import ~/screenshot.png  2> /dev/null > /dev/null
+  #import ~/screenshot.png  2> /dev/null > /dev/null
+  maim --select ~/screenshot.png  2> /dev/null > /dev/null
 else
   maim ~/screenshot.png  2> /dev/null > /dev/null
 fi
