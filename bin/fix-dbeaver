@@ -1,0 +1,2 @@
+#!/bin/bash
+PATH=/opt/jre1.8.0_77/bin:$PATH dbeaver
