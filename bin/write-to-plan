@@ -6,6 +6,6 @@ if [ ! -n "$TARGET" ]; then
   echo "Aborted" | dzen2-wrapper red ; exit
 fi
 
-add-to-unsorted-section "- $(date '+%B %e:') $TARGET" $PTH
+add-to-unsorted-section "- $TARGET  ($(date '+%B %e'))" $PTH
 
 echo "Writed" | dzen2-wrapper green
