@@ -17,7 +17,7 @@ unless app_name.empty?
   File.open(File.expand_path $file).each do |line|
     t = line.split
     if line.chomp == app_name
-      system "/usr/bin/google-chrome #{t.last}"
+      system "/usr/bin/chromium-browser #{t.last}"
       system "echo #{t.last} | xc"
       system "i3-workspace www"
     end
