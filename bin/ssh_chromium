@@ -1,4 +1,4 @@
 #!/bin/bash
 #no_proxy='www.myip.ru,127.0.0.1,10.1.4.225,localhost,pir.localhost,mbs.localhost,pir-dev.pirtest,mbs.pirtest'
 #chromium-browser --proxy-server="socks5://localhost:9999"
-google-chrome --proxy-server="socks5://localhost:9999"
+chromium-browser --proxy-server="socks5://localhost:9999"
