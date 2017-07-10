@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 if [ "$#" -eq 0 ]; then
   LINK=`cat /dev/stdin`
-  chromium-browser "$LINK" &
+  chromium-browser "$LINK" > /dev/null 2>&1  &
 else
-  chromium-browser "$1" &
+  chromium-browser "$1" > /dev/null 2>&1  &
 fi
 i3-workspace www
