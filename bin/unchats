@@ -2,3 +2,4 @@
 butl event "Выключил skype и slack" &
 pkill skype
 killall -KILL slack
+killall -KILL telegram
