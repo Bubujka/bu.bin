@@ -4,4 +4,4 @@ echo >> "$1"
 echo "# $(date)" >> "$1"
 echo "$(xclip -o)" >> "$1"
 echo "-----------" >> "$1"
-echo "Writed" | dzen2-wrapper green
+echo "Copied: $(xclip -o | cut -b 1-50 | sed 's/[^[:print:]]//g')" | dzen2-wrapper green

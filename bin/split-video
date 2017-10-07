@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+if(count($argv) == 1){
+  echo "Нужно название файла!";
+  exit(1);
+}
+
+$f = file($argv[1]);
+foreach($f as $v){
+  if(trim($v)){
+    list($src, $start, $end, $out) = explode("\t", $v);
+    system(sprintf(
+      "ffmpeg -v quiet -y -i %s -vcodec copy -acodec copy -ss %s -t %s -sn %s",
+      escapeshellarg(trim($src)),
+      escapeshellarg(trim($start)),
+      escapeshellarg(trim($end)),
+      escapeshellarg(trim($out).'.mp4')
+    ));
+  }
+}
+
