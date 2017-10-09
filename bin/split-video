@@ -5,6 +5,30 @@ if(count($argv) == 1){
   exit(1);
 }
 
+do_magic();
+
+function do_magic(){
+  check_file();
+  check_src();
+
+  split_videos();
+}
+
+
+function check_file(){
+  // todo
+}
+function check_src(){
+
+}
+
+function split_videos(){
+  foreach(videos_list() as $video){
+    if(count($video['parts']) == 1){
+
+    }
+  }
+}
 $f = file($argv[1]);
 foreach($f as $v){
   if(trim($v)){
