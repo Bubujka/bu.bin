@@ -1,0 +1,74 @@
+#!/usr/bin/env php
+<?php
+mb_internal_encoding("utf-8");
+
+$file = $argv[1];
+$t = file_get_contents($file);
+$t = preg_replace('/---.*---/s', '', $t);
+
+$sections = split_in_sections($t);
+
+print_sections($sections);
+
+function print_sections($sections){
+  foreach($sections as $s){
+    foreach($s['items'] as $i){
+      $t = sprintf("%s → %s", $s['name'], $i[1]);
+      printf("%s '%s'\n", str_pad_unicode($t, 60), $i[3]);
+    }
+  }
+}
+
+function split_in_sections($text){
+  $r = [];
+  $t = explode("\n", $text);
+  $ns = [];
+  foreach($t as $v){
+    if(preg_match('/^## (.*)/', $v, $m)){
+      if($ns){
+        $r[] = $ns;
+      }
+      $ns = [];
+      $ns['name'] = $m[1];
+      $ns['items'] = [];
+    }
+    if(preg_match('/^- (.*)\[(.*)\]\((.*)\)/', $v, $mm)){
+      $ns['items'][] = $mm;
+    }
+  }
+  $r[] = $ns;
+  return $r;
+}
+
+function str_pad_unicode($str, $pad_len, $pad_str = ' ', $dir = STR_PAD_RIGHT) {
+    $str_len = mb_strlen($str);
+    $pad_str_len = mb_strlen($pad_str);
+    if (!$str_len && ($dir == STR_PAD_RIGHT || $dir == STR_PAD_LEFT)) {
+        $str_len = 1; // @debug
+    }
+    if (!$pad_len || !$pad_str_len || $pad_len <= $str_len) {
+        return $str;
+    }
+
+    $result = null;
+    if ($dir == STR_PAD_BOTH) {
+        $length = ($pad_len - $str_len) / 2;
+        $repeat = ceil($length / $pad_str_len);
+        $result = mb_substr(str_repeat($pad_str, $repeat), 0, floor($length))
+                . $str
+                . mb_substr(str_repeat($pad_str, $repeat), 0, ceil($length));
+    } else {
+        $repeat = ceil($str_len - $pad_str_len + $pad_len);
+        if ($dir == STR_PAD_RIGHT) {
+            $result = $str . str_repeat($pad_str, $repeat);
+            $result = mb_substr($result, 0, $pad_len);
+        } else if ($dir == STR_PAD_LEFT) {
+            $result = str_repeat($pad_str, $repeat);
+            $result = mb_substr($result, 0,
+                        $pad_len - (($str_len - $pad_str_len) + $pad_str_len))
+                    . $str;
+        }
+    }
+
+    return $result;
+}
