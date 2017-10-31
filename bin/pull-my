@@ -7,6 +7,7 @@ for dir in \
   ~/.db/dotfiles-private \
   ~/.password-store \
   ~/.bu.bin \
+  ~/.db/prj/websites \
   ~/.myi3status
 do
   cd $dir
