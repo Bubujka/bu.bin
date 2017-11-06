@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""
+Запускалка сайтов через dmenu
+"""
+
+import sys
+from os.path import expanduser
+
+import helpers
+
+DEFAULT_FILES = ["~/.sites", "~/.sites-private"]
+
+def rebuild_combined():
+    """
+    Пересоздание общего файла
+    """
+    with open(expanduser("~/.sites-combined"), "w") as file:
+        file.write("\n".join(helpers.read_file(f) for f in DEFAULT_FILES))
+
+def filename():
+    """
+    Получить имя файла, с которого ссылки берём
+    """
+    if len(sys.argv) > 1:
+        return sys.argv[1]
+
+    rebuild_combined()
+    return "~/.sites-combined"
+
+def extract_url(line):
+    """
+    Из строки вытащить url
+    """
+    return line.split(' ')[-1].strip()
+
+def do_work():
+    """
+    Сделать всё
+    """
+    line = helpers.dmenu_file(filename())
+    if line:
+        url = extract_url(line)
+        helpers.open_in_browser(url)
+        helpers.copy_to_clipboard(url)
+        helpers.open_i3_workspace('www')
+
+if __name__ == '__main__':
+    do_work()

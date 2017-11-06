@@ -1,4 +1,8 @@
 #!/bin/bash
-cat /dev/stdin | xclip -selection pri
-xclip -o | xclip -selection cli
-xclip -o
+if [ $# -eq 0 ]; then
+  cat /dev/stdin | xclip -selection pri
+  xclip -o | xclip -selection cli
+else
+  echo "$1" | xclip -selection pri
+  xclip -o | xclip -selection cli
+fi
