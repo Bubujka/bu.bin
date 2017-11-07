@@ -4,6 +4,7 @@
 """
 
 import sys
+from subprocess import check_output
 from os.path import expanduser
 
 import helpers
@@ -15,7 +16,9 @@ def rebuild_combined():
     Пересоздание общего файла
     """
     with open(expanduser("~/.sites-combined"), "w") as file:
+        text = check_output("md-to-links ~/.db/prj/websites/my/links.md", shell=True)
         file.write("\n".join(helpers.read_file(f) for f in DEFAULT_FILES))
+        file.write(text.decode('utf-8'))
 
 def filename():
     """
@@ -41,7 +44,6 @@ def do_work():
     if line:
         url = extract_url(line)
         helpers.open_in_browser(url)
-        helpers.copy_to_clipboard(url)
         helpers.open_i3_workspace('www')
 
 if __name__ == '__main__':

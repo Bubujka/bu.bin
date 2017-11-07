@@ -14,7 +14,7 @@ function print_sections($sections){
   foreach($sections as $s){
     foreach($s['items'] as $i){
       $t = sprintf("%s → %s", $s['name'], $i[1]);
-      printf("%s '%s'\n", str_pad_unicode($t, 60), $i[3]);
+      printf("%s %s\n", str_pad_unicode($t, 60), $i[3]);
     }
   }
 }

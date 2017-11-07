@@ -2,7 +2,7 @@
 killall -KILL gvim
 sleep 0.1
 export PATH=/opt/php:$PATH
-export PATH="/home/bubujka/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
+export PATH="./venv/bin:/home/bubujka/.pyenv/bin:$PATH"
 gvim
