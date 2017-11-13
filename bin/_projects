@@ -8,6 +8,7 @@ projects = {
   stud: '/home/bubujka/.db/stud/*',
   beta: '/home/bubujka/.db/beta/*',
   dokuro: '/home/bubujka/.db/dokuro/prj/*',
+  websites: '/home/bubujka/.db/prj/websites/*',
 }
 
 projects.each do |key, value|
