@@ -1,2 +1,2 @@
 #!/bin/bash
-cat /dev/stdin | fmt -120 -s
+cat /dev/stdin | fmt -s -w $1
