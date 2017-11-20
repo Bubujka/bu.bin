@@ -2,3 +2,4 @@
 butl event "Включил skype и slack" &
 skype &
 slack &
+telegram &
