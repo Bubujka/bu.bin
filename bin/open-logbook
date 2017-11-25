@@ -1,0 +1,5 @@
+#!/bin/bash
+touch ~/.db/wiki/logbook/$(date '+%Y-%m-%d').md
+gvim--remote-send ":sp /home/bubujka/.db/wiki/logbook/$(date '+%Y-%m-%d').md<CR>"
+sleep 0.3
+i3-workspace vim
