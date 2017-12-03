@@ -1,0 +1,3 @@
+#!/bin/bash
+cd ~/.d2plugy/drive_c/Diablo2/Mod\ PlugY/
+WINEPREFIX=~/.d2plugy wine PlugY.exe -w

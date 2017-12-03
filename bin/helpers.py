@@ -24,6 +24,18 @@ def dmenu_file(file):
     except CalledProcessError:
         print(' =( ')
 
+def dmenu_ask(label):
+    """
+    Спросить от человека строку текста
+    """
+    try:
+        line = check_output("""
+            echo | ~/.bu.bin/bin/dmenu-wrapper {} 20
+        """.format(label), shell=True)
+        return line.decode('utf-8').strip()
+    except CalledProcessError:
+        print(' =( ')
+
 def open_in_browser(url):
     """
     Открыть ссылку в браузере

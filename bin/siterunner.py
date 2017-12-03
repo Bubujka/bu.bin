@@ -4,6 +4,7 @@
 """
 
 import sys
+import urllib.parse
 from subprocess import check_output
 from os.path import expanduser
 
@@ -43,6 +44,8 @@ def do_work():
     line = helpers.dmenu_file(filename())
     if line:
         url = extract_url(line)
+        if "%s" in url:
+            url = url.replace("%s", urllib.parse.quote(helpers.dmenu_ask('Value')))
         helpers.open_in_browser(url)
         helpers.open_i3_workspace('www')
 
