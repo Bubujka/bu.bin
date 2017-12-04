@@ -70,15 +70,15 @@ def get_engine():
     """Получить строку-поисковик"""
     return Engine(helpers.dmenu_file(os.path.expanduser(ENGINES_PATH)))
 
-def get_query(prefer=None):
+def get_query(prefer=None, label='Запрос'):
     """Спросить поисковый запрос"""
-    return dmenu_stdin('Запрос', "\n".join([t['query'] for t in old_queries(prefer=prefer)]))
+    return dmenu_stdin(label, "\n".join([t['query'] for t in reversed(old_queries(prefer=prefer))]))
 
 
 def do_magic():
     """Сделать всю работу"""
     engine = get_engine()
-    query = get_query(prefer=engine.name())
+    query = get_query(prefer=engine.name(), label="Поиск в {}".format(engine.name()))
     if len(query):
         save_query({'engine': engine.name(), 'query': query})
         url = engine.url().replace("%s", urllib.parse.quote(query))
