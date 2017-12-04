@@ -4,6 +4,7 @@
 
 from os.path import expanduser
 from subprocess import CalledProcessError, check_output, call
+import shlex
 
 def read_file(pth):
     """
@@ -12,14 +13,14 @@ def read_file(pth):
     with open(expanduser(pth)) as file:
         return file.read()
 
-def dmenu_file(file):
+def dmenu_file(file, label='Open'):
     """
     Прогнать файл через dmenu и получить результат
     """
     try:
         line = check_output("""
-            cat {} | grep -v '^$' | ~/.bu.bin/bin/dmenu-wrapper Open 20
-        """.format(file), shell=True)
+            cat {} | grep -v '^$' | ~/.bu.bin/bin/dmenu-wrapper {} 20
+        """.format(file, shlex.quote(label)), shell=True)
         return line.decode('utf-8')
     except CalledProcessError:
         print(' =( ')

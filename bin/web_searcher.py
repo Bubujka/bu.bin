@@ -68,9 +68,9 @@ class Engine():
 
 
 
-def get_engine():
+def get_engine(label='Выбор системы'):
     """Получить строку-поисковик"""
-    return Engine(helpers.dmenu_file(os.path.expanduser(ENGINES_PATH)))
+    return Engine(helpers.dmenu_file(os.path.expanduser(ENGINES_PATH), label=label))
 
 def get_query(prefer=None, label='Запрос'):
     """Спросить поисковый запрос"""
@@ -128,8 +128,8 @@ def last_engine_search():
 @cli.command()
 def last_query_search():
     """Задать только систему поиска"""
-    engine = last_engine()
-    query = get_query(prefer=engine.name(), label="Поиск в {}".format(engine.name()))
+    query = last_query()['query']
+    engine = get_engine(label='Найти "{}" в'.format(query))
     if len(query):
         save_query({'engine': engine.name(), 'query': query})
         url = engine.url().replace("%s", urllib.parse.quote(query))
