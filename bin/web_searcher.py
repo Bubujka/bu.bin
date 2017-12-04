@@ -13,6 +13,7 @@ import socket
 import re
 import csv
 import urllib.parse
+import click
 
 import helpers
 
@@ -74,7 +75,14 @@ def get_query(prefer=None, label='Запрос'):
     """Спросить поисковый запрос"""
     return dmenu_stdin(label, "\n".join([t['query'] for t in reversed(old_queries(prefer=prefer))]))
 
+def ensure_history_file_exists():
+    """Удостовериться что файл для истории запросов есть"""
+    if not os.path.exists(HISTORY_PATH):
+        with open(HISTORY_PATH, 'a+') as tfile:
+            writer = csv.DictWriter(tfile, CSV_FIELDS)
+            writer.writeheader()
 
+@click.command()
 def do_magic():
     """Сделать всю работу"""
     engine = get_engine()
@@ -84,13 +92,6 @@ def do_magic():
         url = engine.url().replace("%s", urllib.parse.quote(query))
         helpers.open_in_browser(url)
         helpers.open_i3_workspace('www')
-
-def ensure_history_file_exists():
-    """Удостовериться что файл для истории запросов есть"""
-    if not os.path.exists(HISTORY_PATH):
-        with open(HISTORY_PATH, 'a+') as tfile:
-            writer = csv.DictWriter(tfile, CSV_FIELDS)
-            writer.writeheader()
 
 
 
