@@ -54,6 +54,7 @@ def save_query(obj):
     with open(HISTORY_PATH, 'a') as tfile:
         writer = csv.DictWriter(tfile, CSV_FIELDS)
         writer.writerow(obj)
+
 class Engine():
     """Поисковик"""
     def __init__(self, line):
@@ -73,7 +74,8 @@ def get_engine():
 
 def get_query(prefer=None, label='Запрос'):
     """Спросить поисковый запрос"""
-    return dmenu_stdin(label, "\n".join([t['query'] for t in reversed(old_queries(prefer=prefer))]))
+    queries = list({t['query']: None for t in old_queries(prefer=prefer)}.keys())
+    return dmenu_stdin(label, "\n".join(reversed(queries)))
 
 def ensure_history_file_exists():
     """Удостовериться что файл для истории запросов есть"""
@@ -82,8 +84,13 @@ def ensure_history_file_exists():
             writer = csv.DictWriter(tfile, CSV_FIELDS)
             writer.writeheader()
 
-@click.command()
-def do_magic():
+@click.group()
+def cli():
+    """..."""
+    pass
+
+@cli.command()
+def full_search():
     """Сделать всю работу"""
     engine = get_engine()
     query = get_query(prefer=engine.name(), label="Поиск в {}".format(engine.name()))
@@ -93,8 +100,42 @@ def do_magic():
         helpers.open_in_browser(url)
         helpers.open_i3_workspace('www')
 
+def last_query():
+    """Получить последнюю запись из поиска"""
+    with open(HISTORY_PATH) as tfile:
+        return list(csv.DictReader(tfile))[-1]
 
+def last_engine():
+    """Получить последнюю поисковую систему"""
+    name = last_query()['engine']
+    for engine in engines():
+        t = Engine(engine)
+        if t.name() == name:
+            return t
+
+
+@cli.command()
+def last_engine_search():
+    """Задать только запрос для поиска"""
+    engine = last_engine()
+    query = get_query(prefer=engine.name(), label="Поиск в {}".format(engine.name()))
+    if len(query):
+        save_query({'engine': engine.name(), 'query': query})
+        url = engine.url().replace("%s", urllib.parse.quote(query))
+        helpers.open_in_browser(url)
+        helpers.open_i3_workspace('www')
+
+@cli.command()
+def last_query_search():
+    """Задать только систему поиска"""
+    engine = last_engine()
+    query = get_query(prefer=engine.name(), label="Поиск в {}".format(engine.name()))
+    if len(query):
+        save_query({'engine': engine.name(), 'query': query})
+        url = engine.url().replace("%s", urllib.parse.quote(query))
+        helpers.open_in_browser(url)
+        helpers.open_i3_workspace('www')
 
 if __name__ == '__main__':
     ensure_history_file_exists()
-    do_magic()
+    cli()
