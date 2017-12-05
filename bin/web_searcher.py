@@ -13,6 +13,7 @@ import re
 from csv import DictReader, DictWriter
 import urllib.parse
 import click
+from pprint import pprint as pp
 
 import helpers
 
@@ -20,25 +21,6 @@ ENGINES_PATH = expanduser('~/.db/wiki/search-engines.md')
 HISTORY_PATH = expanduser('~/.db/wiki/search-history.csv')
 CSV_FIELDS = ('engine', 'query', 'time', 'hostname')
 
-def isodatetime():
-    """Получить iso строку времени"""
-    return datetime.datetime.now(datetime.timezone.utc).isoformat()
-
-def engines():
-    """Получить список поисковых систем"""
-    return [t.strip() for t in open(ENGINES_PATH).readlines()]
-
-def old_queries(prefer=None):
-    """Вернуть список запросов прошлых"""
-    return list(DictReader(open(HISTORY_PATH)))
-
-def save_query(obj):
-    """Сохранить объект в базу"""
-    obj['hostname'] = gethostname()
-    obj['time'] = isodatetime()
-    with open(HISTORY_PATH, 'a') as tfile:
-        writer = DictWriter(tfile, CSV_FIELDS)
-        writer.writerow(obj)
 
 class Engine():
     """Поисковик"""
@@ -52,6 +34,28 @@ class Engine():
         return re.match('(.*)(https?:.*)', self.line).groups()[1].strip()
 
 
+def isodatetime():
+    """Получить iso строку времени"""
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+def engines():
+    """Получить список поисковых систем"""
+    return [t.strip() for t in open(ENGINES_PATH).readlines()]
+
+def old_queries(prefer=None):
+    """Вернуть список запросов прошлых"""
+    all_queries = list(reversed(list(DictReader(open(HISTORY_PATH)))))
+    return ([t for t in all_queries if t['engine'] == prefer] +
+            [t for t in all_queries if t['engine'] != prefer])
+
+def save_query(obj):
+    """Сохранить объект в базу"""
+    obj['hostname'] = gethostname()
+    obj['time'] = isodatetime()
+    with open(HISTORY_PATH, 'a') as tfile:
+        writer = DictWriter(tfile, CSV_FIELDS)
+        writer.writerow(obj)
+
 
 def get_engine(label='Выбор системы'):
     """Получить строку-поисковик"""
@@ -59,8 +63,11 @@ def get_engine(label='Выбор системы'):
 
 def get_query(prefer=None, label='Запрос'):
     """Спросить поисковый запрос"""
-    queries = list({t['query']: None for t in old_queries(prefer=prefer)}.keys())
-    return helpers.dmenu_stdin(label, "\n".join(reversed(queries)))
+    queries = []
+    for itm in old_queries(prefer=prefer):
+        if itm['query'] not in queries:
+            queries.append(itm['query'])
+    return helpers.dmenu_stdin(label, "\n".join(queries))
 
 def ensure_history_file_exists():
     """Удостовериться что файл для истории запросов есть"""
