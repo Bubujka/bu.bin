@@ -84,22 +84,6 @@ def ensure_history_file_exists():
             writer = csv.DictWriter(tfile, CSV_FIELDS)
             writer.writeheader()
 
-@click.group()
-def cli():
-    """..."""
-    pass
-
-@cli.command()
-def full_search():
-    """Сделать всю работу"""
-    engine = get_engine()
-    query = get_query(prefer=engine.name(), label="Поиск в {}".format(engine.name()))
-    if len(query):
-        save_query({'engine': engine.name(), 'query': query})
-        url = engine.url().replace("%s", urllib.parse.quote(query))
-        helpers.open_in_browser(url)
-        helpers.open_i3_workspace('www')
-
 def last_query():
     """Получить последнюю запись из поиска"""
     with open(HISTORY_PATH) as tfile:
@@ -109,32 +93,44 @@ def last_engine():
     """Получить последнюю поисковую систему"""
     name = last_query()['engine']
     for engine in engines():
-        t = Engine(engine)
-        if t.name() == name:
-            return t
+        candidate = Engine(engine)
+        if candidate.name() == name:
+            return candidate
 
+def save_and_open(engine, query):
+    """Сохранить поисковый запрос в файл и открыть поиск в браузере"""
+    if len(query):
+        save_query({'engine': engine.name(), 'query': query})
+        url = engine.url().replace("%s", urllib.parse.quote(query))
+        helpers.open_in_browser(url)
+        helpers.open_i3_workspace('www')
+
+
+@click.group()
+def cli():
+    """Программа для открытия поисковика в браузере с заданным запросом"""
+    pass
+
+@cli.command()
+def full_search():
+    """Сделать всю работу"""
+    engine = get_engine()
+    query = get_query(prefer=engine.name(), label="Поиск в {}".format(engine.name()))
+    save_and_open(engine, query)
 
 @cli.command()
 def last_engine_search():
     """Задать только запрос для поиска"""
     engine = last_engine()
     query = get_query(prefer=engine.name(), label="Поиск в {}".format(engine.name()))
-    if len(query):
-        save_query({'engine': engine.name(), 'query': query})
-        url = engine.url().replace("%s", urllib.parse.quote(query))
-        helpers.open_in_browser(url)
-        helpers.open_i3_workspace('www')
+    save_and_open(engine, query)
 
 @cli.command()
 def last_query_search():
     """Задать только систему поиска"""
     query = last_query()['query']
     engine = get_engine(label='Найти "{}" в'.format(query))
-    if len(query):
-        save_query({'engine': engine.name(), 'query': query})
-        url = engine.url().replace("%s", urllib.parse.quote(query))
-        helpers.open_in_browser(url)
-        helpers.open_i3_workspace('www')
+    save_and_open(engine, query)
 
 if __name__ == '__main__':
     ensure_history_file_exists()
