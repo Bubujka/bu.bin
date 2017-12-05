@@ -6,19 +6,18 @@
 позволяет выбрать поисковую систему из списка, спрашивает запрос.
 """
 
-from subprocess import Popen, PIPE
-import os.path
+from os.path import expanduser, exists
 import datetime
-import socket
+from socket import gethostname
 import re
-import csv
+from csv import DictReader, DictWriter
 import urllib.parse
 import click
 
 import helpers
 
-ENGINES_PATH = os.path.expanduser('~/.db/wiki/search-engines.md')
-HISTORY_PATH = os.path.expanduser('~/.db/wiki/search-history.csv')
+ENGINES_PATH = expanduser('~/.db/wiki/search-engines.md')
+HISTORY_PATH = expanduser('~/.db/wiki/search-history.csv')
 CSV_FIELDS = ('engine', 'query', 'time', 'hostname')
 
 def isodatetime():
@@ -27,32 +26,18 @@ def isodatetime():
 
 def engines():
     """Получить список поисковых систем"""
-    with open(ENGINES_PATH) as f:
-        return [t.strip() for t in f.readlines()]
-
-def dmenu_stdin(label, stdin, lines=20):
-    """Получить вывод от dmenu, передав ему данные на вход"""
-    proc = Popen([os.path.expanduser('~/.bu.bin/bin/dmenu-wrapper'), label, str(lines)],
-                 stdout=PIPE,
-                 stdin=PIPE,
-                 stderr=PIPE)
-
-    stdout_data = proc.communicate(input=stdin.encode('utf-8'))[0]
-    return stdout_data.decode('utf-8').strip()
+    return [t.strip() for t in open(ENGINES_PATH).readlines()]
 
 def old_queries(prefer=None):
     """Вернуть список запросов прошлых"""
-    with open(HISTORY_PATH) as tfile:
-        return list(csv.DictReader(tfile))
-
-
+    return list(DictReader(open(HISTORY_PATH)))
 
 def save_query(obj):
     """Сохранить объект в базу"""
-    obj['hostname'] = socket.gethostname()
+    obj['hostname'] = gethostname()
     obj['time'] = isodatetime()
     with open(HISTORY_PATH, 'a') as tfile:
-        writer = csv.DictWriter(tfile, CSV_FIELDS)
+        writer = DictWriter(tfile, CSV_FIELDS)
         writer.writerow(obj)
 
 class Engine():
@@ -70,24 +55,23 @@ class Engine():
 
 def get_engine(label='Выбор системы'):
     """Получить строку-поисковик"""
-    return Engine(helpers.dmenu_file(os.path.expanduser(ENGINES_PATH), label=label))
+    return Engine(helpers.dmenu_file(expanduser(ENGINES_PATH), label=label))
 
 def get_query(prefer=None, label='Запрос'):
     """Спросить поисковый запрос"""
     queries = list({t['query']: None for t in old_queries(prefer=prefer)}.keys())
-    return dmenu_stdin(label, "\n".join(reversed(queries)))
+    return helpers.dmenu_stdin(label, "\n".join(reversed(queries)))
 
 def ensure_history_file_exists():
     """Удостовериться что файл для истории запросов есть"""
-    if not os.path.exists(HISTORY_PATH):
+    if not exists(HISTORY_PATH):
         with open(HISTORY_PATH, 'a+') as tfile:
-            writer = csv.DictWriter(tfile, CSV_FIELDS)
+            writer = DictWriter(tfile, CSV_FIELDS)
             writer.writeheader()
 
 def last_query():
     """Получить последнюю запись из поиска"""
-    with open(HISTORY_PATH) as tfile:
-        return list(csv.DictReader(tfile))[-1]
+    return list(DictReader(open(HISTORY_PATH)))[-1]
 
 def last_engine():
     """Получить последнюю поисковую систему"""
@@ -104,7 +88,6 @@ def save_and_open(engine, query):
         url = engine.url().replace("%s", urllib.parse.quote(query))
         helpers.open_in_browser(url)
         helpers.open_i3_workspace('www')
-
 
 @click.group()
 def cli():

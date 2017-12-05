@@ -4,6 +4,7 @@
 
 from os.path import expanduser
 from subprocess import CalledProcessError, check_output, call
+from subprocess import Popen, PIPE
 import shlex
 
 def read_file(pth):
@@ -36,6 +37,16 @@ def dmenu_ask(label):
         return line.decode('utf-8').strip()
     except CalledProcessError:
         print(' =( ')
+
+def dmenu_stdin(label, stdin, lines=20):
+    """Получить вывод от dmenu, передав ему данные на вход"""
+    proc = Popen([expanduser('~/.bu.bin/bin/dmenu-wrapper'), label, str(lines)],
+                 stdout=PIPE,
+                 stdin=PIPE,
+                 stderr=PIPE)
+
+    stdout_data = proc.communicate(input=stdin.encode('utf-8'))[0]
+    return stdout_data.decode('utf-8').strip()
 
 def open_in_browser(url):
     """
