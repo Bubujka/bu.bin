@@ -1,2 +1,2 @@
 #!/bin/bash
-tree -LhaC 3
+tree -LhaC 3 $1

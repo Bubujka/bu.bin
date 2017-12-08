@@ -1,6 +1,16 @@
 #!/bin/bash
 rm ~/.db/wiki/.*swp
+if [ ! -f ~/.db/wiki/logbook/$(date '+%Y-%m-%d').md ]; then
 touch ~/.db/wiki/logbook/$(date '+%Y-%m-%d').md
+
+echo "$(date '+%Y-%m-%d')
+
+# Проблема
+# Предположения
+# Эксперемент
+# Наблюдаемые результаты
+# Выводы" >> ~/.db/wiki/logbook/$(date '+%Y-%m-%d').md
+fi
 gvim--remote-send ":sp /home/bubujka/.db/wiki/logbook/$(date '+%Y-%m-%d').md<CR>"
 sleep 0.3
 i3-workspace vim
