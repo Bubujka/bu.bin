@@ -1,0 +1,3 @@
+#!/bin/bash
+sqlite3 ~/.config/google-chrome/Default/History  "select datetime(last_visit_time/1000000-11644473600,'unixepoch'),url from  urls order by last_visit_time desc"
+sqlite3 ~/.config/chromium/Default/History  "select datetime(last_visit_time/1000000-11644473600,'unixepoch'),url from  urls order by last_visit_time desc"
