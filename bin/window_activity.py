@@ -16,6 +16,7 @@ from socket import gethostname
 COLS = ('hostname', 'time', 'workspace', 'software', 'title')
 INTERVAL = 2
 IDLE_LIMIT_SECONDS = 120
+DIRECTORY = expanduser('~/.db/i3-logs')
 
 
 def get_focused(tree):
@@ -114,12 +115,12 @@ def today():
 
 def log_path():
     """Получить путь до лог файла"""
-    return expanduser('~/.db/wiki/i3-logs/{}.csv'.format(today()))
+    return '{}/{}-{}.csv'.format(DIRECTORY, today(), gethostname())
 
 
 def check_directory_and_file_exists():
     """Проверить что есть каталог для логов и файл"""
-    makedirs(expanduser('~/.db/wiki/i3-logs'), exist_ok=True)
+    makedirs(DIRECTORY, exist_ok=True)
     pth = log_path()
     if not exists(pth):
         with open(pth, 'w') as tfile:
