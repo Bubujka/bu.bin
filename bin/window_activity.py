@@ -7,7 +7,7 @@ from subprocess import check_output
 from json import loads
 from time import sleep, time
 from datetime import datetime
-from csv import DictWriter
+from csv import DictWriter, DictReader
 from os.path import expanduser, exists
 from os import makedirs
 from socket import gethostname
@@ -78,9 +78,11 @@ def get_line(line):
     else:
         return " -> ".join([str(t['name']) for t in line])
 
+
 def idletime():
     """Получить время в миллисекундах, сколько за компом не работаю"""
     return int(check_output('xprintidle').decode('utf-8').strip())
+
 
 def do_magic():
     """main loop"""
@@ -109,13 +111,20 @@ def do_magic():
             is_idle = False
         sleep(INTERVAL)
 
+
 def today():
     """Сегодняшняя дата"""
     return datetime.now().date()
 
+
 def log_path():
     """Получить путь до лог файла"""
     return '{}/{}-{}.csv'.format(DIRECTORY, today(), gethostname())
+
+
+def log_reader():
+    """Получить DictReader на текущий лог"""
+    return DictReader(open(log_path()))
 
 
 def check_directory_and_file_exists():
@@ -126,6 +135,7 @@ def check_directory_and_file_exists():
         with open(pth, 'w') as tfile:
             csv = DictWriter(tfile, COLS)
             csv.writeheader()
+
 
 if __name__ == '__main__':
     check_directory_and_file_exists()
