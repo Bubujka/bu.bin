@@ -1,4 +1,2 @@
 #!/bin/bash
-br web.skype.com
-slack &
-telegram &
+

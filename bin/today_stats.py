@@ -29,9 +29,16 @@ for group, dat in grouped:
     seconds = int(sum([t['duration'] for t in dat]))
     humaned.append({'name': group, 'human': timedelta(seconds=seconds), 'seconds': seconds, 'data': dat})
 
+def workspaces(data):
+    """Получить только список workspace из набора"""
+    return sorted(set([tt['workspace'] for tt in data]))
+
+
 for t in sorted(humaned, key=lambda t: t['seconds']):
     if t['name']:
-        print(t['name'], t['human'])
-        #for tt in t['data']:
-        #    print('-', tt['title'])
-
+        print(
+            t['name'],
+            '('+", ".join(map(str, workspaces(t['data'])))+')',
+            t['human'],
+            sep="\t"
+        )

@@ -1,1 +1,2 @@
-/opt/Telegram/Telegram
+#!/bin/bash
+math_question.py && ~/.TelegramDesktop/Telegram

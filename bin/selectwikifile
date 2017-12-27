@@ -17,6 +17,7 @@ def directory():
     """
     return os.path.expanduser(sys.argv[1])
 
+
 def check_args():
     """
     Проверяем корректность параметров переданных
@@ -26,6 +27,7 @@ def check_args():
     if not os.path.isdir(directory()):
         sys.exit('Каталог "{}" не существет'.format(directory()))
 
+
 def grep_pattern():
     """
     Превращает расширение файла в шаблон, который подойдёт для
@@ -33,11 +35,13 @@ def grep_pattern():
     """
     return "\\.{}$".format(sys.argv[2])
 
+
 def extension():
     """
     Возвращает расширение, с которым мы работаем
     """
     return sys.argv[2]
+
 
 def ask_for_file():
     """
