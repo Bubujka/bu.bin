@@ -1,2 +1,2 @@
 #!/bin/bash
-math_question.py && ~/.TelegramDesktop/Telegram
+math_run /home/bubujka/.TelegramDesktop/Telegram

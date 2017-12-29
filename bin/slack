@@ -1,2 +1,2 @@
 #!/bin/bash
-math_question.py && /usr/lib/slack/slack
+math_run /usr/lib/slack/slack

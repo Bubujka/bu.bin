@@ -1,0 +1,6 @@
+#!/bin/bash
+set -o errexit
+math_question.py
+$1 &
+PID=$!
+bash -c "sleep 60 ; kill $PID" &

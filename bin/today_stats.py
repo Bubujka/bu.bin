@@ -18,6 +18,24 @@ def print_line(itm):
     print(itm['name'], itm['human'], sep="\t")
 
 
+def keyfn(itm):
+    """Функция для определения параметра группировки"""
+    soft = itm['software']
+    title = itm['title']
+
+    websites = [
+        'Wikipedia',
+        'Википедия',
+        'YouTube', 'Gmail', 'Facebook', 'Hacker News',
+        'Beta. Plan.', 'vc.ru', '[Jenkins]', 'Zabbix',
+        'Bitbucket', 'Meduza']
+    if soft == 'chromium-browser':
+        for site in websites:
+            if site in title:
+                return site
+    return soft
+
+
 def do_magic():
     """Вывести статистику за сегодня"""
     data = list(log_reader())
@@ -30,8 +48,8 @@ def do_magic():
         prev = row
     prev['duration'] = time.time() - float(prev['time'])
 
-    data = sorted(data, key=lambda itm: itm['software'])
-    grouped = groupby(data, key=lambda itm: itm['software'])
+    data = sorted(data, key=keyfn)
+    grouped = groupby(data, key=keyfn)
     humaned = []
     for group, dat in grouped:
         dat = list(dat)
