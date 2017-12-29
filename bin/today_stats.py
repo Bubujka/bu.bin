@@ -26,6 +26,10 @@ def keyfn(itm):
     websites = [
         'Wikipedia',
         'Википедия',
+        'plan.md',
+        'Facebook',
+        'Skype',
+        'Google Sheets',
         'YouTube', 'Gmail', 'Facebook', 'Hacker News',
         'Beta. Plan.', 'vc.ru', '[Jenkins]', 'Zabbix',
         'Bitbucket', 'Meduza']
