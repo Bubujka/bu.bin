@@ -145,11 +145,11 @@ class LogFile():
 
     def day(self):
         """День за который лог"""
-        return re.sub(r'(\d+-\d+-\d+)-(.*)', r'\1', basename(self.pth))
+        return re.sub(r'(\d+-\d+-\d+)-(.*)\.csv', r'\1', basename(self.pth))
 
     def host(self):
         """Хост у лога"""
-        return re.sub(r'(\d+-\d+-\d+)-(.*)', r'\2', basename(self.pth))
+        return re.sub(r'(\d+-\d+-\d+)-(.*)\.csv', r'\2', basename(self.pth))
 
     def reader(self):
         """Получить ридер у данного лога"""

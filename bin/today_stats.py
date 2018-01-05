@@ -58,9 +58,10 @@ def keyfn(itm):
     return soft
 
 
-def print_stats(reader):
+def print_stats(log):
     """Распечатать статистику"""
-    data = list(reader)
+    print("#", log.day(), log.host())
+    data = list(log.reader())
     prev = None
     for row in data:
         if prev is None:
@@ -68,7 +69,7 @@ def print_stats(reader):
             continue
         prev['duration'] = float(row['time']) - float(prev['time'])
         prev = row
-    prev['duration'] = time.time() - float(prev['time'])
+    prev['duration'] = float(row['time']) - float(prev['time'])
 
     data = sorted(data, key=keyfn)
     grouped = groupby(data, key=keyfn)
@@ -91,12 +92,12 @@ def print_stats(reader):
 @cli.command()
 def today():
     """Вывести статистику за сегодня"""
-    print_stats(log_reader())
+    print_stats(all_logs()[-1])
 
 @cli.command()
 def yesterday():
     """Вывести статистику за вчера"""
-    print_stats(all_logs()[-2].reader())
+    print_stats(all_logs()[-2])
 
 if __name__ == '__main__':
     cli()
