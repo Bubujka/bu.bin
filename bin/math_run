@@ -3,4 +3,4 @@ set -o errexit
 math_question.py
 $1 &
 PID=$!
-bash -c "sleep 60 ; kill $PID" &
+bash -c "sleep 180 ; kill $PID" &
