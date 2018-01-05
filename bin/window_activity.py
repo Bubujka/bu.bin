@@ -8,9 +8,12 @@ from json import loads
 from time import sleep, time
 from datetime import datetime
 from csv import DictWriter, DictReader
-from os.path import expanduser, exists
+from os.path import expanduser, exists, basename
 from os import makedirs
 from socket import gethostname
+from glob import glob
+
+import re
 
 
 COLS = ('hostname', 'time', 'workspace', 'software', 'title')
@@ -117,14 +120,14 @@ def today():
     return datetime.now().date()
 
 
-def log_path():
+def log_path(day=today(), host=gethostname()):
     """Получить путь до лог файла"""
-    return '{}/{}-{}.csv'.format(DIRECTORY, today(), gethostname())
+    return '{}/{}-{}.csv'.format(DIRECTORY, day, host)
 
 
-def log_reader():
+def log_reader(pth=log_path()):
     """Получить DictReader на текущий лог"""
-    return DictReader(open(log_path()))
+    return DictReader(open(pth))
 
 
 def check_directory_and_file_exists():
@@ -135,6 +138,26 @@ def check_directory_and_file_exists():
         with open(pth, 'w') as tfile:
             csv = DictWriter(tfile, COLS)
             csv.writeheader()
+
+class LogFile():
+    def __init__(self, pth):
+        self.pth = pth
+
+    def day(self):
+        """День за который лог"""
+        return re.sub(r'(\d+-\d+-\d+)-(.*)', r'\1', basename(self.pth))
+
+    def host(self):
+        """Хост у лога"""
+        return re.sub(r'(\d+-\d+-\d+)-(.*)', r'\2', basename(self.pth))
+
+    def reader(self):
+        """Получить ридер у данного лога"""
+        return log_reader(self.pth)
+
+def all_logs():
+    """Получить список логов"""
+    return [LogFile(l) for l in sorted(glob(DIRECTORY + '/*.csv'))]
 
 
 if __name__ == '__main__':

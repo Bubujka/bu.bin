@@ -4,8 +4,26 @@
 import time
 from itertools import groupby
 from datetime import timedelta
+from glob import glob
+from os.path import basename
 
-from window_activity import log_reader
+import click
+
+from window_activity import log_reader, all_logs
+
+@click.group()
+def cli():
+    """Статистика о использовании программ за день"""
+    pass
+
+@cli.command()
+def logs():
+    """Вывести список дней, за которые есть статистика"""
+    logs = sorted(all_logs(), key=lambda k: k.host())
+    logs = groupby(logs, key=lambda k: k.host())
+    for host, records in logs:
+        print(host)
+        print(*['- '+l.day() for l in records], sep='\n')
 
 
 def workspaces(data):
@@ -40,9 +58,9 @@ def keyfn(itm):
     return soft
 
 
-def do_magic():
-    """Вывести статистику за сегодня"""
-    data = list(log_reader())
+def print_stats(reader):
+    """Распечатать статистику"""
+    data = list(reader)
     prev = None
     for row in data:
         if prev is None:
@@ -69,5 +87,16 @@ def do_magic():
             print_line(itm)
 
 
+
+@cli.command()
+def today():
+    """Вывести статистику за сегодня"""
+    print_stats(log_reader())
+
+@cli.command()
+def yesterday():
+    """Вывести статистику за вчера"""
+    print_stats(all_logs()[-2].reader())
+
 if __name__ == '__main__':
-    do_magic()
+    cli()
