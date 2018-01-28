@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Открыть ссылку в браузере
 if [ "$#" -eq 0 ]; then
   LINK=`cat /dev/stdin`
   chromium-browser "$LINK" > /dev/null 2>&1  &

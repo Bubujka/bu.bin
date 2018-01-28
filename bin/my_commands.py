@@ -45,7 +45,11 @@ class Command():
 
     def have_doc(self):
         """Есть ли у данной команды блок с описанием?"""
+
         if len(self.intro) == 2:
+            if self.lang() == 'php':
+                if re.match(r'^<\?php #.*', self.intro[1]):
+                    return True
             if re.match('^#.*', self.intro[1]):
                 return True
         return False
@@ -54,6 +58,8 @@ class Command():
     def doc(self):
         """Получить описание команды"""
         if self.have_doc():
+            if self.lang() == 'php':
+                return self.intro[1][7:].strip()
             return self.intro[1][1:].strip()
         return None
 

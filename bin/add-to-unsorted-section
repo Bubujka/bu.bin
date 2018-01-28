@@ -1,5 +1,5 @@
 #!/usr/bin/env php
-<?php
+<?php # Добавить запись в секцию unsorted файла
 
 $line = $argv[1];
 $file = $argv[2];

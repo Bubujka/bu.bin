@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# Программа для записи задач в asana из консоли
 require "rubygems"
 require 'yaml'
 require 'asana'
@@ -52,12 +53,12 @@ class Asna < Thor
       opts['projects'] = [t['project'].to_i]
     end
     opts['assignee'] = t['user']
-    
+
     save_task_data t['workspace'], opts
   end
 
   desc 'cron', 'Синхронизирует все таски с сервером асаны'
-  def cron 
+  def cron
     Dir[File.expand_path("~/.asna")+"/*"].each do |pth|
       t = YAML.load_file(pth)
 

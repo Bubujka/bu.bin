@@ -1,4 +1,5 @@
 #!/bin/bash
+# Добавить изображение в anki
 xdotool mousemove 1530 500
 xdotool click 1
 sleep 0.2

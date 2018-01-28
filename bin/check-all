@@ -1,6 +1,7 @@
 #!/bin/bash
 # Скрипт проверяет что в git-репозиториях из папки /home/www/ нет незафиксированных изменений
-for dir in /home/www/*; 
+
+for dir in /home/www/*;
 do
 	cd $dir;
 	if [ -d .git ]
@@ -9,7 +10,7 @@ do
 		then
 			echo
 			echo $dir
-			git status --short 
+			git status --short
 		fi
 	fi
 done

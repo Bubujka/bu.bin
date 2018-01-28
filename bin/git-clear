@@ -1,5 +1,4 @@
 #!/bin/bash
-#git st | grep deleted: | awk '{ print $3 } ' | xargs -I{} git rm "{}"
 IFS=$'\n'
 for pth in `git status | grep deleted  | sed 's/^\tdeleted: *//'`
 do
