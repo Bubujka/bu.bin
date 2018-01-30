@@ -1,5 +1,5 @@
 #!/bin/bash
-# vim: tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab
+# Запись видео с экрана
 export VIDEO_RECORDING_RESOLUTION='1920x1080' # у меня такой экран
 export VIDEO_CONVERT_RESOLUTION='1280x720' # ютуб до такого размера пожмёт всё равно. Заливать меньше
 
@@ -154,3 +154,4 @@ case "$1" in
 		echo "Usage: scy <command> [options]"
 		;;
 esac
+# vim: tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab
