@@ -1,2 +1,3 @@
 #!/bin/bash
+# Совершить самоубийство x_x
 killall -KILL -u bubujka
