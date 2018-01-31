@@ -1,5 +1,5 @@
 #!/usr/bin/env php
-<?php
+<?php # Просуммировать числа из потока ввода
 if($argc == 1){
   $t = explode(' ', trim(file_get_contents('php://stdin')));
 }else{
