@@ -1,5 +1,5 @@
 #!/usr/bin/env php
-<?php
+<?php # Получить номер следующего теста [Exxx]
 if($argc == 1){
   $pth = [];
   if(file_exists('test')){

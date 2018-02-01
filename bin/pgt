@@ -1,4 +1,5 @@
 #!/bin/bash
+# Сгенерить md5 hash короткий от пользовательского ввода и скопировать в буфер
 length=9
 read -s key
 hash=`echo -n $key | md5php`

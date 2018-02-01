@@ -1,7 +1,8 @@
 #!/bin/bash
+# Записать содержимое буфера обмена в plan-файл
 . ~/.bashrc
 echo >> "$1"
-echo "# $(date) delme" >> "$1"
+echo "# $(date)" >> "$1"
 echo "$(xclip -o)" >> "$1"
 echo "" >> "$1"
 echo "" >> "$1"
