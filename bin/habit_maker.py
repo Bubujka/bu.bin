@@ -34,7 +34,7 @@ def load_data():
 
 def save():
     """Сохранить состояние store"""
-    open(DATA_FILE, 'w').write(json.dumps(STORE))
+    open(DATA_FILE, 'w').write(json.dumps(STORE, indent=2))
 
 
 def to_code(state):
@@ -54,16 +54,29 @@ class Habit():
     def __init__(self, config_obj):
         self.repeat = config_obj.get('repeat', 7)
         self.name = config_obj['name']
-        self.code = config_obj['code']
+        self.code = config_obj['name']
 
     def stats(self):
         """Получить статистику"""
         today = today_date()
         return [get_stats_for(self, today - timedelta(days=i)) for i in range(0,13)]
 
+
+    def reached_week_limit(self):
+        """Достигнут недельный лимит"""
+        today = today_date()
+        stats = [get_stats_for(self, today - timedelta(days=i)) for i in range(0, 6)]
+        return len([s for s in stats if s]) >= self.repeat
+
+
     def is_ok(self):
         """Выполнено ли на сегодня?"""
-        return get_stats_for(self, today_date())
+        if get_stats_for(self, today_date()):
+            return True
+        if self.reached_week_limit():
+            return True
+
+
 
     def toggle(self):
         """"""
@@ -154,6 +167,9 @@ def repl_loop():
     clear_screen()
     mappings = print_stats()
     answer = ask_what_todo()
+    if answer == 'q':
+        save()
+        exit()
     number = int(answer)
     habit = mappings[number]
     habit.toggle()
