@@ -17,6 +17,7 @@ OK_CODE = '✓'
 FAIL_CODE = '✗'
 BLANK_CODE = '·'
 STORE = []
+DATE = None
 
 init()
 
@@ -54,6 +55,7 @@ class Habit():
     def __init__(self, config_obj):
         self.repeat = config_obj.get('repeat', 7)
         self.name = config_obj['name']
+        self.tag = config_obj['tag']
         self.code = config_obj['name']
 
     def stats(self):
@@ -123,6 +125,9 @@ def color_stats(stats):
 
 
 def today_date():
+    global DATE
+    if DATE:
+        return DATE
     return date.today()
 
 
@@ -150,13 +155,13 @@ def print_stats():
         for h in fail_items:
             i += 1
             mappings[i] = h
-            print(nice_number(i), h.name.ljust(max_name_length() + 5, " "),  color_stats(h.stats()))
+            print(nice_number(i), h.tag.ljust(7, " "), h.name.ljust(max_name_length() + 5, " "),  color_stats(h.stats()))
     if len(ok_items):
         print(Fore.GREEN+"Сделано:"+Style.RESET_ALL)
         for h in ok_items:
             i += 1
             mappings[i] = h
-            print(nice_number(i), h.name.ljust(max_name_length() + 5, " "),  color_stats(h.stats()))
+            print(nice_number(i), h.tag.ljust(7, " "), h.name.ljust(max_name_length() + 5, " "),  color_stats(h.stats()))
     return mappings
 
 def ask_what_todo():
@@ -182,6 +187,12 @@ def today():
     """Отредактировать сегодняшний день"""
     repl_loop()
 
+@main.command()
+def yesterday():
+    """Отредактировать вчерашний день"""
+    global DATE
+    DATE = date.today() - timedelta(days=1)
+    repl_loop()
 
 if __name__ == '__main__':
     STORE = load_data()
