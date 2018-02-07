@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-# Менеджер привычек
+
+"""
+Менеджер привычек
+"""
 
 import json
 from functools import lru_cache
@@ -8,6 +11,7 @@ from datetime import date, timedelta
 
 import click
 from colorama import Fore, Style, init, ansi
+from prompt_toolkit import prompt
 
 
 CFG_FILE = expanduser("~/.db/wiki/habit-config.json")
@@ -64,14 +68,12 @@ class Habit():
 
     def stats(self):
         """Получить статистику"""
-        today = today_date()
-        return [get_stats_for(self, today - timedelta(days=i)) for i in range(0,13)]
+        return [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, 13)]
 
 
     def reached_week_limit(self):
         """Достигнут недельный лимит"""
-        today = today_date()
-        stats = [get_stats_for(self, today - timedelta(days=i)) for i in range(0, 6)]
+        stats = [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, 6)]
         return len([s for s in stats if s]) >= self.repeat
 
 
@@ -81,6 +83,7 @@ class Habit():
             return True
         if self.reached_week_limit():
             return True
+        return False
 
 
     def skip(self):
@@ -88,7 +91,7 @@ class Habit():
         STORE.append({'code': self.code, 'date': str(today_date()), 'skip': True})
 
     def toggle(self):
-        """"""
+        """Переключить состояние у привычки на текущую дату"""
         if self.is_ok():
             self.remove_today()
         else:
@@ -96,18 +99,20 @@ class Habit():
 
     def remove_today(self):
         """Удалить из истории сегодняшнюю запись"""
-        for s in STORE:
-            if s['code'] == self.code:
-                if s['date'] == str(today_date()):
-                    STORE.remove(s)
+        for log in STORE:
+            if log['code'] == self.code:
+                if log['date'] == str(today_date()):
+                    STORE.remove(log)
 
 
 
 def get_stats_for(habit, day):
-    for s in STORE:
-        if s['code'] == habit.code:
-            if s['date'] == str(day):
-                return s
+    """Получить статистику за дату"""
+    for log in STORE:
+        if log['code'] == habit.code:
+            if log['date'] == str(day):
+                return log
+    return None
 
 
 @lru_cache()
@@ -128,10 +133,12 @@ def max_name_length():
 
 
 def color_stats(stats):
+    """Вывести статистику в виде цветной строки"""
     return "".join([to_code(t) for t in stats])
 
 
 def today_date():
+    """Дата, над которой мы сейчас работаем"""
     global DATE
 
     if DATE:
@@ -161,6 +168,26 @@ def print_header():
         suffix = " (Вчера)"
     print(Fore.YELLOW + str(today_date()) + suffix, Style.RESET_ALL)
 
+
+def color_tag(tag):
+    """Раскрасить тэг"""
+    prefix = ""
+    if tag == 'home':
+        prefix = Style.BRIGHT+Fore.GREEN
+    if tag == 'comp':
+        prefix = Style.BRIGHT+Fore.BLUE
+    if tag == 'food':
+        prefix = Style.BRIGHT+Fore.MAGENTA
+    return prefix+tag+Style.RESET_ALL
+
+
+def print_with_number(habit, number):
+    """Напечатать строку и её номер"""
+    print(color_tag(habit.tag).ljust(7, " "),
+          nice_number(number),
+          habit.name.ljust(max_name_length() + 5, " "),
+          color_stats(habit.stats()))
+
 def print_stats():
     """"""
     print_header()
@@ -177,21 +204,21 @@ def print_stats():
         for h in fail_items:
             i += 1
             mappings[i] = h
-            print(nice_number(i), h.tag.ljust(7, " "), h.name.ljust(max_name_length() + 5, " "),  color_stats(h.stats()))
-    if len(ok_items):
-        print(Fore.GREEN+"Сделано:"+Style.RESET_ALL)
-        for h in ok_items:
-            i += 1
-            mappings[i] = h
-            print(nice_number(i), h.tag.ljust(7, " "), h.name.ljust(max_name_length() + 5, " "),  color_stats(h.stats()))
+            print_with_number(h, i)
+    #if len(ok_items):
+    #    print(Fore.GREEN+"Сделано:"+Style.RESET_ALL)
+    #    for h in ok_items:
+    #        i += 1
+    #        mappings[i] = h
+    #        print_with_number(h, i)
     return mappings
 
 def ask_what_todo():
-    return input("Что делать будем: ")
+    return prompt("Что делать будем: ")
 
 
 def ask_what_to_skip():
-    return input("Пропустить: ")
+    return prompt("Пропустить: ")
 
 
 def repl_loop():
