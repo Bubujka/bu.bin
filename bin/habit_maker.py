@@ -21,7 +21,9 @@ DATE = None
 
 init()
 
+
 def clear_screen():
+    """Зачистить экран"""
     print(ansi.clear_screen())
 
 
@@ -30,7 +32,6 @@ def load_data():
     if exists(DATA_FILE):
         return json.loads(open(DATA_FILE).read())
     return []
-
 
 
 def save():
@@ -43,7 +44,10 @@ def to_code(state):
     if state is None:
         ret = BLANK_CODE
     elif state:
-        ret = Fore.GREEN + OK_CODE
+        if state.get('skip'):
+            ret = 's'
+        else:
+            ret = Fore.GREEN + OK_CODE
     else:
         ret = Fore.RED + FAIL_CODE
     return ret + Style.RESET_ALL
@@ -79,13 +83,16 @@ class Habit():
             return True
 
 
+    def skip(self):
+        """Пропустить это"""
+        STORE.append({'code': self.code, 'date': str(today_date()), 'skip': True})
 
     def toggle(self):
         """"""
         if self.is_ok():
             self.remove_today()
         else:
-            STORE.append({ 'code': self.code, 'date': str(today_date()) })
+            STORE.append({'code': self.code, 'date': str(today_date())})
 
     def remove_today(self):
         """Удалить из истории сегодняшнюю запись"""
@@ -100,7 +107,7 @@ def get_stats_for(habit, day):
     for s in STORE:
         if s['code'] == habit.code:
             if s['date'] == str(day):
-                return True
+                return s
 
 
 @lru_cache()
@@ -126,22 +133,37 @@ def color_stats(stats):
 
 def today_date():
     global DATE
+
     if DATE:
         return DATE
+
     return date.today()
 
 
-@click.group()
+@click.group(invoke_without_command=True)
 def main():
     """Менеджер привычек"""
+    global DATE
+    DATE = date.today()
+    repl_loop()
 
 
 def nice_number(current):
     return str(current).ljust(4)
 
+
+def print_header():
+    """Напечатать заголовок"""
+    suffix = ""
+    if date.today() == today_date():
+        suffix = " (Сегодня)"
+    elif (date.today() - timedelta(days=1)) == today_date():
+        suffix = " (Вчера)"
+    print(Fore.YELLOW + str(today_date()) + suffix, Style.RESET_ALL)
+
 def print_stats():
     """"""
-    print(Fore.YELLOW + str(today_date()), Style.RESET_ALL)
+    print_header()
 
     items = habits()
     ok_items = [h for h in items if h.is_ok()]
@@ -167,25 +189,67 @@ def print_stats():
 def ask_what_todo():
     return input("Что делать будем: ")
 
+
+def ask_what_to_skip():
+    return input("Пропустить: ")
+
+
 def repl_loop():
     """"""
-    clear_screen()
-    mappings = print_stats()
-    answer = ask_what_todo()
-    if answer == 'q':
-        save()
-        exit()
-    number = int(answer)
-    habit = mappings[number]
-    habit.toggle()
-    save()
-    repl_loop()
+    global DATE
+
+    while True:
+        clear_screen()
+        mappings = print_stats()
+        answer = ask_what_todo()
+        if answer == 's':
+            second_answer = ask_what_to_skip()
+            for number in second_answer.strip().split(" "):
+                print(number)
+                habit = mappings[int(number)]
+                habit.skip()
+            continue
+
+        if answer == 'Q':
+            exit()
+        if answer == 'q':
+            save()
+            exit()
+        if answer == 't':
+            save()
+            DATE = date.today()
+            load_store()
+            continue
+        if answer == 'y':
+            save()
+            DATE = date.today() - timedelta(days=1)
+            load_store()
+            continue
+        if answer == 'p':
+            save()
+            print(DATE)
+            DATE = DATE - timedelta(days=1)
+            load_store()
+            continue
+        if answer == 'n':
+            save()
+            DATE = DATE + timedelta(days=1)
+            load_store()
+            continue
+        if answer == '':
+            continue
+        number = int(answer)
+        habit = mappings[number]
+        habit.toggle()
 
 
 @main.command()
 def today():
     """Отредактировать сегодняшний день"""
+    global DATE
+    DATE = date.today()
     repl_loop()
+
 
 @main.command()
 def yesterday():
@@ -194,7 +258,14 @@ def yesterday():
     DATE = date.today() - timedelta(days=1)
     repl_loop()
 
-if __name__ == '__main__':
+
+def load_store():
+    """"""
+    global STORE
     STORE = load_data()
+
+
+if __name__ == '__main__':
+    load_store()
     main()
 
