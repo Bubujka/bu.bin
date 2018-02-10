@@ -68,7 +68,7 @@ class Habit():
 
     def stats(self):
         """Получить статистику"""
-        return [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, 13)]
+        return [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, 30)]
 
 
     def reached_week_limit(self):
@@ -205,12 +205,12 @@ def print_stats():
             i += 1
             mappings[i] = h
             print_with_number(h, i)
-    #if len(ok_items):
-    #    print(Fore.GREEN+"Сделано:"+Style.RESET_ALL)
-    #    for h in ok_items:
-    #        i += 1
-    #        mappings[i] = h
-    #        print_with_number(h, i)
+    if len(ok_items):
+        print(Fore.GREEN+"Сделано:"+Style.RESET_ALL)
+        for h in ok_items:
+            i += 1
+            mappings[i] = h
+            print_with_number(h, i)
     return mappings
 
 def ask_what_todo():
