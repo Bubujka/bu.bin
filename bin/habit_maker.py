@@ -32,12 +32,14 @@ class Store():
     @classmethod
     def load(cls):
         """Считать данные с файла"""
-        cls.data = load_data()
+        if exists(DATA_FILE):
+            cls.data = json.loads(open(DATA_FILE).read())
 
     @classmethod
     def save(cls):
         """Записать всё на диск"""
         open(DATA_FILE, 'w').write(json.dumps(cls.data, indent=2))
+
 
 class Application():
     """Состояние приложения"""
@@ -144,14 +146,6 @@ def clear_screen():
     print(ansi.clear_screen())
 
 
-def load_data():
-    """Загрузить данные из файла"""
-    if exists(DATA_FILE):
-        return json.loads(open(DATA_FILE).read())
-    return []
-
-
-
 
 def to_code(state):
     """Превратить буль в код"""
@@ -165,8 +159,6 @@ def to_code(state):
     else:
         ret = Fore.RED + FAIL_CODE
     return ret + Style.RESET_ALL
-
-
 
 
 def get_stats_for(habit, day):
