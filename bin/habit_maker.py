@@ -61,27 +61,38 @@ class Habit():
     """Привычка"""
 
     def __init__(self, config_obj):
-        self.repeat = config_obj.get('repeat', 7)
+        self.config = config_obj
         self.name = config_obj['name']
         self.tag = config_obj['tag']
         self.code = config_obj['name']
+
+
+    def per_interval(self):
+        """Сколько событий за интервал"""
+        return int(self.config['interval'].split('/')[0])
+
+    def interval_length(self):
+        """Длина интервала"""
+        return int(self.config['interval'].split('/')[1])
 
     def stats(self):
         """Получить статистику"""
         return [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, 30)]
 
 
-    def reached_week_limit(self):
+    def reached_limit(self):
         """Достигнут недельный лимит"""
-        stats = [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, 6)]
-        return len([s for s in stats if s]) >= self.repeat
+        if 'interval' not in self.config:
+            return False
+        stats = [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, self.interval_length()-1)]
+        return len([s for s in stats if s]) >= self.per_interval()
 
 
     def is_ok(self):
         """Выполнено ли на сегодня?"""
         if get_stats_for(self, today_date()):
             return True
-        if self.reached_week_limit():
+        if self.reached_limit():
             return True
         return False
 
@@ -112,6 +123,7 @@ def get_stats_for(habit, day):
         if log['code'] == habit.code:
             if log['date'] == str(day):
                 return log
+
     return None
 
 
@@ -211,6 +223,7 @@ def print_stats():
             i += 1
             mappings[i] = h
             print_with_number(h, i)
+    exit()
     return mappings
 
 def ask_what_todo():
