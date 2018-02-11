@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 Менеджер привычек
 """
@@ -10,7 +9,7 @@ from os.path import expanduser, exists
 from datetime import date, timedelta
 
 import click
-from colorama import Fore, Style, init, ansi
+from colorama import Fore, Style, init as init_colorama, ansi
 from prompt_toolkit import prompt
 
 
@@ -23,7 +22,66 @@ BLANK_CODE = '·'
 STORE = []
 DATE = None
 
-init()
+init_colorama()
+
+
+class Habit():
+    """Привычка"""
+
+    def __init__(self, config_obj):
+        self.config = config_obj
+        self.name = config_obj['name']
+        self.tag = config_obj['tag']
+        self.code = config_obj['name']
+
+    def per_interval(self):
+        """Сколько событий за интервал"""
+        return int(self.config['interval'].split('/')[0])
+
+    def interval_length(self):
+        """Длина интервала"""
+        return int(self.config['interval'].split('/')[1])
+
+    def stats(self):
+        """Получить статистику"""
+        return [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, 30)]
+
+
+    def reached_limit(self):
+        """Достигнут недельный лимит"""
+        if 'interval' not in self.config:
+            return False
+        stats = [get_stats_for(self, today_date() - timedelta(days=i))
+                 for i
+                 in range(0, self.interval_length()-1)]
+        return len([s for s in stats if s]) >= self.per_interval()
+
+    def is_ok(self):
+        """Выполнено ли на сегодня?"""
+        if get_stats_for(self, today_date()):
+            return True
+        if self.reached_limit():
+            return True
+        return False
+
+
+    def skip(self):
+        """Пропустить это"""
+        STORE.append({'code': self.code, 'date': str(today_date()), 'skip': True})
+
+    def toggle(self):
+        """Переключить состояние у привычки на текущую дату"""
+        if self.is_ok():
+            self.remove_today()
+        else:
+            STORE.append({'code': self.code, 'date': str(today_date())})
+
+    def remove_today(self):
+        """Удалить из истории сегодняшнюю запись"""
+        for log in STORE:
+            if log['code'] == self.code:
+                if log['date'] == str(today_date()):
+                    STORE.remove(log)
 
 
 def clear_screen():
@@ -56,64 +114,6 @@ def to_code(state):
         ret = Fore.RED + FAIL_CODE
     return ret + Style.RESET_ALL
 
-
-class Habit():
-    """Привычка"""
-
-    def __init__(self, config_obj):
-        self.config = config_obj
-        self.name = config_obj['name']
-        self.tag = config_obj['tag']
-        self.code = config_obj['name']
-
-
-    def per_interval(self):
-        """Сколько событий за интервал"""
-        return int(self.config['interval'].split('/')[0])
-
-    def interval_length(self):
-        """Длина интервала"""
-        return int(self.config['interval'].split('/')[1])
-
-    def stats(self):
-        """Получить статистику"""
-        return [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, 30)]
-
-
-    def reached_limit(self):
-        """Достигнут недельный лимит"""
-        if 'interval' not in self.config:
-            return False
-        stats = [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, self.interval_length()-1)]
-        return len([s for s in stats if s]) >= self.per_interval()
-
-
-    def is_ok(self):
-        """Выполнено ли на сегодня?"""
-        if get_stats_for(self, today_date()):
-            return True
-        if self.reached_limit():
-            return True
-        return False
-
-
-    def skip(self):
-        """Пропустить это"""
-        STORE.append({'code': self.code, 'date': str(today_date()), 'skip': True})
-
-    def toggle(self):
-        """Переключить состояние у привычки на текущую дату"""
-        if self.is_ok():
-            self.remove_today()
-        else:
-            STORE.append({'code': self.code, 'date': str(today_date())})
-
-    def remove_today(self):
-        """Удалить из истории сегодняшнюю запись"""
-        for log in STORE:
-            if log['code'] == self.code:
-                if log['date'] == str(today_date()):
-                    STORE.remove(log)
 
 
 
@@ -200,8 +200,9 @@ def print_with_number(habit, number):
           habit.name.ljust(max_name_length() + 5, " "),
           color_stats(habit.stats()))
 
+
 def print_stats():
-    """"""
+    """Напечатать статистику за день"""
     print_header()
 
     items = habits()
@@ -223,19 +224,21 @@ def print_stats():
             i += 1
             mappings[i] = h
             print_with_number(h, i)
-    exit()
     return mappings
 
+
 def ask_what_todo():
+    """Запросить команду от человека"""
     return prompt("Что делать будем: ")
 
 
 def ask_what_to_skip():
+    """Запросить что нужно скипнуть"""
     return prompt("Пропустить: ")
 
 
 def repl_loop():
-    """"""
+    """Главный цикл"""
     global DATE
 
     while True:
@@ -300,7 +303,7 @@ def yesterday():
 
 
 def load_store():
-    """"""
+    """Загрузить лог привычек из файла"""
     global STORE
     STORE = load_data()
 
