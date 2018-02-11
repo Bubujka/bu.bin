@@ -25,6 +25,47 @@ DATE = None
 init_colorama()
 
 
+class Application():
+    """Состояние приложения"""
+
+    def __init__(self, tdate):
+        self.date = tdate
+
+    def print_header(self):
+        """Напечатать строку заголовка"""
+        suffix = ""
+        if date.today() == self.date:
+            suffix = " (Сегодня)"
+        elif (date.today() - timedelta(days=1)) == self.date:
+            suffix = " (Вчера)"
+        print(Fore.YELLOW + str(self.date) + suffix, Style.RESET_ALL)
+
+    def print_stats(self):
+        """Напечатать статистику за день"""
+        self.print_header()
+
+        items = habits()
+        ok_items = [h for h in items if h.is_ok()]
+        fail_items = [h for h in items if not h.is_ok()]
+
+        mappings = {}
+
+        i = 0
+        if fail_items:
+            print(Fore.RED+"Надо сделать:"+Style.RESET_ALL)
+            for habit in fail_items:
+                i += 1
+                mappings[i] = habit
+                print_with_number(habit, i)
+        if ok_items:
+            print(Fore.GREEN+"Сделано:"+Style.RESET_ALL)
+            for habit in ok_items:
+                i += 1
+                mappings[i] = habit
+                print_with_number(habit, i)
+        return mappings
+
+
 class Habit():
     """Привычка"""
 
@@ -162,23 +203,12 @@ def today_date():
 @click.group(invoke_without_command=True)
 def main():
     """Менеджер привычек"""
-    global DATE
-    DATE = date.today()
-    repl_loop()
+    repl_loop(Application(date.today()))
 
 
 def nice_number(current):
+    """Цифра с отступом"""
     return str(current).ljust(4)
-
-
-def print_header():
-    """Напечатать заголовок"""
-    suffix = ""
-    if date.today() == today_date():
-        suffix = " (Сегодня)"
-    elif (date.today() - timedelta(days=1)) == today_date():
-        suffix = " (Вчера)"
-    print(Fore.YELLOW + str(today_date()) + suffix, Style.RESET_ALL)
 
 
 def color_tag(tag):
@@ -201,31 +231,6 @@ def print_with_number(habit, number):
           color_stats(habit.stats()))
 
 
-def print_stats():
-    """Напечатать статистику за день"""
-    print_header()
-
-    items = habits()
-    ok_items = [h for h in items if h.is_ok()]
-    fail_items = [h for h in items if not h.is_ok()]
-
-    mappings = {}
-
-    i = 0
-    if len(fail_items):
-        print(Fore.RED+"Надо сделать:"+Style.RESET_ALL)
-        for h in fail_items:
-            i += 1
-            mappings[i] = h
-            print_with_number(h, i)
-    if len(ok_items):
-        print(Fore.GREEN+"Сделано:"+Style.RESET_ALL)
-        for h in ok_items:
-            i += 1
-            mappings[i] = h
-            print_with_number(h, i)
-    return mappings
-
 
 def ask_what_todo():
     """Запросить команду от человека"""
@@ -237,13 +242,12 @@ def ask_what_to_skip():
     return prompt("Пропустить: ")
 
 
-def repl_loop():
+def repl_loop(app):
     """Главный цикл"""
-    global DATE
 
     while True:
         clear_screen()
-        mappings = print_stats()
+        mappings = app.print_stats()
         answer = ask_what_todo()
         if answer == 's':
             second_answer = ask_what_to_skip()
@@ -260,24 +264,23 @@ def repl_loop():
             exit()
         if answer == 't':
             save()
-            DATE = date.today()
             load_store()
+            repl_loop(Application(date.today()))
             continue
         if answer == 'y':
             save()
-            DATE = date.today() - timedelta(days=1)
             load_store()
+            repl_loop(Application(date.today() - timedelta(days=1)))
             continue
         if answer == 'p':
             save()
-            print(DATE)
-            DATE = DATE - timedelta(days=1)
             load_store()
+            repl_loop(Application(app.date - timedelta(days=1)))
             continue
         if answer == 'n':
             save()
-            DATE = DATE + timedelta(days=1)
             load_store()
+            repl_loop(Application(app.date + timedelta(days=1)))
             continue
         if answer == '':
             continue
@@ -289,17 +292,13 @@ def repl_loop():
 @main.command()
 def today():
     """Отредактировать сегодняшний день"""
-    global DATE
-    DATE = date.today()
-    repl_loop()
+    repl_loop(Application(date.today()))
 
 
 @main.command()
 def yesterday():
     """Отредактировать вчерашний день"""
-    global DATE
-    DATE = date.today() - timedelta(days=1)
-    repl_loop()
+    repl_loop(Application(date.today() - timedelta(days=1)))
 
 
 def load_store():
@@ -311,4 +310,3 @@ def load_store():
 if __name__ == '__main__':
     load_store()
     main()
-
