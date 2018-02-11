@@ -99,16 +99,36 @@ class Habit():
         """Длина интервала"""
         return int(self.config['interval'].split('/')[1])
 
+    def interval_for_print(self):
+        """Вывести интервал для печати"""
+        candidate = self.config.get('interval', '7/7')
+        if candidate != '7/7':
+            return candidate
+        return ''
+
     def stats(self):
         """Получить статистику"""
-        return [get_stats_for(self, today_date() - timedelta(days=i)) for i in range(0, 30)]
+        r = []
+        today = today_date()
+        for i in range(0, 30):
+            day = today - timedelta(days=i)
+            t = get_stats_for(self,  day)
+            if t:
+                r.append(t)
+            elif self.reached_limit(day):
+                r.append({'code': 'auto'})
+            else:
+                r.append(None)
+        return r
 
 
-    def reached_limit(self):
+    def reached_limit(self, day=None):
         """Достигнут недельный лимит"""
         if 'interval' not in self.config:
             return False
-        stats = [get_stats_for(self, today_date() - timedelta(days=i))
+        if day is None:
+            day = today_date()
+        stats = [get_stats_for(self, day - timedelta(days=i))
                  for i
                  in range(0, self.interval_length()-1)]
         return len([s for s in stats if s]) >= self.per_interval()
@@ -154,6 +174,8 @@ def to_code(state):
     elif state:
         if state.get('skip'):
             ret = 's'
+        elif state.get('code') == 'auto':
+            ret = OK_CODE
         else:
             ret = Fore.GREEN + OK_CODE
     else:
@@ -161,13 +183,16 @@ def to_code(state):
     return ret + Style.RESET_ALL
 
 
+def color_stats(stats):
+    """Вывести статистику в виде цветной строки"""
+    return "".join([to_code(t) for t in stats])
+
 def get_stats_for(habit, day):
     """Получить статистику за дату"""
     for log in Store.data:
         if log['code'] == habit.code:
             if log['date'] == str(day):
                 return log
-
     return None
 
 
@@ -187,10 +212,6 @@ def max_name_length():
     """Вернуть максимальную длину названий"""
     return max([len(i['name']) for i in cfg()['items']])
 
-
-def color_stats(stats):
-    """Вывести статистику в виде цветной строки"""
-    return "".join([to_code(t) for t in stats])
 
 
 def today_date():
@@ -231,7 +252,8 @@ def print_with_number(habit, number):
     print(color_tag(habit.tag).ljust(7, " "),
           nice_number(number),
           habit.name.ljust(max_name_length() + 5, " "),
-          color_stats(habit.stats()))
+          color_stats(habit.stats()),
+          habit.interval_for_print())
 
 
 
