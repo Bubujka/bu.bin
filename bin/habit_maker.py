@@ -25,6 +25,20 @@ DATE = None
 init_colorama()
 
 
+class Store():
+    """Хранилище данных"""
+    data = []
+
+    @classmethod
+    def load(cls):
+        """Считать данные с файла"""
+        cls.data = load_data()
+
+    @classmethod
+    def save(cls):
+        """Записать всё на диск"""
+        open(DATA_FILE, 'w').write(json.dumps(cls.data, indent=2))
+
 class Application():
     """Состояние приложения"""
 
@@ -108,21 +122,21 @@ class Habit():
 
     def skip(self):
         """Пропустить это"""
-        STORE.append({'code': self.code, 'date': str(today_date()), 'skip': True})
+        Store.data.append({'code': self.code, 'date': str(today_date()), 'skip': True})
 
     def toggle(self):
         """Переключить состояние у привычки на текущую дату"""
         if self.is_ok():
             self.remove_today()
         else:
-            STORE.append({'code': self.code, 'date': str(today_date())})
+            Store.data.append({'code': self.code, 'date': str(today_date())})
 
     def remove_today(self):
         """Удалить из истории сегодняшнюю запись"""
-        for log in STORE:
+        for log in Store.data:
             if log['code'] == self.code:
                 if log['date'] == str(today_date()):
-                    STORE.remove(log)
+                    Store.data.remove(log)
 
 
 def clear_screen():
@@ -137,9 +151,6 @@ def load_data():
     return []
 
 
-def save():
-    """Сохранить состояние store"""
-    open(DATA_FILE, 'w').write(json.dumps(STORE, indent=2))
 
 
 def to_code(state):
@@ -160,7 +171,7 @@ def to_code(state):
 
 def get_stats_for(habit, day):
     """Получить статистику за дату"""
-    for log in STORE:
+    for log in Store.data:
         if log['code'] == habit.code:
             if log['date'] == str(day):
                 return log
@@ -260,26 +271,22 @@ def repl_loop(app):
         if answer == 'Q':
             exit()
         if answer == 'q':
-            save()
+            Store.save()
             exit()
         if answer == 't':
-            save()
-            load_store()
+            Store.save()
             repl_loop(Application(date.today()))
             continue
         if answer == 'y':
-            save()
-            load_store()
+            Store.save()
             repl_loop(Application(date.today() - timedelta(days=1)))
             continue
         if answer == 'p':
-            save()
-            load_store()
+            Store.save()
             repl_loop(Application(app.date - timedelta(days=1)))
             continue
         if answer == 'n':
-            save()
-            load_store()
+            Store.save()
             repl_loop(Application(app.date + timedelta(days=1)))
             continue
         if answer == '':
@@ -301,12 +308,6 @@ def yesterday():
     repl_loop(Application(date.today() - timedelta(days=1)))
 
 
-def load_store():
-    """Загрузить лог привычек из файла"""
-    global STORE
-    STORE = load_data()
-
-
 if __name__ == '__main__':
-    load_store()
+    Store.load()
     main()
