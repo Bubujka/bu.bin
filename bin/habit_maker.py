@@ -73,12 +73,12 @@ class Application():
                 i += 1
                 mappings[i] = habit
                 print_with_number(habit, i)
-        if ok_items:
-            print(Fore.GREEN+"Сделано:"+Style.RESET_ALL)
-            for habit in ok_items:
-                i += 1
-                mappings[i] = habit
-                print_with_number(habit, i)
+        #if ok_items:
+        #    print(Fore.GREEN+"Сделано:"+Style.RESET_ALL)
+        #    for habit in ok_items:
+        #        i += 1
+        #        mappings[i] = habit
+        #        print_with_number(habit, i)
         return mappings
 
 

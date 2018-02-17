@@ -1,5 +1,0 @@
-#!/bin/bash
-git ad
-git ac
-git pull
-git push

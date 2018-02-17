@@ -1,9 +1,0 @@
-#!/bin/bash
-mkdir $1
-cd $1
-git init 
-git remote add origin git@bitbucket.org:bubujka/prj.git
-git checkout --orphan $1
-git pull origin $1
-git push -u origin $1
-sed -i "s/\*/$1/g" .git/config

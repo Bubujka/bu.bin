@@ -1,4 +1,5 @@
 #!/bin/bash
+# Начать разбор диктофона на компьютере
 umo
 cd
 mkdir mnt 2> /dev/null

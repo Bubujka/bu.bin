@@ -50,6 +50,9 @@ class Command():
             if self.lang() == 'php':
                 if re.match(r'^<\?php #.*', self.intro[1]):
                     return True
+            if self.lang() == 'node':
+                if re.match(r'^//.*', self.intro[1]):
+                    return True
             if re.match('^#.*', self.intro[1]):
                 return True
         return False
@@ -60,6 +63,8 @@ class Command():
         if self.have_doc():
             if self.lang() == 'php':
                 return self.intro[1][7:].strip()
+            if self.lang() == 'node':
+                return self.intro[1][2:].strip()
             return self.intro[1][1:].strip()
         return None
 
