@@ -1,2 +1,0 @@
-#!/bin/bash
-WINEPREFIX=~/.diablo/nocch wine ~/.diablo/nocch/drive_c/Program\ Files/Diablo\ II/Diablo\ II.exe -w -skiptobnet

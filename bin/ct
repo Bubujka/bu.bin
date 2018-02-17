@@ -1,5 +1,0 @@
-#!/bin/bash
-git add . 
-git clear
-git commit -m "$1"
-git push

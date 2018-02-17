@@ -1,4 +1,5 @@
 #!/bin/bash
+# Запустить таймер (pomodoro) через dmenu
 TIMES="10m
 20m
 25m

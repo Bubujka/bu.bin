@@ -1,4 +1,5 @@
 #!/bin/bash
+# Создать галерею фоточек из папки
 source ~/.bashrc
 export DISPLAY=":0"
 DATE=`date +%F | sed 's/:/-/g'`
@@ -26,7 +27,7 @@ echo "</center></body></html>" >> $DIRECTORY/index.html
 mv $DIRECTORY ~/.db/gallery
 cd ~/.db/gallery
 
-echo "http://gg.bubujka.org/$DIRECTORY" | xc 
+echo "http://gg.bubujka.org/$DIRECTORY" | xc
 echo "http://gg.bubujka.org/$DIRECTORY   -  $NAME" >> ~/.db/wiki/gallery
 echo "Загрузка на сервер..."
 s3cmd sync ./ s3://gg.bubujka.org
