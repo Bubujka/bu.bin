@@ -4,6 +4,9 @@
 """
 
 import json
+import sys
+import tty
+import termios
 from functools import lru_cache
 from os.path import expanduser, exists
 from datetime import date, timedelta
@@ -12,6 +15,16 @@ import click
 from colorama import Fore, Style, init as init_colorama, ansi
 from prompt_toolkit import prompt
 
+def getch():
+    """Get a single character from stdin, Unix version\nhttps://gist.github.com/payne92/11090057"""
+    stdin = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(stdin)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        char = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(stdin, termios.TCSADRAIN, old_settings)
+    return char
 
 CFG_FILE = expanduser("~/.db/wiki/habit-config.json")
 DATA_FILE = expanduser("~/.db/wiki/habits.json")
@@ -153,6 +166,14 @@ class Habit():
         else:
             Store.data.append({'code': self.code, 'date': str(today_date())})
 
+    def done(self):
+        """Пометить выполненным"""
+        Store.data.append({'code': self.code, 'date': str(today_date())})
+
+    def undone(self):
+        """Развыполнить"""
+        self.remove_today()
+
     def remove_today(self):
         """Удалить из истории сегодняшнюю запись"""
         for log in Store.data:
@@ -227,7 +248,8 @@ def today_date():
 @click.group(invoke_without_command=True)
 def main():
     """Менеджер привычек"""
-    repl_loop(Application(date.today()))
+    if len(sys.argv) == 1:
+        repl_loop(Application(date.today()))
 
 
 def nice_number(current):
@@ -255,6 +277,12 @@ def print_with_number(habit, number):
           color_stats(habit.stats()),
           habit.interval_for_print())
 
+def nice_print(habit):
+    """Напечатать строку и её номер"""
+    print(color_tag(habit.tag).ljust(7, " "),
+          habit.name.ljust(max_name_length() + 5, " "),
+          color_stats(habit.stats()),
+          habit.interval_for_print())
 
 
 def ask_what_todo():
@@ -320,6 +348,46 @@ def today():
 def yesterday():
     """Отредактировать вчерашний день"""
     repl_loop(Application(date.today() - timedelta(days=1)))
+
+
+def char_input(prompt="$ "):
+    """Получить 1 символ от человека"""
+    print(prompt, end="", flush=True)
+    return getch()
+
+
+@main.command()
+def one_by_one():
+    """По одной карточке спросить что делать"""
+    items = habits()
+
+    fail_items = [h for h in items if not h.is_ok()]
+    app = Application(date.today())
+    for habit in fail_items:
+        do_action(habit, app)
+
+
+def do_action(habit, app):
+    """Произвести действие по команде"""
+    while True:
+        clear_screen()
+        app.print_header()
+        nice_print(habit)
+        ch = char_input()
+
+        if ch == 's':
+            habit.skip()
+            Store.save()
+            break
+        if ch == 'd':
+            habit.done()
+            Store.save()
+            break
+        if ch == 'l':
+            break
+        if ch == 'q':
+            exit()
+
 
 
 if __name__ == '__main__':
