@@ -44,9 +44,9 @@ print(' - за 30 дней:', s_to_str(avg_sleep(sleeps[-30:])))
 print(' - за 7 дней:', s_to_str(avg_sleep(sleeps[-7:])))
 print(' - за 3 дня:', s_to_str(avg_sleep(sleeps[-3:])))
 print()
-print('Баланс за неделю')
-ideal = total_avg * 7
-real = sum([t.seconds() for t in sleeps[-7:]])
+print('Баланс за 3 дня')
+ideal = total_avg * 3
+real = sum([t.seconds() for t in sleeps[-3:]])
 if ideal > real:
     print('- нужно наспать ещё:', s_to_str(ideal - real))
 else:
