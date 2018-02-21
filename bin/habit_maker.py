@@ -366,6 +366,12 @@ def one_by_one():
     for habit in fail_items:
         do_action(habit, app)
 
+@main.command()
+def one_by_one_all():
+    """По одной карточке спросить что делать для всех"""
+    app = Application(date.today())
+    for habit in habits():
+        do_action(habit, app)
 
 def do_action(habit, app):
     """Произвести действие по команде"""
@@ -381,6 +387,10 @@ def do_action(habit, app):
             break
         if ch == 'd':
             habit.done()
+            Store.save()
+            break
+        if ch == 'u':
+            habit.undone()
             Store.save()
             break
         if ch == 'l':
