@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+
+from csv import DictReader
+from datetime import timedelta
+from urllib.request import urlopen
+from json import loads
+from os.path import expanduser
+
+URL = loads(open(expanduser("~/.db/wiki/configs.json")).read())['sleep-balance-csv-url']
+
+csv = DictReader(urlopen(URL).read().decode('utf-8').splitlines())
+
+
+class Sleep():
+    """Один сон"""
+    def __init__(self, row):
+        self.row = row
+
+    def seconds(self):
+        """Сколько секунд сон был"""
+        hours, mins, seconds = self.row['Всего спал'].split(':')
+        return int(hours)*3600 + int(mins)*60 + int(seconds)
+
+
+sleeps = [Sleep(row) for row in csv if row['Всего спал'] != '0:00:00']
+
+
+def s_to_str(s):
+    """Секунды в строку"""
+    return str(timedelta(seconds=s))
+
+
+def avg_sleep(sleeps):
+    """Средний сон"""
+    s = sum([t.seconds() for t in sleeps])
+    return int(s/len(sleeps))
+
+
+print('Записей:', len(sleeps))
+total_avg = avg_sleep(sleeps)
+print('Сон в среднем')
+print(' - за всё время:', s_to_str(total_avg))
+print(' - за 30 дней:', s_to_str(avg_sleep(sleeps[-30:])))
+print(' - за 7 дней:', s_to_str(avg_sleep(sleeps[-7:])))
+print(' - за 3 дня:', s_to_str(avg_sleep(sleeps[-3:])))
+print()
+print('Баланс за неделю')
+ideal = total_avg * 7
+real = sum([t.seconds() for t in sleeps[-7:]])
+if ideal > real:
+    print('- нужно наспать ещё:', s_to_str(ideal - real))
+else:
+    print('- нужно поспать меньше на:', s_to_str(real - ideal))
