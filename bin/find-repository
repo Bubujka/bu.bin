@@ -1,8 +1,0 @@
-#!/bin/bash
-for dir in $(find ~/ -name .git) ; do
-  if [ -f "$dir/config" ]; then
-    if $( cat "$dir/config" | grep $1 > /dev/null) ; then
-      echo $dir;
-    fi
-  fi
-done

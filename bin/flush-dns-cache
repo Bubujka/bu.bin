@@ -1,2 +1,3 @@
 #!/bin/bash
+# Сбросить кэш днс
 sudo killall -HUP dnsmasq

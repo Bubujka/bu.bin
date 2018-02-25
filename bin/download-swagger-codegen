@@ -1,2 +1,0 @@
-#!/bin/bash
-sudo wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.1.6/swagger-codegen-cli-2.1.6.jar -O /opt/swagger-codegen-cli.jar

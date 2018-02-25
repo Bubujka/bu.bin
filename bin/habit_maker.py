@@ -10,6 +10,7 @@ import termios
 from functools import lru_cache
 from os.path import expanduser, exists
 from datetime import date, timedelta
+from subprocess import call
 
 import click
 from colorama import Fore, Style, init as init_colorama, ansi
@@ -381,6 +382,8 @@ def do_action(habit, app):
         nice_print(habit)
         ch = char_input()
 
+        if ch == 'C':
+            call(['vim', expanduser('~/.db/wiki/habit-config.json')])
         if ch == 's':
             habit.skip()
             Store.save()

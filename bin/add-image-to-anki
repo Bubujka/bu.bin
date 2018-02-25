@@ -1,6 +1,6 @@
 #!/bin/bash
 # Добавить изображение в anki
-if [[ "$(hostname)" -eq "titty" ]] ;
+if [ "$(hostname)" == "titty" ] ;
 then
   xdotool mousemove 1854 593
   xdotool click 1

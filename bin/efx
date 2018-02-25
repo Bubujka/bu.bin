@@ -1,4 +1,5 @@
 #!/bin/bash
+# Прогнать stdin через eslint --fix
 TMPFILE=$(mktemp)
 cat > $TMPFILE
 #prettier --stdin > $TMPFILE

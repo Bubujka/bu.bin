@@ -1,7 +1,12 @@
 #!/bin/bash
 if [ $# -eq 1 ];
 then
-  habit_maker.py one_by_one_all
+  if [ "$1" == "config" ] ;
+  then
+    vim ~/.db/wiki/habit-config.json
+  else
+    habit_maker.py one_by_one_all
+  fi
 else
   habit_maker.py one_by_one
 fi

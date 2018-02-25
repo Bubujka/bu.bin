@@ -1,6 +1,0 @@
-#!/bin/bash
-convert "$1" -quality 99 "$1.jpg"
-mogrify  -profile  ~/_/sRGB_IEC61966-2-1_black_scaled.icc -profile ~/_/glamur/adobe.icc  +profile "*" "$1.jpg"
-convert "$1.jpg" "$1" -compose copy-opacity -composite "$1.fixed.png"
-mv "$1.fixed.png" "$1"
-rm "$1.jpg"
