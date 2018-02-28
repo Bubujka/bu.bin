@@ -17,6 +17,8 @@ init()
 OK_CODE = '✓'
 FAIL_CODE = '✗'
 
+ERRORS = 0
+
 HOME_WHITELISTED = ('_', 'mnt', 'venv')
 
 def list_print(items):
@@ -39,15 +41,17 @@ def ok_print(msg):
 
 
 
-def check_home_empty():
-    """Проверить что в домашнем каталоге чисто"""
-    all_files = [basename(f) for f in glob(expanduser('~/*'))]
-    files = [f for f in all_files if f not in HOME_WHITELISTED]
+def check_directory_empty(directory, whitelisted=()):
+    """Проверить что в каталоге чисто"""
+    global ERRORS
+    all_files = [basename(f) for f in glob(directory+'/*')]
+    files = [f for f in all_files if f not in whitelisted]
     if files:
-        fail_print("В домашнем каталоге есть мусор")
+        fail_print("В каталоге '{}' есть мусор".format(directory))
         list_print(files)
+        ERRORS += 1
     else:
-        ok_print("В домашнем каталоге чисто")
+        ok_print("В каталоге '{}' чисто".format(directory))
 
 
 def reps():
@@ -60,7 +64,7 @@ def reps():
 
 
 class RepStatus():
-
+    """Статус проверки репозитория"""
     def __init__(self, pth):
         self.pth = pth
         self.exists = None
@@ -73,14 +77,19 @@ class RepStatus():
 
 
     def is_ok(self):
+        """Всё ли хорошо с репозиторием"""
         return (self.exists and
                 self.have_origin and
+                self.commited and
                 self.pushed)
 
     def bash(self, cmd):
+        """Выполнить команду внутри репозитория"""
         return check_output(('cd {}; '+cmd).format(shlex.quote(self.pth)), shell=True).decode('utf-8').strip()
 
     def run_checks(self):
+        """Проверить репозиторий на чистоту"""
+
         if not exists(self.pth):
             self.exists = False
             return
@@ -93,38 +102,32 @@ class RepStatus():
             self.have_origin = False
         else:
             self.have_origin = True
-        if self.bash("""git log --branches --not --remotes | wc -l""") == '0':
-            self.pushed = True
-        else:
-            self.pushed = False
+
+        self.pushed = self.bash("""git log --branches --not --remotes | wc -l""") == '0'
 
 
 def check_rep_clean_and_pushed(pth):
     """Проверить что репозиторий чист и запушен"""
     return RepStatus(pth)
-    #try:
-    #    check_output('test -z $(cd {}; git status --porcelain)'.format(shlex.quote(pth)), shell=True)
-    #    with Pool() as p:
-    #        print(p.map(f, [1, 2, 3]))
-    #    ok_print("В каталоге {} всё чисто".format(pth))
-    #except CalledProcessError:
-    #    fail_print("В каталоге {} не закомичено".format(pth))
 
 def check_all_reps_pushed():
     """Проверить что все репозитории запушены"""
-    with Pool() as p:
-        data = p.map(check_rep_clean_and_pushed, reps())
-        for d in data:
-            if not d.is_ok():
-                print(bool_to_code(d.is_ok()), d.pth)
-                print(" have origin", bool_to_code(d.have_origin))
-                print(" commited", bool_to_code(d.commited))
-                print(" pushed", bool_to_code(d.pushed))
+    global ERRORS
+    with Pool() as pool:
+        for repstat in pool.map(check_rep_clean_and_pushed, reps()):
+            if not repstat.is_ok():
+                ERRORS += 1
+                print(bool_to_code(repstat.is_ok()), repstat.pth)
+                print(" have origin", bool_to_code(repstat.have_origin))
+                print(" commited", bool_to_code(repstat.commited))
+                print(" pushed", bool_to_code(repstat.pushed))
 
 def main():
     """Произвести проверку системы на чистоту"""
-    check_home_empty()
+    check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
+    check_directory_empty(expanduser('~/_'))
     check_all_reps_pushed()
+    exit(min(1, ERRORS))
 
 if __name__ == '__main__':
     main()
