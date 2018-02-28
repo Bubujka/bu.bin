@@ -4,7 +4,7 @@
 
 from glob import glob
 from os.path import expanduser, basename, dirname, exists
-from subprocess import check_output, CalledProcessError
+from subprocess import check_output
 import shlex
 from multiprocessing import Pool
 
@@ -25,9 +25,9 @@ def list_print(items):
     """Напечатать список строк """
     print(*['- '+t for t in items], sep='\n')
 
-def bool_to_code(t):
+def bool_to_code(var):
     """Превратить True/False в красивую иконку"""
-    if t:
+    if var:
         return Fore.GREEN+OK_CODE+Style.RESET_ALL
     return Fore.RED+FAIL_CODE+Style.RESET_ALL
 
