@@ -23,7 +23,7 @@ HOME_WHITELISTED = ('_', 'mnt', 'venv')
 
 def list_print(items):
     """Напечатать список строк """
-    print(*['- '+t for t in items], sep='\n')
+    print(*[' - '+t for t in items], sep='\n')
 
 def bool_to_code(var):
     """Превратить True/False в красивую иконку"""
@@ -122,10 +122,27 @@ def check_all_reps_pushed():
                 print(" commited", bool_to_code(repstat.commited))
                 print(" pushed", bool_to_code(repstat.pushed))
 
+
+def check_letters_indexed():
+    """Проверить что письма проиндексированы"""
+    global ERRORS
+    index = open(expanduser('~/.db/wiki/letters-index.md')).read()
+    files = ['letters/'+basename(f) for f in glob(expanduser('~/.db/wiki/letters/*.md'))]
+    not_found = [f for f in files if f not in index]
+    if not_found:
+        fail_print("Не все письма проиндексированы")
+        list_print(files)
+        ERRORS += 1
+    else:
+        ok_print("Все письма проиндексированы")
+
+
+
 def main():
     """Произвести проверку системы на чистоту"""
     check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser('~/_'))
+    check_letters_indexed()
     check_all_reps_pushed()
     exit(min(1, ERRORS))
 
