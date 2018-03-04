@@ -1,8 +1,15 @@
 #!/bin/bash
 killall -KILL gvim
+
 sleep 0.1
 export PATH=/opt/php:$PATH
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
 export PATH="./venv/bin:/home/bubujka/.pyenv/bin:$PATH"
+export NVM_DIR="/home/bubujka/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+use-pyenv
+
+export FZF_DEFAULT_COMMAND='ag -g ""'
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+
 gvim

@@ -1,4 +1,6 @@
 #!/bin/bash
+
+mkdir -p ~/.db/history/screenshot || true
 source ~/.bashrc
 rm ~/screenshot.png 2> /dev/null
 if [ "$1" == "select" ]; then
