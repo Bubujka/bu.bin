@@ -8,12 +8,6 @@ from subprocess import check_output
 import shlex
 from multiprocessing import Pool
 
-
-
-from colorama import Fore, Style, init
-init()
-
-
 OK_CODE = '✓'
 FAIL_CODE = '✗'
 
@@ -28,8 +22,8 @@ def list_print(items):
 def bool_to_code(var):
     """Превратить True/False в красивую иконку"""
     if var:
-        return Fore.GREEN+OK_CODE+Style.RESET_ALL
-    return Fore.RED+FAIL_CODE+Style.RESET_ALL
+        return OK_CODE
+    return FAIL_CODE
 
 def fail_print(msg):
     """Напечатать сообщение об ошибке"""
@@ -50,8 +44,6 @@ def check_directory_empty(directory, whitelisted=()):
         fail_print("В каталоге '{}' есть мусор".format(directory))
         list_print(files)
         ERRORS += 1
-    else:
-        ok_print("В каталоге '{}' чисто".format(directory))
 
 
 def reps():
@@ -133,8 +125,6 @@ def check_letters_indexed():
         fail_print("Не все письма проиндексированы")
         list_print(files)
         ERRORS += 1
-    else:
-        ok_print("Все письма проиндексированы")
 
 
 
