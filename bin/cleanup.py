@@ -154,6 +154,17 @@ def check_all_on_git():
                 ERRORS += 1
 
 
+def check_files_indexed():
+    """Проверить что все статичные файлы проиндексированы"""
+    global ERRORS
+
+    with open(expanduser('~/.db/wiki/static-files.md')) as tfile:
+        txt = tfile.read()
+        for directory in glob(expanduser('~/.db/files/*')):
+            if isdir(directory):
+                if basename(directory) not in txt:
+                    fail_print('Каталог {} не проиндексирован'.format(directory))
+
 
 
 
@@ -161,6 +172,7 @@ def main():
     """Произвести проверку системы на чистоту"""
     check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser('~/_'))
+    check_files_indexed()
     check_all_on_git()
     check_wiki_indexed()
     check_all_reps_pushed()
