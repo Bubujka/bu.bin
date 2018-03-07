@@ -3,7 +3,7 @@
 """Глобальная чистка на компьютере"""
 
 from glob import glob
-from os.path import expanduser, basename, dirname, exists
+from os.path import expanduser, basename, dirname, exists, isdir, islink
 from subprocess import check_output
 import shlex
 from multiprocessing import Pool
@@ -137,11 +137,31 @@ def check_wiki_indexed():
         list_print(not_found)
         ERRORS += 1
 
+def check_all_on_git():
+    """Проверить что все проекты под гитом"""
+    global ERRORS
+    for root_dir in ('beta', 'prj', 'omega'):
+        contents = glob(expanduser('~/.db/{}/*'.format(root_dir)))
+        for something in contents:
+            if islink(something):
+                continue
+            if not isdir(something):
+                fail_print("Что-то не то в каталоге лежит '{}'".format(something))
+                ERRORS += 1
+                continue
+            if not exists(something+'/.git'):
+                fail_print("Каталог '{}' не под git".format(something))
+                ERRORS += 1
+
+
+
+
 
 def main():
     """Произвести проверку системы на чистоту"""
     check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser('~/_'))
+    check_all_on_git()
     check_wiki_indexed()
     check_all_reps_pushed()
     exit(min(1, ERRORS))
