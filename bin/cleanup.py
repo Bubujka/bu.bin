@@ -15,6 +15,8 @@ ERRORS = 0
 
 HOME_WHITELISTED = ('_', 'mnt', 'venv')
 
+IGNORE_WIKI_INDEX = ("letters/", "logbook/", "contacts/", ".snippet.md")
+
 def list_print(items):
     """Напечатать список строк """
     print(*[' - '+t for t in items], sep='\n')
@@ -114,25 +116,33 @@ def check_all_reps_pushed():
                 print(" commited", bool_to_code(repstat.commited))
                 print(" pushed", bool_to_code(repstat.pushed))
 
+def must_be_indexed(pth):
+    """Надо ли вообще индексировать этот файл в wiki?"""
+    for ptrn in IGNORE_WIKI_INDEX:
+        if ptrn in pth:
+            return False
+    return True
 
-def check_letters_indexed():
-    """Проверить что письма проиндексированы"""
+def check_wiki_indexed():
+    """Проверить что вики проиндексирована"""
     global ERRORS
-    index = open(expanduser('~/.db/wiki/letters-index.md')).read()
-    files = ['letters/'+basename(f) for f in glob(expanduser('~/.db/wiki/letters/*.md'))]
-    not_found = [f for f in files if f not in index]
-    if not_found:
-        fail_print("Не все письма проиндексированы")
-        list_print(files)
-        ERRORS += 1
+    index = open(expanduser('~/.db/wiki/index.md')).read()
+    files = [f.replace(expanduser('~/.db/wiki/'), '')
+             for f
+             in glob(expanduser('~/.db/wiki/**/*.md'), recursive=True)]
 
+    not_found = [f for f in files if must_be_indexed(f) and f not in index]
+    if not_found:
+        fail_print("Не все файлы в вики проиндексированы")
+        list_print(not_found)
+        ERRORS += 1
 
 
 def main():
     """Произвести проверку системы на чистоту"""
     check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser('~/_'))
-    check_letters_indexed()
+    check_wiki_indexed()
     check_all_reps_pushed()
     exit(min(1, ERRORS))
 
