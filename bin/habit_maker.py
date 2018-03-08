@@ -331,8 +331,6 @@ def repl_loop(app):
                 habit.skip()
             continue
 
-        if answer == 'Q':
-            exit()
         if answer == 'q':
             Store.save()
             exit()
@@ -406,8 +404,6 @@ def do_action(habit, app):
             do_global_action(answer)
             continue
 
-        if answer == 'C':
-            call(['vim', expanduser('~/.db/wiki/habit-config.json')])
         if answer == 's':
             habit.skip()
             Store.save()
