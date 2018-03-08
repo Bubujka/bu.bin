@@ -39,6 +39,21 @@ DATE = None
 init_colorama()
 
 
+def is_global_hotkey(answer):
+    """Данный хоткей относится к глобальным?"""
+    if answer == 'Q':
+        return True
+    if answer == 'C':
+        return True
+    return False
+
+def do_global_action(answer):
+    """Выполнить действие из любого скрина"""
+    if answer == 'Q':
+        exit()
+    if answer == 'C':
+        call(['vim', expanduser('~/.db/wiki/habit-config.json')])
+
 class Store():
     """Хранилище данных"""
     data = []
@@ -302,7 +317,12 @@ def repl_loop(app):
     while True:
         clear_screen()
         mappings = app.print_stats()
-        answer = ask_what_todo()
+        answer = char_input()
+
+        if is_global_hotkey(answer):
+            do_global_action(answer)
+            continue
+
         if answer == 's':
             second_answer = ask_what_to_skip()
             for number in second_answer.strip().split(" "):
@@ -380,25 +400,29 @@ def do_action(habit, app):
         clear_screen()
         app.print_header()
         nice_print(habit)
-        ch = char_input()
+        answer = char_input()
 
-        if ch == 'C':
+        if is_global_hotkey(answer):
+            do_global_action(answer)
+            continue
+
+        if answer == 'C':
             call(['vim', expanduser('~/.db/wiki/habit-config.json')])
-        if ch == 's':
+        if answer == 's':
             habit.skip()
             Store.save()
             break
-        if ch == 'd':
+        if answer == 'd':
             habit.done()
             Store.save()
             break
-        if ch == 'u':
+        if answer == 'u':
             habit.undone()
             Store.save()
             break
-        if ch == 'l':
+        if answer == 'l':
             break
-        if ch == 'q':
+        if answer == 'q':
             exit()
 
 
