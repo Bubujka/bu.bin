@@ -146,10 +146,12 @@ def check_db_indexed():
              for f
              in glob(expanduser('~/.db/*'))]
 
-    if files:
+    not_found = [f for f in files if f not in index]
+    if not_found:
         fail_print("Не все папки в ~/.db проиндексированы")
-        list_print(files)
+        list_print(not_found)
         ERRORS += 1
+
 def check_all_on_git():
     """Проверить что все проекты под гитом"""
     global ERRORS
