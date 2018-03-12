@@ -137,6 +137,19 @@ def check_wiki_indexed():
         list_print(not_found)
         ERRORS += 1
 
+def check_db_indexed():
+    """Проверить что все каталоги в db проиндексированы"""
+    global ERRORS
+    index = open(expanduser('~/.db/wiki/index.md')).read()
+
+    files = [basename(f)
+             for f
+             in glob(expanduser('~/.db/*'))]
+
+    if files:
+        fail_print("Не все папки в ~/.db проиндексированы")
+        list_print(files)
+        ERRORS += 1
 def check_all_on_git():
     """Проверить что все проекты под гитом"""
     global ERRORS
@@ -175,6 +188,7 @@ def main():
     check_files_indexed()
     check_all_on_git()
     check_wiki_indexed()
+    check_db_indexed()
     check_all_reps_pushed()
     exit(min(1, ERRORS))
 
