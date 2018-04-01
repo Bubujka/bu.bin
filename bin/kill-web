@@ -1,0 +1,3 @@
+#!/bin/bash
+killall -KILL -w node
+killall -KILL -w php7.1
