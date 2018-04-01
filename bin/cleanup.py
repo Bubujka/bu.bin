@@ -188,23 +188,22 @@ def pylint_errors(pth):
             check_output(['pylint', pth], stderr=devnull)
         return False
     except CalledProcessError as e:
-        return e.stdout.decode()
-
+        return {'pth': pth, 'errors': e.stdout.decode()}
 
 
 def check_python_files_linted(files):
-    for pth in files:
-        err = pylint_errors(pth)
-        if err:
-            fail_print('Файл {} не полинчен'.format(pth))
-            print(err)
+    with Pool() as pool:
+        for t in pool.map(pylint_errors, files):
+            if t:
+                fail_print('Файл {} не полинчен'.format(t['pth']))
+                print(t['errors'])
 
 
 def main():
     """Произвести проверку системы на чистоту"""
     check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser('~/_'))
-    check_python_files_linted(glob(expanduser('~/.bu.bin/bin/*.py')))
+    #check_python_files_linted(glob(expanduser('~/.bu.bin/bin/*.py')))
     check_files_indexed()
     check_all_on_git()
     check_wiki_indexed()
