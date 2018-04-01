@@ -4,7 +4,8 @@
 
 from glob import glob
 from os.path import expanduser, basename, dirname, exists, isdir, islink
-from subprocess import check_output
+import os
+from subprocess import check_output, CalledProcessError
 import shlex
 from multiprocessing import Pool
 
@@ -181,12 +182,29 @@ def check_files_indexed():
                     fail_print('Каталог {} не проиндексирован'.format(directory))
 
 
+def pylint_errors(pth):
+    try:
+        with open(os.devnull, 'w') as devnull:
+            check_output(['pylint', pth], stderr=devnull)
+        return False
+    except CalledProcessError as e:
+        return e.stdout.decode()
+
+
+
+def check_python_files_linted(files):
+    for pth in files:
+        err = pylint_errors(pth)
+        if err:
+            fail_print('Файл {} не полинчен'.format(pth))
+            print(err)
 
 
 def main():
     """Произвести проверку системы на чистоту"""
     check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser('~/_'))
+    check_python_files_linted(glob(expanduser('~/.bu.bin/bin/*.py')))
     check_files_indexed()
     check_all_on_git()
     check_wiki_indexed()
