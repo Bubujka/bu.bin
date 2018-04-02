@@ -1,5 +1,5 @@
 #!/bin/bash
 set -o errexit
 
-pylint bin/*.py
+pylint3 bin/*.py
 
