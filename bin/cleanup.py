@@ -4,19 +4,23 @@
 
 from glob import glob
 from os.path import expanduser, basename, dirname, exists, isdir, islink
-import os
-from subprocess import check_output, CalledProcessError
+from subprocess import check_output
 import shlex
 from multiprocessing import Pool
 
 OK_CODE = '✓'
 FAIL_CODE = '✗'
 
-ERRORS = 0
-
 HOME_WHITELISTED = ('_', 'mnt', 'venv')
 
 IGNORE_WIKI_INDEX = ("letters/", "logbook/", "contacts/", ".snippet.md")
+
+STATE = {'errors': 0}
+
+def add_error():
+    """Увеличить число ошибок"""
+    STATE['errors'] += 1
+
 
 def list_print(items):
     """Напечатать список строк """
@@ -40,13 +44,12 @@ def ok_print(msg):
 
 def check_directory_empty(directory, whitelisted=()):
     """Проверить что в каталоге чисто"""
-    global ERRORS
     all_files = [basename(f) for f in glob(directory+'/*')]
     files = [f for f in all_files if f not in whitelisted]
     if files:
         fail_print("В каталоге '{}' есть мусор".format(directory))
         list_print(files)
-        ERRORS += 1
+        add_error()
 
 
 def reps():
@@ -80,7 +83,8 @@ class RepStatus():
 
     def bash(self, cmd):
         """Выполнить команду внутри репозитория"""
-        return check_output(('cd {}; '+cmd).format(shlex.quote(self.pth)), shell=True).decode('utf-8').strip()
+        full_cmd = ('cd {}; '+cmd).format(shlex.quote(self.pth))
+        return check_output(full_cmd, shell=True).decode('utf-8').strip()
 
     def run_checks(self):
         """Проверить репозиторий на чистоту"""
@@ -107,11 +111,10 @@ def check_rep_clean_and_pushed(pth):
 
 def check_all_reps_pushed():
     """Проверить что все репозитории запушены"""
-    global ERRORS
     with Pool() as pool:
         for repstat in pool.map(check_rep_clean_and_pushed, reps()):
             if not repstat.is_ok():
-                ERRORS += 1
+                add_error()
                 print(bool_to_code(repstat.is_ok()), repstat.pth)
                 print(" have origin", bool_to_code(repstat.have_origin))
                 print(" commited", bool_to_code(repstat.commited))
@@ -126,7 +129,6 @@ def must_be_indexed(pth):
 
 def check_wiki_indexed():
     """Проверить что вики проиндексирована"""
-    global ERRORS
     index = open(expanduser('~/.db/wiki/index.md')).read()
     files = [f.replace(expanduser('~/.db/wiki/'), '')
              for f
@@ -136,11 +138,10 @@ def check_wiki_indexed():
     if not_found:
         fail_print("Не все файлы в вики проиндексированы")
         list_print(not_found)
-        ERRORS += 1
+        add_error()
 
 def check_db_indexed():
     """Проверить что все каталоги в db проиндексированы"""
-    global ERRORS
     index = open(expanduser('~/.db/wiki/index.md')).read()
 
     files = [basename(f)
@@ -151,11 +152,10 @@ def check_db_indexed():
     if not_found:
         fail_print("Не все папки в ~/.db проиндексированы")
         list_print(not_found)
-        ERRORS += 1
+        add_error()
 
 def check_all_on_git():
     """Проверить что все проекты под гитом"""
-    global ERRORS
     for root_dir in ('beta', 'prj', 'omega'):
         contents = glob(expanduser('~/.db/{}/*'.format(root_dir)))
         for something in contents:
@@ -163,16 +163,15 @@ def check_all_on_git():
                 continue
             if not isdir(something):
                 fail_print("Что-то не то в каталоге лежит '{}'".format(something))
-                ERRORS += 1
+                add_error()
                 continue
             if not exists(something+'/.git'):
                 fail_print("Каталог '{}' не под git".format(something))
-                ERRORS += 1
+                add_error()
 
 
 def check_files_indexed():
     """Проверить что все статичные файлы проиндексированы"""
-    global ERRORS
 
     with open(expanduser('~/.db/wiki/static-files.md')) as tfile:
         txt = tfile.read()
@@ -182,34 +181,16 @@ def check_files_indexed():
                     fail_print('Каталог {} не проиндексирован'.format(directory))
 
 
-def pylint_errors(pth):
-    try:
-        with open(os.devnull, 'w') as devnull:
-            check_output(['pylint', pth], stderr=devnull)
-        return False
-    except CalledProcessError as e:
-        return {'pth': pth, 'errors': e.stdout.decode()}
-
-
-def check_python_files_linted(files):
-    with Pool() as pool:
-        for t in pool.map(pylint_errors, files):
-            if t:
-                fail_print('Файл {} не полинчен'.format(t['pth']))
-                print(t['errors'])
-
-
 def main():
     """Произвести проверку системы на чистоту"""
     check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser('~/_'))
-    #check_python_files_linted(glob(expanduser('~/.bu.bin/bin/*.py')))
     check_files_indexed()
     check_all_on_git()
     check_wiki_indexed()
     check_db_indexed()
     check_all_reps_pushed()
-    exit(min(1, ERRORS))
+    exit(min(1, STATE['errors']))
 
 if __name__ == '__main__':
     main()
