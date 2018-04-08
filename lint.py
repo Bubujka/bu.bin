@@ -40,7 +40,7 @@ def checkwith(linter, file):
 def check_file(file):
     """Проверить один файл"""
     if is_python_file(file):
-        return checkwith('pylint', file)
+        return checkwith('pylint3', file)
     if is_bash_file(file):
         return checkwith('shellcheck', file)
     return None
