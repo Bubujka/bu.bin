@@ -5,12 +5,8 @@ touch ~/.db/wiki/logbook/$(date '+%Y-%m-%d').md
 
 echo "# $(date '+%Y-%m-%d')
 
-### Проблема:
-
-Предположения:
-Эксперемент:
-Наблюдаемые результаты:
-Выводы:
+## Личное
+## Рабочее
 " >> ~/.db/wiki/logbook/$(date '+%Y-%m-%d').md
 fi
 gvim--remote-send ":sp /home/bubujka/.db/wiki/logbook/$(date '+%Y-%m-%d').md<CR>"
