@@ -1,0 +1,8 @@
+#!/bin/bash
+FILE=$(mktemp --suffix=.md)
+cd ~/.db/wiki/logbook
+find . -iname '*.md' | sort | tail -10 | xargs cat > "$FILE"
+gvim--remote-send ":sp $FILE<CR>"
+sleep 0.3
+i3-workspace vim
+

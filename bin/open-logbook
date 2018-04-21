@@ -1,14 +1,22 @@
 #!/bin/bash
-rm ~/.db/wiki/.*swp
-if [ ! -f ~/.db/wiki/logbook/$(date '+%Y-%m-%d').md ]; then
-touch ~/.db/wiki/logbook/$(date '+%Y-%m-%d').md
 
-echo "# $(date '+%Y-%m-%d')
+if [ "$1" = "yesterday" ];
+then
+  DATE=$(date --date='1 day ago' +%Y-%m-%d)
+else
+  DATE=$(date +%Y-%m-%d)
+fi
+
+rm ~/.db/wiki/.*swp
+if [ ! -f ~/.db/wiki/logbook/"$DATE".md ]; then
+touch ~/.db/wiki/logbook/"$DATE".md
+
+echo "# $DATE
 
 ## Личное
 ## Рабочее
-" >> ~/.db/wiki/logbook/$(date '+%Y-%m-%d').md
+" >> ~/.db/wiki/logbook/"$DATE".md
 fi
-gvim--remote-send ":sp /home/bubujka/.db/wiki/logbook/$(date '+%Y-%m-%d').md<CR>"
+gvim--remote-send ":sp /home/bubujka/.db/wiki/logbook/$DATE.md<CR>"
 sleep 0.3
 i3-workspace vim
