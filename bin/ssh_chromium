@@ -1,3 +1,7 @@
 #!/bin/bash
 # Запустить хром через socks5 туннель
-chromium-browser --proxy-server="socks5://localhost:9999"
+chromium-browser \
+  --disable-background-networking \
+  --disable-gpu \
+  --proxy-server="socks5://localhost:9999" \
+  --proxy-bypass-list="127.0.0.1;192.168.*.*;local.bubujka.org"
