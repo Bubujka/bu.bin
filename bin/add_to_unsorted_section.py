@@ -22,7 +22,7 @@ def main():
     check_file_exists()
     data = open(DEST_FILE).read()
     if UNSORTED_LINE not in data:
-        data = UNSORTED_LINE+data
+        data = UNSORTED_LINE+'\n\n'+data
 
     data = data.replace(UNSORTED_LINE, UNSORTED_LINE+'\n'+LINE)
 
