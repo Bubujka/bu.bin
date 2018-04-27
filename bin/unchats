@@ -1,5 +1,4 @@
 #!/bin/bash
-inet-off
 killall -KILL slack
 killall -KILL telegram
 killall -KILL Telegram

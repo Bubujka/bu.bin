@@ -1,4 +1,14 @@
 #!/bin/bash
 # Создаёт защищённый туннель до моего сервера
+. ~/.bashrc
+if [ $# -eq 0 ]; then
+  SERVER=$(cat ~/.favorite-ssh-server)
+else
+  SERVER="$1"
+fi
+
 k9 ssh 2> /dev/null
-ssh -f -C -D 9999 $1 -N && notify-send "Ass hidden on $1!"
+ssh -C -D 9999 $SERVER -N &
+PID=$!
+echo -n $PID > ~/.pid/ssh-tunnel.pid
+notify-send "Ass hidden on $SERVER!"

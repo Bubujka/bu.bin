@@ -1,7 +1,7 @@
 #!/bin/bash
 # Запустить хром через socks5 туннель
 . ~/.bashrc
-hide-my-ass "$(cat ~/.favorite-ssh-server)"
+ss-hide-my-ass
 k9 chromium-browser
 chromium-browser \
   --disable-background-networking \
@@ -10,3 +10,4 @@ chromium-browser \
   --proxy-bypass-list="127.0.0.1;192.168.*.*;local.bubujka.org" \
   https://ifconfig.io
 
+i3-workspace www

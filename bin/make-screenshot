@@ -48,4 +48,4 @@ echo "Screenshot!" | dzen2-wrapper green
 
 cd ~/.db/history/screenshot
 cd $DIRECTORY
-s3cmd put ./$NAME_TN  ./$NAME_LOW ./$NAME_HIGH s3://ss.bubujka.org/$DIRECTORY/ &
+socksify s3cmd put ./$NAME_TN  ./$NAME_LOW ./$NAME_HIGH s3://ss.bubujka.org/$DIRECTORY/ &

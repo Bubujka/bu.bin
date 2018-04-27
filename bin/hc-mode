@@ -1,0 +1,4 @@
+#!/bin/bash
+browser_kill_server.py &
+PID=$!
+echo -n $PID > ~/.pid/hc-mode.pid
