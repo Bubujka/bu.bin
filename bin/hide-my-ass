@@ -8,7 +8,7 @@ else
 fi
 
 k9 ssh 2> /dev/null
-ssh -C -D 9999 $SERVER -N &
+ssh -C -D 9998 $SERVER -N &
 PID=$!
 echo -n $PID > ~/.pid/ssh-tunnel.pid
 notify-send "Ass hidden on $SERVER!"

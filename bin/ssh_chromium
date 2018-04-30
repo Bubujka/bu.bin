@@ -1,7 +1,7 @@
 #!/bin/bash
 # Запустить хром через socks5 туннель
 . ~/.bashrc
-ss-hide-my-ass
+
 k9 chromium-browser
 chromium-browser \
   --disable-background-networking \

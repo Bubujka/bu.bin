@@ -1,0 +1,3 @@
+#!/bin/bash
+anki &
+echo -n $! > ~/.pid/anki.pid
