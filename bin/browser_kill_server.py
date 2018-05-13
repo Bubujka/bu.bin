@@ -24,6 +24,8 @@ def main():
     while True:
         for i in BLOCKED:
             kill(i)
+        if '--once' in argv:
+            exit()
         sleep(TIMEOUT)
         print('tick')
 

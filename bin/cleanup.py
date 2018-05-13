@@ -15,6 +15,8 @@ HOME_WHITELISTED = ('_', 'mnt', 'venv')
 
 IGNORE_WIKI_INDEX = ("letters/", "logbook/", "contacts/", ".snippet.md")
 
+IGNORE_WIKI_TITLE = ('plan.md', 'meme.md', 'learning-links.md', 'gallery.md', 'search-engines.md', 'tasklists.md')
+
 STATE = {'errors': 0}
 
 def add_error():
@@ -181,8 +183,26 @@ def check_files_indexed():
                     fail_print('Каталог {} не проиндексирован'.format(directory))
 
 
+def have_markdown_title(pth):
+    """Есть ли у файла заголовок в начале файла"""
+    content = open(pth).readline()
+    if content[:2] == '# ':
+        return True
+    return False
+
+def check_wiki_have_title():
+    """Проверить что все файлы в вики имеют заголовок"""
+    files = glob(expanduser('~/.db/wiki/*.md'))
+    not_found = [f for f in files if not have_markdown_title(f) and basename(f) not in IGNORE_WIKI_TITLE]
+    if not_found:
+        fail_print("Файлы не содержат заголовки")
+        list_print(not_found)
+        add_error()
+
+
 def main():
     """Произвести проверку системы на чистоту"""
+    check_wiki_have_title()
     check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser('~/_'))
     check_files_indexed()

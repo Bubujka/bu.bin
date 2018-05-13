@@ -1,2 +1,11 @@
 #!/bin/bash
+if ps -p "$(cat ~/.pid/sc-mode.pid )";
+then
+  exit 1;
+fi
+
+sleep 1200 &
+PID=$!
+echo -n $PID > ~/.pid/sc-mode.pid
+
 kill -9 $(cat ~/.pid/hc-mode.pid)
