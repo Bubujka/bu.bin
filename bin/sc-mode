@@ -1,11 +1,12 @@
 #!/bin/bash
 if ps -p "$(cat ~/.pid/sc-mode.pid )";
 then
-  exit 1;
+  kill -9 "$(cat ~/.pid/sc-mode.pid)"
 fi
 
-sleep 1200 &
+sleep 600 &
 PID=$!
 echo -n $PID > ~/.pid/sc-mode.pid
 
-kill -9 $(cat ~/.pid/hc-mode.pid)
+kill -9 "$(cat ~/.pid/hc-mode.pid)"
+killall -s SIGUSR1 i3status

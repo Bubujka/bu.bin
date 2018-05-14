@@ -1,0 +1,4 @@
+#!/bin/bash
+mv "$1" ~/.db/readed
+echo "- $1" >> ~/.db/wiki/readed.md
+open-in-gvim ~/.db/wiki/readed.md
