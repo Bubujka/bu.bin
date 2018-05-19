@@ -14,3 +14,4 @@ kill -9 $(cat ~/.pid/sc-mode.pid)
 sleep 0.3
 i3-workspace vim
 killall -s SIGUSR1 i3status
+notify-flash HC-mode

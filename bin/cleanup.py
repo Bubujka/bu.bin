@@ -193,15 +193,28 @@ def have_markdown_title(pth):
 def check_wiki_have_title():
     """Проверить что все файлы в вики имеют заголовок"""
     files = glob(expanduser('~/.db/wiki/*.md'))
-    not_found = [f for f in files if not have_markdown_title(f) and basename(f) not in IGNORE_WIKI_TITLE]
+    not_found = [f
+                 for f
+                 in files
+                 if not have_markdown_title(f)
+                 and basename(f) not in IGNORE_WIKI_TITLE]
     if not_found:
         fail_print("Файлы не содержат заголовки")
         list_print(not_found)
         add_error()
 
 
+def check_read_clean():
+    """Проверить что нет файлов на чтение"""
+    files = glob(expanduser('~/.db/read/**/*.*'), recursive=True)
+    if files:
+        fail_print("Есть файлы для чтения")
+        list_print([t.replace(expanduser('~/.db/'), '@') for t in files])
+        add_error()
+
 def main():
     """Произвести проверку системы на чистоту"""
+    check_read_clean()
     check_wiki_have_title()
     check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser('~/_'))
