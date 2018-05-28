@@ -1,0 +1,9 @@
+#!/bin/bash
+echo > ~/.taskrc-dynamic
+echo 'urgency.user.project.beta.coefficient=2' >> ~/.taskrc-dynamic
+
+rm ~/.pid/personal-mode
+touch ~/.pid/work-mode
+
+notify-flash 'work mode'
+killall -s SIGUSR1 i3status

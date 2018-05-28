@@ -8,25 +8,34 @@ from subprocess import check_output
 import shlex
 from multiprocessing import Pool
 
-OK_CODE = '✓'
-FAIL_CODE = '✗'
+OK_CODE = "✓"
+FAIL_CODE = "✗"
 
-HOME_WHITELISTED = ('_', 'mnt', 'venv')
+HOME_WHITELISTED = ("_", "mnt", "venv")
 
 IGNORE_WIKI_INDEX = ("letters/", "logbook/", "contacts/", ".snippet.md")
 
-IGNORE_WIKI_TITLE = ('plan.md', 'meme.md', 'learning-links.md', 'gallery.md', 'search-engines.md', 'tasklists.md')
+IGNORE_WIKI_TITLE = (
+    "plan.md",
+    "meme.md",
+    "learning-links.md",
+    "gallery.md",
+    "search-engines.md",
+    "tasklists.md",
+)
 
-STATE = {'errors': 0}
+STATE = {"errors": 0}
+
 
 def add_error():
     """Увеличить число ошибок"""
-    STATE['errors'] += 1
+    STATE["errors"] += 1
 
 
 def list_print(items):
     """Напечатать список строк """
-    print(*[' - '+t for t in items], sep='\n')
+    print(*[" - " + t for t in items], sep="\n")
+
 
 def bool_to_code(var):
     """Превратить True/False в красивую иконку"""
@@ -34,19 +43,20 @@ def bool_to_code(var):
         return OK_CODE
     return FAIL_CODE
 
+
 def fail_print(msg):
     """Напечатать сообщение об ошибке"""
     print(bool_to_code(False), msg)
+
 
 def ok_print(msg):
     """Напечатать сообщение об успехе"""
     print(bool_to_code(True), msg)
 
 
-
 def check_directory_empty(directory, whitelisted=()):
     """Проверить что в каталоге чисто"""
-    all_files = [basename(f) for f in glob(directory+'/*')]
+    all_files = [basename(f) for f in glob(directory + "/*")]
     files = [f for f in all_files if f not in whitelisted]
     if files:
         fail_print("В каталоге '{}' есть мусор".format(directory))
@@ -56,15 +66,27 @@ def check_directory_empty(directory, whitelisted=()):
 
 def reps():
     """Список каталогов где репы есть"""
-    dirs = check_output([
-        'find', expanduser('~/.db'), expanduser("~/.bu.bin"),
-        '-type', 'd', '-name', '.git']).decode('utf-8').splitlines()
+    dirs = (
+        check_output(
+            [
+                "find",
+                expanduser("~/.db"),
+                expanduser("~/.bu.bin"),
+                "-type",
+                "d",
+                "-name",
+                ".git",
+            ]
+        )
+        .decode("utf-8")
+        .splitlines()
+    )
     return [dirname(f) for f in dirs]
 
 
-
-class RepStatus():
+class RepStatus:
     """Статус проверки репозитория"""
+
     def __init__(self, pth):
         self.pth = pth
         self.exists = None
@@ -75,18 +97,14 @@ class RepStatus():
 
         self.run_checks()
 
-
     def is_ok(self):
         """Всё ли хорошо с репозиторием"""
-        return (self.exists and
-                self.have_origin and
-                self.commited and
-                self.pushed)
+        return self.exists and self.have_origin and self.commited and self.pushed
 
     def bash(self, cmd):
         """Выполнить команду внутри репозитория"""
-        full_cmd = ('cd {}; '+cmd).format(shlex.quote(self.pth))
-        return check_output(full_cmd, shell=True).decode('utf-8').strip()
+        full_cmd = ("cd {}; " + cmd).format(shlex.quote(self.pth))
+        return check_output(full_cmd, shell=True).decode("utf-8").strip()
 
     def run_checks(self):
         """Проверить репозиторий на чистоту"""
@@ -96,20 +114,21 @@ class RepStatus():
             return
         else:
             self.exists = True
-        if self.bash('git status --porcelain') == '':
+        if self.bash("git status --porcelain") == "":
             self.commited = True
 
-        if self.bash("""cat .git/config | grep 'remote "origin"' | wc -l""") == '0':
+        if self.bash("""cat .git/config | grep 'remote "origin"' | wc -l""") == "0":
             self.have_origin = False
         else:
             self.have_origin = True
 
-        self.pushed = self.bash("""git log --branches --not --remotes | wc -l""") == '0'
+        self.pushed = self.bash("""git log --branches --not --remotes | wc -l""") == "0"
 
 
 def check_rep_clean_and_pushed(pth):
     """Проверить что репозиторий чист и запушен"""
     return RepStatus(pth)
+
 
 def check_all_reps_pushed():
     """Проверить что все репозитории запушены"""
@@ -122,6 +141,7 @@ def check_all_reps_pushed():
                 print(" commited", bool_to_code(repstat.commited))
                 print(" pushed", bool_to_code(repstat.pushed))
 
+
 def must_be_indexed(pth):
     """Надо ли вообще индексировать этот файл в wiki?"""
     for ptrn in IGNORE_WIKI_INDEX:
@@ -129,12 +149,14 @@ def must_be_indexed(pth):
             return False
     return True
 
+
 def check_wiki_indexed():
     """Проверить что вики проиндексирована"""
-    index = open(expanduser('~/.db/wiki/index.md')).read()
-    files = [f.replace(expanduser('~/.db/wiki/'), '')
-             for f
-             in glob(expanduser('~/.db/wiki/**/*.md'), recursive=True)]
+    index = open(expanduser("~/.db/wiki/index.md")).read()
+    files = [
+        f.replace(expanduser("~/.db/wiki/"), "")
+        for f in glob(expanduser("~/.db/wiki/**/*.md"), recursive=True)
+    ]
 
     not_found = [f for f in files if must_be_indexed(f) and f not in index]
     if not_found:
@@ -142,13 +164,12 @@ def check_wiki_indexed():
         list_print(not_found)
         add_error()
 
+
 def check_db_indexed():
     """Проверить что все каталоги в db проиндексированы"""
-    index = open(expanduser('~/.db/wiki/index.md')).read()
+    index = open(expanduser("~/.db/wiki/index.md")).read()
 
-    files = [basename(f)
-             for f
-             in glob(expanduser('~/.db/*'))]
+    files = [basename(f) for f in glob(expanduser("~/.db/*"))]
 
     not_found = [f for f in files if f not in index]
     if not_found:
@@ -156,10 +177,11 @@ def check_db_indexed():
         list_print(not_found)
         add_error()
 
+
 def check_all_on_git():
     """Проверить что все проекты под гитом"""
-    for root_dir in ('beta', 'prj', 'omega'):
-        contents = glob(expanduser('~/.db/{}/*'.format(root_dir)))
+    for root_dir in ("beta", "prj", "omega"):
+        contents = glob(expanduser("~/.db/{}/*".format(root_dir)))
         for something in contents:
             if islink(something):
                 continue
@@ -167,7 +189,7 @@ def check_all_on_git():
                 fail_print("Что-то не то в каталоге лежит '{}'".format(something))
                 add_error()
                 continue
-            if not exists(something+'/.git'):
+            if not exists(something + "/.git"):
                 fail_print("Каталог '{}' не под git".format(something))
                 add_error()
 
@@ -175,29 +197,30 @@ def check_all_on_git():
 def check_files_indexed():
     """Проверить что все статичные файлы проиндексированы"""
 
-    with open(expanduser('~/.db/wiki/static-files.md')) as tfile:
+    with open(expanduser("~/.db/wiki/static-files.md")) as tfile:
         txt = tfile.read()
-        for directory in glob(expanduser('~/.db/files/*')):
+        for directory in glob(expanduser("~/.db/files/*")):
             if isdir(directory):
                 if basename(directory) not in txt:
-                    fail_print('Каталог {} не проиндексирован'.format(directory))
+                    fail_print("Каталог {} не проиндексирован".format(directory))
 
 
 def have_markdown_title(pth):
     """Есть ли у файла заголовок в начале файла"""
     content = open(pth).readline()
-    if content[:2] == '# ':
+    if content[:2] == "# ":
         return True
     return False
 
+
 def check_wiki_have_title():
     """Проверить что все файлы в вики имеют заголовок"""
-    files = glob(expanduser('~/.db/wiki/*.md'))
-    not_found = [f
-                 for f
-                 in files
-                 if not have_markdown_title(f)
-                 and basename(f) not in IGNORE_WIKI_TITLE]
+    files = glob(expanduser("~/.db/wiki/*.md"))
+    not_found = [
+        f
+        for f in files
+        if not have_markdown_title(f) and basename(f) not in IGNORE_WIKI_TITLE
+    ]
     if not_found:
         fail_print("Файлы не содержат заголовки")
         list_print(not_found)
@@ -206,24 +229,26 @@ def check_wiki_have_title():
 
 def check_read_clean():
     """Проверить что нет файлов на чтение"""
-    files = glob(expanduser('~/.db/read/**/*.*'), recursive=True)
+    files = glob(expanduser("~/.db/read/**/*.*"), recursive=True)
     if files:
         fail_print("Есть файлы для чтения")
-        list_print([t.replace(expanduser('~/.db/'), '@') for t in files])
+        list_print([t.replace(expanduser("~/.db/"), "@") for t in files])
         add_error()
+
 
 def main():
     """Произвести проверку системы на чистоту"""
     check_read_clean()
     check_wiki_have_title()
-    check_directory_empty(expanduser('~'), whitelisted=HOME_WHITELISTED)
-    check_directory_empty(expanduser('~/_'))
+    check_directory_empty(expanduser("~"), whitelisted=HOME_WHITELISTED)
+    check_directory_empty(expanduser("~/_"))
     check_files_indexed()
     check_all_on_git()
     check_wiki_indexed()
     check_db_indexed()
     check_all_reps_pushed()
-    exit(min(1, STATE['errors']))
+    exit(min(1, STATE["errors"]))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
