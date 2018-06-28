@@ -6,10 +6,15 @@ from glob import glob
 from os.path import expanduser
 from re import match
 
+def is_valid_definition(line):
+    """Допустимая ли строка"""
+    return match('^- (.*):(.*)', line.strip())
 def slice_raw_definition(line):
     """Разрезать строку на определение и слово"""
-    matches = match('^- (.*):(.*)', line.strip()).groups()
-    return (matches[0].strip(), matches[1].strip())
+    found = match('^- (.*):(.*)', line.strip())
+    if found:
+        matches = found.groups()
+        return (matches[0].strip(), matches[1].strip())
 
 class WikiFile():
     """Мой файл в wiki. Типо markdown"""
@@ -39,7 +44,7 @@ class WikiFile():
                     raw.append(line)
                 else:
                     collecting = False
-        return [slice_raw_definition(t) for t in raw]
+        return [slice_raw_definition(t) for t in raw if is_valid_definition(t)]
 
 
 def main():
