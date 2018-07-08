@@ -4,7 +4,7 @@ then
   kill -9 "$(cat ~/.pid/sc-mode.pid)"
 fi
 
-sleep 300 &
+sleep 1800 &
 PID=$!
 echo -n $PID > ~/.pid/sc-mode.pid
 
