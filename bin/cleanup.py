@@ -238,7 +238,7 @@ def check_read_clean():
 
 def main():
     """Произвести проверку системы на чистоту"""
-    check_read_clean()
+    #check_read_clean()
     check_wiki_have_title()
     check_directory_empty(expanduser("~"), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser("~/_"))
