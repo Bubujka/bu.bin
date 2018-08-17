@@ -24,6 +24,10 @@ IGNORE_WIKI_TITLE = (
     "tasklists.md",
 )
 
+IGNORE_MISSED_README = (
+    "laravel",
+)
+
 STATE = {"errors": 0}
 
 
@@ -235,10 +239,26 @@ def check_read_clean():
         list_print([t.replace(expanduser("~/.db/"), "@") for t in files])
         add_error()
 
+def check_each_project_have_readme():
+    """Проверить что каждый проект содержит readme"""
+    errors = []
+    for root_dir in ("beta", "prj", "omega"):
+        files = glob(expanduser("~/.db/{}/*".format(root_dir)))
+        for file in files:
+            if not islink(file):
+                if not exists(file+'/README.md'):
+                    if basename(file) not in IGNORE_MISSED_README:
+                        errors.append(file)
+    if errors:
+        fail_print("У проектов нет README.md файла")
+        list_print([t.replace(expanduser("~/.db/"), "@") for t in sorted(errors)])
+        add_error()
+
 
 def main():
     """Произвести проверку системы на чистоту"""
     #check_read_clean()
+    check_each_project_have_readme()
     check_wiki_have_title()
     check_directory_empty(expanduser("~"), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser("~/_"))

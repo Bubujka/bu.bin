@@ -10,11 +10,12 @@ DATA = get_data(expanduser("~/.db/wiki/excel/prj.ods"))
 
 def check_learning():
     """Проверить все направления изучения"""
-    for [code, _type, desc, *_] in DATA['Learning'][1:]:
+    data = [v for v in DATA['Learning'][1:] if len(v) >= 3]
+    for [code, _type, desc, *_] in data:
         if _type != 'Книга':
             have = have_tasks(code)
             if not have:
-                print("task add project:"+code)
+                print("task add", ("project:"+code).ljust(50), '   # '+desc)
 
 class PrjRow():
     """Проект личный, по работе"""
