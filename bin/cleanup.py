@@ -22,6 +22,7 @@ IGNORE_WIKI_TITLE = (
     "gallery.md",
     "search-engines.md",
     "tasklists.md",
+    "noproxy.md",
 )
 
 IGNORE_MISSED_README = (
