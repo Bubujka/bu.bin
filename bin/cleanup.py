@@ -259,7 +259,7 @@ def check_each_project_have_readme():
 def main():
     """Произвести проверку системы на чистоту"""
     #check_read_clean()
-    check_each_project_have_readme()
+    #check_each_project_have_readme()
     check_wiki_have_title()
     check_directory_empty(expanduser("~"), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser("~/_"))
