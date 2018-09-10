@@ -9,7 +9,7 @@ if [ "$1" == "select" ]; then
 else
   maim ~/screenshot.png  2> /dev/null > /dev/null
 fi
-NAME=`date +%X | sed 's/:/-/g'`_`cat ~/screenshot.png | md5sum |  head -c10`
+NAME=`date +%X | sed 's/:/-/g'`_`pwgen -s 30 1`
 NAME_TN=$NAME.tn.jpg
 NAME_LOW=$NAME.jpg
 NAME_HIGH=$NAME.png

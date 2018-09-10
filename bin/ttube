@@ -1,0 +1,31 @@
+#!/bin/bash
+if [ "$#" -eq 0 ]; then
+      echo "Нужно задать название скринкасту"
+      exit 1
+fi
+NAME="$1"
+HASH=`pwgen -s 15 1`
+
+DIR=~/.db/prj/websites/ttube
+mkdir -p $DIR/{_casts,files}
+mkdir -p $DIR/files/casts
+
+if [ -f $DIR/_casts/$NAME.html ]; then
+      echo "Такой скринкаст уже существует"
+      exit 2
+fi
+
+echo -e "---
+layout: cast
+public: false
+code: $NAME
+hash: $HASH
+cast: /files/casts/$NAME-$HASH.cast
+unixtime: $(date +%s)
+date: $(date --iso-8601)
+permalink: /casts/$NAME-$HASH.html
+---" > "$DIR/_casts/$NAME.html"
+asciinema rec $DIR/files/casts/$NAME-$HASH.cast
+
+
+echo "- Надо оформить скринкаст $NAME" >> ~/.db/wiki/plan.md
