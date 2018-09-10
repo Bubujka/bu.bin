@@ -24,7 +24,7 @@ cast: /files/casts/$NAME-$HASH.cast
 unixtime: $(date +%s)
 date: $(date --iso-8601)
 permalink: /casts/$NAME-$HASH.html
----" > "$DIR/_casts/$NAME.html"
+---" > "$DIR/_casts/$NAME.md"
 asciinema rec $DIR/files/casts/$NAME-$HASH.cast
 
 
