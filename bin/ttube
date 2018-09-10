@@ -10,7 +10,7 @@ DIR=~/.db/prj/websites/ttube
 mkdir -p $DIR/{_casts,files}
 mkdir -p $DIR/files/casts
 
-if [ -f $DIR/_casts/$NAME.html ]; then
+if [ -f $DIR/_casts/$NAME.md ]; then
       echo "Такой скринкаст уже существует"
       exit 2
 fi
@@ -18,6 +18,8 @@ fi
 echo -e "---
 layout: cast
 public: false
+tags: []
+title: $NAME
 code: $NAME
 hash: $HASH
 cast: /files/casts/$NAME-$HASH.cast

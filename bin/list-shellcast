@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+
+from glob import glob
+from os.path import expanduser
+import frontmatter
+
+def files():
+    return glob(expanduser('~/.db/prj/websites/ttube/_casts/*'))
+
+def main():
+    posts = [frontmatter.load(f) for f in files()]
+    for post in reversed(sorted(posts, key=lambda f: f['unixtime'])):
+        title = post['title']
+        hash = post['hash']
+        code = post['code']
+        print('{}https://ttube.bubujka.org/casts/{}-{}.html'.format(title.ljust(30, ' '), code, hash))
+
+if __name__ == '__main__':
+    main()
