@@ -3,8 +3,8 @@ if [ "$#" -eq 0 ]; then
       echo "Illegal number of parameters"
       exit
 fi
-butl event "git commit"
-git cc $@
+COMMIT="$@"
+git commit -m "$COMMIT"
 exit
 DIR=`pwd`
 

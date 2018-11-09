@@ -1,6 +1,6 @@
 #!/bin/bash
 # Запись видео с экрана
-export VIDEO_RECORDING_RESOLUTION='1920x1080' # у меня такой экран
+export VIDEO_RECORDING_RESOLUTION='1600x900' # у меня такой экран
 export VIDEO_CONVERT_RESOLUTION='1280x720' # ютуб до такого размера пожмёт всё равно. Заливать меньше
 
 red_echo() {
@@ -21,7 +21,7 @@ _required_var() {
 }
 
 _check_required_software() {
-	_required_software avconv
+	_required_software ffmpeg
 	_required_software dzen2
 	_required_software dmenu-wrapper
 	_required_software xc
@@ -73,8 +73,8 @@ _start_recording() {
 
 	echo "$NAME" > $FILENAME.mkv.txt
 	nohup \
-		avconv -f pulse -ac 2 -i default \
-		-r 24 -g 1 -s $VIDEO_RECORDING_RESOLUTION -f x11grab -i :0.0 \
+		ffmpeg -f pulse -ac 2 -i default \
+		-r 24 -s $VIDEO_RECORDING_RESOLUTION -f x11grab -i :0.0 \
 		-vcodec libx264 -preset ultrafast  \
 		$FILENAME.mkv &
 }
@@ -104,7 +104,7 @@ _latest_video_filename() {
 _convert_video() {
 	rm ${1}_youtube.mp4 2> /dev/null
 	notify-send "_Конвертирую видео"
-	avconv -i $LATEST \
+	ffmpeg -i $LATEST \
 		-acodec libvorbis \
 		-ab 128k \
 		-ac 2 \
@@ -141,7 +141,7 @@ case "$1" in
 		_upload_video "$LATEST"
 		;;
 	stahp)
-		killall -KILL avconv
+		killall -KILL ffmpeg
 		;;
 	check)
 		echo "Checking required variable:"

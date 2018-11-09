@@ -61,12 +61,26 @@ def have_tasks(prj):
     """Проверить есть ли задачи по проекту"""
     return check_output(['task', 'project:{}'.format(prj), 'and', 'status:pending','count']).decode('utf-8').strip() != '0'
 
+def check_all_projects_exists():
+    """Проверить что есть все проекты под задачи"""
+    data = [v[0] for v in DATA['Learning'][1:] if len(v) >= 3]
+    data = data + [v[0] for v in DATA['Personal'][1:] if len(v) >= 3]
+    data = data + [v[0] for v in DATA['Beta'][1:] if len(v) >= 3]
+    projects = check_output(['task', '_projects']).decode('utf-8').strip().splitlines()
+    for p in projects:
+        if p not in data:
+            print ("-", p)
+
 def main():
     """Проверить все проекты"""
     print("Нужно придумать задачи по следующим проектам")
     check_learning()
     check_prj('Personal')
     check_prj('Beta')
+    print("\n\n")
+    print("Нужно сформулировать цель по проекту")
+    check_all_projects_exists()
+
 
 if __name__ == '__main__':
     main()
