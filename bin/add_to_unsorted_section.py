@@ -8,7 +8,7 @@ from os.path import exists
 LINE = argv[1].strip()
 DEST_FILE = argv[2]
 
-UNSORTED_LINE = "# [unsorted]"
+UNSORTED_LINE = "## [unsorted]"
 
 def check_file_exists():
     """Проверить существование файла"""

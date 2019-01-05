@@ -1,0 +1,6 @@
+#!/bin/bash
+setxkbmap -layout $1
+setxkbmap -layout us,$1 -option grp:shifts_toggle
+xdotool keydown ISO_Next_Group
+xdotool keyup ISO_Next_Group
+
