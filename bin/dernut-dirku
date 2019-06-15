@@ -1,0 +1,6 @@
+#!/bin/bash
+set -o errexit
+set -o xtrace
+set -o pipefail
+ssh mikrotik-office /interface ethernet disable ether1-gateway
+ssh mikrotik-office /interface ethernet enable ether1-gateway
