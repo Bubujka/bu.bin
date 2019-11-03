@@ -23,7 +23,7 @@ do
   DIR="${bitrate}k_${size}"
   mkdir -p "$DIR" 2> /dev/null
   options="-y -s $size -b ${bitrate}k -ab 160000 -g 30"
-  avconv -i "${file}"  $options -acodec aac -strict experimental -vcodec libx264   -preset slow "${DIR}/${file}.mp4" &
-  avconv -i "${file}"  $options -acodec libvorbis -vcodec libvpx    -f webm      "${DIR}/${file}.webm" &
-  avconv -i "${file}"  $options -acodec libvorbis -vcodec libtheora              "${DIR}/${file}.ogv" &
+  ffmpeg -i "${file}"  $options -acodec aac -strict experimental -vcodec libx264   -preset slow "${DIR}/${file}.mp4" &
+  ffmpeg -i "${file}"  $options -acodec libvorbis -vcodec libvpx    -f webm      "${DIR}/${file}.webm" &
+  ffmpeg -i "${file}"  $options -acodec libvorbis -vcodec libtheora              "${DIR}/${file}.ogv" &
 done
