@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+from glob import glob
+from os.path import dirname, exists, basename
+from os import symlink
+
+def main():
+    for d in glob('*/packages'):
+        for v in glob('{}/*'.format(d)):
+            dpath = "{}-{}".format(dirname(d), basename(v))
+            if not exists(dpath):
+                symlink(v, dpath)
+
+if __name__ == '__main__':
+    main()
+
