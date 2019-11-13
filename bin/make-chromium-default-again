@@ -1,0 +1,5 @@
+#!/bin/bash
+sudo update-alternatives --set gnome-www-browser /usr/bin/chromium-browser
+sudo update-alternatives --set x-www-browser /usr/bin/chromium-browser
+sudo xdg-settings set default-web-browser chromium-browser.desktop
+
