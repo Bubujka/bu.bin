@@ -11,7 +11,7 @@ from multiprocessing import Pool
 OK_CODE = "✓"
 FAIL_CODE = "✗"
 
-HOME_WHITELISTED = ("_", "mnt", "venv")
+HOME_WHITELISTED = ("_", "mnt", "venv", 'Рабочий стол')
 
 IGNORE_WIKI_INDEX = ("letters/", "logbook/", "contacts/", ".snippet.md")
 
@@ -23,6 +23,7 @@ IGNORE_WIKI_TITLE = (
     "search-engines.md",
     "tasklists.md",
     "noproxy.md",
+    "gtk-bookmarks.md",
 )
 
 IGNORE_MISSED_README = (
