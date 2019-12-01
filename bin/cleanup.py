@@ -76,6 +76,7 @@ def reps():
         check_output(
             [
                 "find",
+                expanduser("~/.password-store"),
                 expanduser("~/.db"),
                 expanduser("~/.bu.bin"),
                 "-type",
