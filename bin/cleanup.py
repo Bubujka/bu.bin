@@ -13,7 +13,7 @@ FAIL_CODE = "✗"
 
 HOME_WHITELISTED = ("_", "mnt", "venv", 'Рабочий стол')
 
-IGNORE_WIKI_INDEX = ("letters/", "logbook/", "contacts/", ".snippet.md")
+IGNORE_WIKI_INDEX = ("prj/", "letters/", "logbook/", "contacts/", ".snippet.md")
 
 IGNORE_WIKI_TITLE = (
     "plan.md",
