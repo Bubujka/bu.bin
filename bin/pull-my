@@ -4,6 +4,7 @@ for dir in \
   ~/.db/wiki \
   ~/.db/gnucash \
   ~/.db/dotfiles \
+  ~/.db/inventory \
   ~/.db/dotfiles-private \
   ~/.password-store \
   ~/.bu.bin \
