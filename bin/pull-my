@@ -4,13 +4,15 @@ for dir in \
   ~/.db/wiki \
   ~/.db/gnucash \
   ~/.db/dotfiles \
+  ~/.db/inventory \
   ~/.db/dotfiles-private \
   ~/.password-store \
   ~/.bu.bin \
   ~/.db/prj/websites \
   ~/.myi3status
 do
-  cd $dir
-  git pull &
+  if [ -d $dir ]; then
+    cd $dir
+    git pull &
+  fi
 done
-

@@ -4,7 +4,6 @@ astroid==1.6.1
 attrs==18.1.0
 black==18.5b0
 blinker==1.4
-borgbackup==1.1.7
 brotlipy==0.7.0
 certifi==2018.1.18
 cffi==1.11.5
@@ -18,7 +17,6 @@ h11==0.7.0
 h2==3.0.1
 hpack==3.0.0
 hyperframe==5.1.0
-i3parse==0.1.0
 idna==2.6
 isort==4.3.4
 jedi==0.12.1
