@@ -51,7 +51,7 @@ def ask_for_file():
     и возвращает путь до файла из него
     """
     ret = check_output("""
-        find . | sort | grep "{0}" | sed 's/{0}//' | dmenu-wrapper "{1}" {2}
+        find . | sort -n | sort -r | grep -v template | grep "{0}" | sed 's/{0}//' | dmenu-wrapper "{1}" {2}
     """.format(grep_pattern(), "Select file", 40), shell=True).decode('utf-8').strip()
     if len(ret) > 0:
         return "{}.{}".format(ret, extension())

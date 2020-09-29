@@ -1,0 +1,14 @@
+#!/bin/bash
+bitrate="$1"
+size="$2"
+file="$3"
+
+pth=$(dirname "$file")
+DIR="${bitrate}k_${size}/$pth"
+bsn=$(basename "$file")
+
+mkdir -p "$DIR" 2> /dev/null
+
+options="-y -s $size -b ${bitrate}k -ab 160000 -g 30"
+ffmpeg -i "${file}" $options -acodec aac -strict experimental -vcodec libx264   -preset slow "$DIR/$bsn"
+
