@@ -1,0 +1,2 @@
+#!/bin/bash
+tail -f ~/.db/activity/activity.log
