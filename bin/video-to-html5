@@ -24,6 +24,4 @@ do
   mkdir -p "$DIR" 2> /dev/null
   options="-y -s $size -b ${bitrate}k -an "
   ffmpeg -i "${file}"  $options -acodec aac -strict experimental -movflags frag_keyframe+empty_moov -vcodec libx264 -vf format=yuv420p -preset slow "${DIR}/${file}.mp4" &
-  #ffmpeg -i "${file}"  $options -acodec libvorbis -vcodec libvpx    -f webm      "${DIR}/${file}.webm" &
-  #ffmpeg -i "${file}"  $options -acodec libvorbis -vcodec libtheora              "${DIR}/${file}.ogv" &
 done
