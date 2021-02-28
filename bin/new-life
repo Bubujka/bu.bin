@@ -1,0 +1,2 @@
+#!/bin/bash
+logrotate --force ~/.db/prj/my-activity/activity-logrotate
