@@ -22,8 +22,6 @@ for file in "$@"
 do
   DIR="${bitrate}k_${size}"
   mkdir -p "$DIR" 2> /dev/null
-  options="-y -s $size -b ${bitrate}k -ab 160000 -g 30"
-  #ffmpeg -i "${file}"  $options -acodec aac -strict experimental -vcodec libx264   -preset slow "${DIR}/${file}.mp4" &
-  ffmpeg -i "${file}"  $options -acodec libvorbis -vcodec vp9    -f webm      "${DIR}/${file}.webm" &
-  #ffmpeg -i "${file}"  $options -acodec libvorbis -vcodec libtheora              "${DIR}/${file}.ogv" &
+  options="-y -s $size -b ${bitrate}k -an "
+  ffmpeg -i "${file}"  $options -acodec aac -strict experimental -movflags frag_keyframe+empty_moov -vcodec libx264 -vf format=yuv420p -preset slow "${DIR}/${file}.mp4" &
 done
