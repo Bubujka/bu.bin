@@ -2,8 +2,8 @@
 # Открыть ссылку в браузере
 if [ "$#" -eq 0 ]; then
   LINK=`cat /dev/stdin`
-  chromium-browser "$LINK" > /dev/null 2>&1  &
+  google-chrome "$LINK" > /dev/null 2>&1  &
 else
-  chromium-browser "$1" > /dev/null 2>&1  &
+  google-chrome "$1" > /dev/null 2>&1  &
 fi
 i3-workspace www

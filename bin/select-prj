@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 def dmenu_gets variants, opts
   ret = nil
-  IO.popen(['/home/bubujka/.bu.bin/bin/dmenu-wrapper', opts['title'].to_s, opts['rows'].to_s], 'r+') do |p|
+  IO.popen([File.expand_path('~/.bu.bin/bin/dmenu-wrapper'), opts['title'].to_s, opts['rows'].to_s], 'r+') do |p|
     variants.each do |line|
       p.puts line[:display]
     end
@@ -17,21 +17,21 @@ def dmenu_gets variants, opts
   ret
 end
 
-names = Dir['/home/bubujka/.db/prj/*'].map do |f|
+names = Dir[File.expand_path('~/.db/prj/*')].map do |f|
   { display: 'prj/'+File.basename(f), value: f }
-end + Dir['/home/bubujka/.db/pir/*'].map do |f|
+end + Dir[File.expand_path('~/.db/pir/*')].map do |f|
   { display: 'pir/'+File.basename(f), value: f }
-end + Dir['/home/bubujka/.db/prj/websites/*'].map do |f|
+end + Dir[File.expand_path('~/.db/prj/websites/*')].map do |f|
   { display: 'websites/'+File.basename(f), value: f }
-end + Dir['/home/bubujka/.db/dokuro/prj/*'].map do |f|
+end + Dir[File.expand_path('~/.db/dokuro/prj/*')].map do |f|
   { display: 'dokuro/'+File.basename(f), value: f }
-end + Dir['/home/bubujka/.db/omega/*'].map do |f|
+end + Dir[File.expand_path('~/.db/omega/*')].map do |f|
   { display: 'omega/'+File.basename(f), value: f }
-end + Dir['/home/bubujka/.db/*'].map do |f|
+end + Dir[File.expand_path('~/.db/*')].map do |f|
   { display: '.db/'+File.basename(f), value: f }
-end + Dir['/home/bubujka/.db/searches/*'].map do |f|
+end + Dir[File.expand_path('~/.db/searches/*')].map do |f|
   { display: 'searches/'+File.basename(f), value: f }
-end + Dir['/home/bubujka/.db/beta/*'].map do |f|
+end + Dir[File.expand_path('~/.db/beta/*')].map do |f|
   { display: 'beta/'+File.basename(f), value: f }
 end
 
