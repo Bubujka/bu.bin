@@ -1,4 +1,7 @@
 #!/bin/bash
-# Загрузить на ютуб последнее видео с экрана
+#---
+#title: Загрузить на ютуб последнее видео с экрана
+#tags:[video, youtube]
+#---
 cd ~/.db/history/video
 yb $(ls -t *.mkv | head -1)
