@@ -1,4 +1,9 @@
 #!/bin/bash
+#---
+#title: Записать задачу из dmenu в личный basecamp
+#tags:
+#  - basecamp
+#---
 . ~/.bashrc
 
 TEXT="$(echo | dmenu-wrapper '+ Incoming')"

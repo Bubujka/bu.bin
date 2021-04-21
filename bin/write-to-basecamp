@@ -1,4 +1,9 @@
 #!/bin/bash
+#---
+#title: Записать задачу из dmenu в бэйскамп
+#tags:
+#  - basecamp
+#---
 . ~/.bashrc
 
 TARGET="$(puffy targets | dmenu-wrapper 'Куда' 20)"

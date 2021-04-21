@@ -1,5 +1,8 @@
 #!/bin/bash
-# Скопировать stdin или переданный аргумент в буфер обмена
+#---
+#title: Скопировать stdin или переданный аргумент в буфер обмена
+#tags: [clipboard, linux]
+#---
 if [ $# -eq 0 ]; then
   cat /dev/stdin | xclip -selection pri
   xclip -o | xclip -selection cli

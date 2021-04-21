@@ -1,4 +1,9 @@
 #!/bin/bash
+#---
+#title: Записать задачу из dmenu в тот же basecamp что и в прошлый раз
+#tags:
+#  - basecamp
+#---
 . ~/.bashrc
 AGE=$(($(date +%s) - $(stat -L --format %Y ~/.puffy-latest-target)))
 echo $AGE
