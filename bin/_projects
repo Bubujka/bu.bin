@@ -3,13 +3,13 @@
 names = []
 
 projects = {
-  pir: '/home/bubujka/.db/pir/*',
-  my: '/home/bubujka/.db/prj/*',
-  omega: '/home/bubujka/.db/omega/*',
-  stud: '/home/bubujka/.db/stud/*',
-  beta: '/home/bubujka/.db/beta/*',
-  dokuro: '/home/bubujka/.db/dokuro/prj/*',
-  websites: '/home/bubujka/.db/prj/websites/*',
+  pir: File.expand_path('~/.db/pir/*'),
+  my: File.expand_path('~/.db/prj/*'),
+  omega: File.expand_path('~/.db/omega/*'),
+  stud: File.expand_path('~/.db/stud/*'),
+  beta: File.expand_path('~/.db/beta/*'),
+  dokuro: File.expand_path('~/.db/dokuro/prj/*'),
+  websites: File.expand_path('~/.db/prj/websites/*'),
 }
 
 projects.each do |key, value|
