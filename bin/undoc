@@ -1,5 +1,7 @@
 #!/bin/bash
-# Вырезать из php файла все комментарии
+#---
+#title: Вырезать из php файла все комментарии
+#---
 TMPFILE=`mktemp`
 cat | php -w >$TMPFILE
 php-cs-fixer fix $TMPFILE

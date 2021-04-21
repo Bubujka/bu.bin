@@ -1,4 +1,6 @@
 #!/bin/bash
-# Сделать git pull и git push
+#---
+#title: Сделать git pull и git push
+#---
 git pull
 git push

@@ -1,5 +1,7 @@
 #!/bin/bash
-# Команда для обновления nvm
+#---
+#title: Команда для обновления nvm
+#---
 
 cd ~/.nvm
 git fetch origin

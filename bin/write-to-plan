@@ -1,5 +1,7 @@
 #!/bin/bash
-# Записать через dmenu в #unsorted у файла
+#---
+#title: Записать через dmenu в #unsorted у файла
+#---
 . ~/.bashrc
 PTH=$1
 TARGET="$(dmenu-wrapper 'Что?' 0 1)"

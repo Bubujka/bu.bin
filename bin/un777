@@ -1,5 +1,7 @@
 #!/bin/bash
-# Сбросить права на файлы и папки
+#---
+#title: Сбросить права на файлы и папки
+#---
 
 find $1 -type f -exec chmod 644 {} \;
 find $1 -type d -exec chmod 755 {} \;

@@ -1,5 +1,7 @@
 #!/bin/bash
-# Добавить надпись-watermark картинкам
+#---
+#title: Добавить надпись-watermark картинкам
+#---
 COPY="$1"
 shift
 mkdir watermark 2> /dev/null

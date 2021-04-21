@@ -1,5 +1,7 @@
 #!/bin/bash
-# Переиндексировать шрифты
+#---
+#title: Переиндексировать шрифты
+#---
 cd ~/.fonts
 mkfontscale
 mkfontdir

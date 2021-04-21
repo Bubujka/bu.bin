@@ -1,5 +1,7 @@
 #!/bin/bash
-# Добавить изображение в anki
+#---
+#title: Добавить изображение в anki
+#---
 if [ "$(hostname)" == "titty" ] ;
 then
   xdotool mousemove 1854 593
