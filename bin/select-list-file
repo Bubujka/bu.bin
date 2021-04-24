@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
+#---
+#title: Выбрать через dmenu один из списков
+#---
 prefix = '/home/bubujka/.db/lists/'
 files = Dir[prefix+'*']
 names = files.map { |f| File.basename f }
