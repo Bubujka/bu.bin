@@ -1,4 +1,9 @@
 #!/bin/bash
+#---
+#title: Сделать сайт из корпоративного ларавеля
+#tags: [laravel]
+#refs: []
+#---
 set -o errexit
 set -o xtrace
 set -o pipefail

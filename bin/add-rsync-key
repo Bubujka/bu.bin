@@ -1,2 +1,7 @@
 #!/bin/bash
+#---
+#title: Добавить ключ на rsync.net
+#tags: [rsync, api, ssh]
+#refs: []
+#---
 cat - | ssh $1 "dd of=$2/.ssh/authorized_keys oflag=append conv=notrunc"

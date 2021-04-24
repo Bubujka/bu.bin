@@ -1,2 +1,7 @@
 #!/bin/bash
+#---
+#title: Показать лог моей активности за рабочим местом
+#tags: []
+#refs: []
+#---
 tail -f ~/.db/activity/activity.log

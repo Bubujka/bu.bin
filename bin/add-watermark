@@ -1,6 +1,8 @@
 #!/bin/bash
 #---
 #title: Добавить надпись-watermark картинкам
+#tags: [imagemagick]
+#refs: []
 #---
 COPY="$1"
 shift

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-# Открыть ссылку в браузере
+#---
+#title: Открыть ссылку в браузере
+#tags: [browser]
+#refs: []
+#---
 if [ "$#" -eq 0 ]; then
   LINK=`cat /dev/stdin`
   google-chrome "$LINK" > /dev/null 2>&1  &

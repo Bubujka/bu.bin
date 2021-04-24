@@ -1,6 +1,8 @@
 #!/bin/bash
 #---
 #title: Добавить изображение в anki
+#tags: [anki, xdotool]
+#refs: []
 #---
 if [ "$(hostname)" == "titty" ] ;
 then
