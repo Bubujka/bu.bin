@@ -2,7 +2,7 @@
 #---
 #title: Открыть ссылку в браузере
 #tags: [browser]
-#refs: []
+#refs: [i3-workspace]
 #---
 if [ "$#" -eq 0 ]; then
   LINK=`cat /dev/stdin`

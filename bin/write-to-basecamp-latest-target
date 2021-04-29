@@ -3,6 +3,7 @@
 #title: Записать задачу из dmenu в тот же basecamp что и в прошлый раз
 #tags:
 #  - basecamp
+#refs: [dzen2-wrapper, puffy, dmenu-wrapper, write-to-basecamp]
 #---
 . ~/.bashrc
 AGE=$(($(date +%s) - $(stat -L --format %Y ~/.puffy-latest-target)))

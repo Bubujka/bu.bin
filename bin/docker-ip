@@ -1,5 +1,6 @@
 #!/bin/bash
 #---
 #title: Получить ip адрес у докер контейнера
+#tags: [docker]
 #---
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}'  "$1"
