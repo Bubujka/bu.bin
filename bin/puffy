@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
-# Чтение и запись в бэйскамп
+#---
+#title: Чтение и запись в бэйскамп
+#tags: [basecamp]
+#refs: []
+#---
 # SoRrY fOr My RuBy
 # encoding: UTF-8
 
