@@ -1,5 +1,10 @@
 #!/usr/bin/env php
-<?php // Превратить unixtime to iso8601
+<?php
+//---
+//title: Превратить unixtime to iso8601
+//tags: [text, date]
+//refs: []
+//---
 date_default_timezone_set('Europe/Moscow');
 array_shift($argv);
 if(count($argv)){

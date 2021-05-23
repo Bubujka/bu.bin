@@ -1,3 +1,9 @@
 #!/bin/bash
+#---
+#title: Пометить слой у докера алиасом и запустить в нём баш
+#tags: [docker]
+#refs: []
+#important: true
+#---
 docker commit $1 test
 docker run --rm -it test bash

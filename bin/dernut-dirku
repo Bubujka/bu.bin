@@ -1,4 +1,9 @@
 #!/bin/bash
+#---
+#title: Выключить и включить интерфейс у микротика из консоли
+#tags: [mikrotik]
+#refs: []
+#---
 set -o errexit
 set -o xtrace
 set -o pipefail

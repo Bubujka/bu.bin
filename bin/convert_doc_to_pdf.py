@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
+#---
+#title: Сконвертировать все doc, docx файлы в каталоге в pdf
+#tags: []
+#refs: []
+#---
 
 from glob import glob
 from subprocess import call
 from os.path import basename, dirname
 from os import chdir, getcwd
 from multiprocessing import Pool
-
 
 docs = glob('**/*.doc', recursive=True)
 docxs = glob('**/*.docx', recursive=True)

@@ -1,10 +1,18 @@
 #!/bin/bash
+#---
+#title: Закоммитить то что есть
+#tags: []
+#refs: []
+#todo:
+#  - Картинку всё же сохранять и ассоциировать с коммитом
+#---
 if [ "$#" -eq 0 ]; then
       echo "Illegal number of parameters"
       exit
 fi
 COMMIT="$@"
 git commit -m "$COMMIT"
+
 exit
 DIR=`pwd`
 

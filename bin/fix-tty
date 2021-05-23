@@ -1,2 +1,7 @@
 #!/bin/bash
+#---
+#title: Обновить настройки консоли
+#tags: [tty]
+#refs: []
+#---
 sudo service console-setup restart

@@ -1,7 +1,11 @@
 #!/bin/bash
-# создаём из ветки репа сайт...
-#
-# create-site git@github.com:Username/rep.git ololo canine
+#---
+#title: Создать на сервере отдельный сайт из ветки репозитория
+#description: |
+#  create-site git@github.com:Username/rep.git ololo canine
+#tags: [git]
+#refs: []
+#---
 
 echo "server {" | sudo tee -a /etc/nginx/sites-enabled/$2
 echo "  listen *:80;" | sudo tee -a /etc/nginx/sites-enabled/$2
@@ -21,5 +25,5 @@ git checkout origin/$2
 git checkout -b $2
 git push -u origin $2
 cd
-ln -s /home/www/$2 
+ln -s /home/www/$2
 sudo service nginx reload

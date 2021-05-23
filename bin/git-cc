@@ -1,4 +1,9 @@
 #!/bin/bash
+#---
+#title: Закоммитить то что есть
+#tags: [git]
+#refs: []
+#---
 if [ "$#" -eq 0 ]; then
       echo "Illegal number of parameters"
       exit

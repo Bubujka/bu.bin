@@ -1,5 +1,9 @@
 #!/usr/bin/env node
-// Вывести содержимое одного из header у списка доменов в stdin
+//---
+//title: Вывести содержимое одного из header у списка доменов в stdin
+//tags: [domain]
+//refs: []
+//---
 
 'use strict'; // eslint-disable-line
 

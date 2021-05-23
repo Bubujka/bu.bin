@@ -1,3 +1,8 @@
 #!/bin/bash
+#---
+#title: Закоммитить не глядя
+#tags: [git]
+#refs: []
+#---
 git add . --all
 git commit -m "$(hostname):$(pwd) update - $(date)"

@@ -1,2 +1,7 @@
 #!/bin/bash
+#---
+#title: Скачать стили первого бутстрапа с гитхаба
+#tags: [bootstrap, webdev]
+#refs: []
+#---
 wget https://raw.githubusercontent.com/twbs/bootstrap/v1.4.0/bootstrap.min.css

@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+#---
+#title: Включать-выключать интерфейс на микротике, пока он не заработает на 100 мбитах
+#tags: [mikrotik]
+#refs: []
+#---
 
 from subprocess import check_output
 from time import sleep

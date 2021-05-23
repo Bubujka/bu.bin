@@ -1,5 +1,9 @@
 #!/bin/bash
-# Запустить таймер (pomodoro) через dmenu
+#---
+#title: Запустить таймер (pomodoro) через dmenu
+#tags: [timetracking, pomodoro]
+#refs: [tt]
+#---
 TIMES="10m
 20m
 25m

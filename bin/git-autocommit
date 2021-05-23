@@ -1,3 +1,8 @@
 #!/bin/bash -xe
+#---
+#title: Попытаться закоммитить, если есть что коммитить
+#tags: [git]
+#refs: []
+#---
 git add . -A
 test -z "$(git status --porcelain)" ||  git commit -m "$@"
