@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+from glob import glob
+from time import time
+from datetime import date
+from os.path import expanduser, exists, basename
+from os import makedirs
+from shutil import move
+
+DIR=expanduser("~/.db/history/pics/{}".format(date.today()))
+makedirs(DIR, exist_ok=True)
+
+
+def main():
+    exts = ('jpg', 'jpeg', 'gif', 'png', 'JPG')
+    ts = time()
+    for ext in exts:
+        for f in glob('*.'+ext):
+            print('Moving:', f)
+            move(f, "{}/{}_{}".format(DIR, ts, basename(f)))
+
+if __name__ == '__main__':
+    main()

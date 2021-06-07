@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for c in $(docker ps --format "{{.Names}}"); do
+  echo $c $(docker-ip $c)
+done
+#docker ps --format '{{range.NetworkSettings.Networks}}{{.ID}}{{end}}'

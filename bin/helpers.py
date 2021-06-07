@@ -52,7 +52,7 @@ def open_in_browser(url):
     """
     Открыть ссылку в браузере
     """
-    check_output(['chromium-browser', url])
+    check_output(['br', url])
 
 def open_i3_workspace(name):
     """
