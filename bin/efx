@@ -1,8 +1,11 @@
 #!/bin/bash
-# Прогнать stdin через eslint --fix
+#---
+#title: Прогнать stdin через eslint --fix
+#tags: [lint]
+#refs: []
+#---
 TMPFILE=$(mktemp)
 cat > $TMPFILE
-#prettier --stdin > $TMPFILE
 ./node_modules/.bin/eslint --fix $TMPFILE > /dev/null
 cat $TMPFILE
 rm $TMPFILE

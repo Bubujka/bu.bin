@@ -3,6 +3,7 @@
 #title: Записать задачу из dmenu в бэйскамп
 #tags:
 #  - basecamp
+#refs: [dzen2-wrapper, puffy, dmenu-wrapper]
 #---
 . ~/.bashrc
 

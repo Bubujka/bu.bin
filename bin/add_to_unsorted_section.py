@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+#---
+#title: Добавление строки в секцию # [unsorted] у файла
+#tags: [plan.md]
+#refs: []
+#---
 
 """Добавление строки в секцию # [unsorted] у файла"""
 

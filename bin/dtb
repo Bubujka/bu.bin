@@ -1,3 +1,9 @@
 #!/bin/bash
-docker build --pull  . -f $1 -t test
+#---
+#title: Сбилдить Dockerfile и сразу его запустить
+#tags: [docker]
+#refs: []
+#important: true
+#---
+docker build --pull . -f $1 -t test
 dt

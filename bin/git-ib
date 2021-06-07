@@ -1,3 +1,9 @@
 #!/bin/bash
+#---
+#title: |
+#  Быстрый коммит с сообщением "Я сделяль"
+#tags: [git]
+#refs: [git-ad, git-ci]
+#---
 git ad
 git ci "Instant bugfix! +_+"

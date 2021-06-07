@@ -1,5 +1,9 @@
 #!/bin/bash
-# Проверить - есть ли уязвиость git / svn на домене
+#---
+#title: Проверить - есть ли уязвиость git / svn на домене
+#tags: [git, svn, security, domain]
+#refs: []
+#---
 
 echo; echo http://$1 git
 wget -O - http://$1/.git/config 2> /dev/null | head

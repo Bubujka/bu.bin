@@ -1,4 +1,9 @@
 #!/bin/bash
+#---
+#title: Запустить таймер на какой-то интервал
+#tags: [pomodoro, timetracking]
+#refs: []
+#---
 seconds=$1
 if [[ $1 =~ ^.*m$ ]]; then
   let seconds="${1/m/} * 60"

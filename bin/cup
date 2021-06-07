@@ -1,4 +1,10 @@
 #!/bin/bash
+#---
+#title: Заняться наведением порядка всюду
+#tags: [cleanup]
+#refs: []
+#important: true
+#---
 
 cleanup.py | tee -a  ~/.db/wiki/plan.md
 projects_without_next.py | tee -a  ~/.db/wiki/plan.md

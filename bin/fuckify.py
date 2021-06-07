@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
+#---
+#title: Дополнить все строки от stdin пробелами, чтобы оно было выровнено справа
+#tags: [text]
+#refs: []
+#---
 
 from sys import stdin, argv
-
 
 def main():
     lines = stdin.readlines()

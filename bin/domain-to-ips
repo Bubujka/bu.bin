@@ -1,9 +1,12 @@
 #!/usr/bin/env node
-// Преобразовать домены из stdin в ip-адреса
+//---
+//title: Преобразовать домены из stdin в ip-адреса
+//tags: [domain]
+//refs: []
+//---
 const dns = require('dns');
 const readline = require('readline');
 const chalk = require('chalk');
-
 
 dns.setServers(['8.8.8.8']);
 
@@ -21,4 +24,3 @@ rl.on('line', (domain) => {
     }
   });
 });
-

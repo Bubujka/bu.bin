@@ -1,5 +1,9 @@
 #!/bin/bash
-# Создать галерею фоточек из папки
+#---
+#title: Создать галерею фоточек из папки
+#tags: [html, website, image]
+#refs: []
+#---
 source ~/.bashrc
 export DISPLAY=":0"
 DATE=`date +%F | sed 's/:/-/g'`

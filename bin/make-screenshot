@@ -23,10 +23,11 @@ mkdir -p by_date 2> /dev/null
 cat ~/screenshot.png | pngquant --speed 1 - > by_date/${FILE}_$NAME_HIGH
 if [[ $rc != 0 ]]; then
   cp ~/screenshot.png by_date/${FILE}_$NAME_HIGH
+  xclip -selection clipboard -t image/png -i by_date/${FILE}_$NAME_HIGH
 fi
 mkdir -p $DIRECTORY 2> /dev/null
 cd $DIRECTORY
-echo "http://ss.bubujka.org/$DIRECTORY/$NAME_HIGH" | xc
+#echo "http://ss.bubujka.org/$DIRECTORY/$NAME_HIGH" | xc
 
 if [ "$1" == "comment" ]; then
   COMMENT=$(echo | dmenu-wrapper 'Комментарий')
@@ -48,4 +49,4 @@ echo "Screenshot!" | dzen2-wrapper green
 
 cd ~/.db/history/screenshot
 cd $DIRECTORY
-socksify s3cmd put ./$NAME_TN  ./$NAME_LOW ./$NAME_HIGH s3://ss.bubujka.org/$DIRECTORY/ &
+#socksify s3cmd put ./$NAME_TN  ./$NAME_LOW ./$NAME_HIGH s3://ss.bubujka.org/$DIRECTORY/ &

@@ -1,2 +1,7 @@
 #!/bin/bash
+#---
+#title: Зашифровать в ansible как строку поток ввода
+#tags: [ansible]
+#refs: []
+#---
 cat - | ansible-vault encrypt_string --stdin-name=$1

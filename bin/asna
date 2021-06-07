@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
-# Программа для записи задач в asana из консоли
+#---
+#title: Программа для записи задач в asana из консоли
+#tags: [api, asana]
+#refs: []
+#---
 require "rubygems"
 require 'yaml'
 require 'asana'

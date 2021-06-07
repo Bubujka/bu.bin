@@ -1,6 +1,7 @@
 #!/bin/bash
 #---
 #title: Запустить по-быстрому simple-http-server
+#rews: [br]
 #---
 python -m SimpleHTTPServer
 br http://local.bubujka.org:8000

@@ -1,4 +1,9 @@
 #!/bin/bash
+#---
+#title: Сделать бэкап базы данных локально
+#tags: [mysql]
+#refs: []
+#---
 set -o errexit
 set -o xtrace
 set -o pipefail

@@ -1,5 +1,10 @@
 #!/bin/bash
-# Сделать скриншот с вебкамеры и залить в инет
+#---
+#title: Сделать фото с вебкамеры и залить его в инет
+#tags: [video]
+#refs: []
+#---
+
 
 mkdir /tmp/webshot 2> /dev/null
 cd /tmp/webshot
