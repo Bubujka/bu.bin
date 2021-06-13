@@ -1,0 +1,32 @@
+#!/bin/bash
+set -o errexit
+set -o pipefail
+
+if [ "$#" -eq 0 ]; then
+      echo "Нужно передать код для названия контейнера"
+      exit
+fi
+
+DAY=$(date +%Y-%m-%d)
+container="$1"
+
+mkdir "$DAY-$container"
+cd "$DAY-$container"
+lxc config show "$container" > lxc_config.txt
+lxc info "$container" > lxc_info.txt
+lxc stop "$container" || true
+lxc delete "$container/backup" || true 2> /dev/null
+
+touch README.md
+
+set -o xtrace
+
+time lxc snapshot "$container" backup
+time lxc publish "$container/backup" --alias "$container-backup"
+time lxc image export "$container-backup" "$container-backup"
+lxc delete "$container/backup"
+lxc image delete "$container-backup"
+md5sum "$container-backup".tar.gz  > sums.md5
+
+echo "done"
+vim README.md
