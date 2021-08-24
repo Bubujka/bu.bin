@@ -29,4 +29,3 @@ lxc image delete "$container-backup"
 md5sum "$container-backup".tar.gz  > sums.md5
 
 echo "done"
-vim README.md
