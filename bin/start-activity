@@ -1,5 +1,10 @@
 #!/bin/bash
+
+i3-workspace 8
+
 . ~/.nvm/nvm.sh
 cd ~/.db/prj/my-activity
 nvm use
-logrotate --force ~/.db/prj/my-activity/activity-logrotate
+
+xterm -e ./watcher.sh
+
