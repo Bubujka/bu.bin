@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd ~/.db/wiki
+git ad
+git ac
+bash -c 'sleep 5 && br http://127.0.0.1:4567' &
+cd ~/.db/wiki
+gollum ~/.db/wiki --h1-title --allow-uploads --host 127.0.0.1
+

@@ -1,0 +1,4 @@
+#!/bin/bash
+gvim--remote-send ':sp ~/.db/wiki/Home.md<CR>'
+sleep 0.3
+i3-workspace vim
