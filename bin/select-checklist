@@ -1,0 +1,20 @@
+#!/bin/bash
+export FZF_DEFAULT_COMMAND='ag -g ""'
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+cd $1
+
+files() {
+  for file in *.md ; do
+    echo -n $(basename "$file")"   " | sed 's/.md//g'
+    head -1 $file
+  done;
+}
+
+dir=$(files  | fzf +m --print-query --header="Открытие чеклиста" --preview='cat $(echo {} | sed "s/ *#.*//").md | head -$LINES' | tail -1)
+
+if [ -z "$dir" ] ; then
+  exit;
+fi
+
+open-in-gvim $1/"$(echo $dir | sed 's/ *#.*//')".md

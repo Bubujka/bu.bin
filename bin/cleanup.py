@@ -12,6 +12,7 @@ from os.path import expanduser, basename, dirname, exists, isdir, islink
 from subprocess import check_output
 import shlex
 from multiprocessing import Pool
+import yaml
 
 OK_CODE = "✓"
 FAIL_CODE = "✗"
@@ -217,9 +218,35 @@ def check_files_indexed():
                     fail_print("Каталог {} не проиндексирован".format(directory))
 
 
+def have_yfm(pth):
+    """Проверить есть ли yfm секция в файле"""
+    content = open(pth).readline()
+    if content[:3] == '---':
+        return True
+    return False
+
+
+def extractyfm(pth):
+    """Достать yfm из файла"""
+    t = open(pth).readlines()
+    c = ""
+    for line in t[1:]:
+        if '---' in line:
+            return yaml.safe_load(c)
+        c = c + line
+
+def have_title_in_yfm(pth):
+    if 'title' in extractyfm(pth):
+        return True
+    return False
+
 def have_markdown_title(pth):
     """Есть ли у файла заголовок в начале файла"""
     content = open(pth).readline()
+    if have_yfm(pth):
+        if have_title_in_yfm(pth):
+            return True
+        return False
     if content[:2] == "# ":
         return True
     return False

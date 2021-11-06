@@ -1,0 +1,8 @@
+#!/bin/bash
+count=20
+for i in $(seq $count); do
+  nslookup -q=TXT _acme-challenge.$@ | grep _acme-challenge
+  sleep 1
+done | sort | uniq -c | sort -n
+
+
