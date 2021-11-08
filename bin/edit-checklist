@@ -13,10 +13,10 @@ files() {
 
 export BAT_THEME="zenburn"
 
-dir=$(files  | fzf +m --print-query --header="Открытие чеклиста $1" --preview='bat --color=always --style=header,grid --line-range :$LINES $(echo {} | sed "s/ *#.*//").md' | tail -1)
+dir=$(files  | fzf +m --print-query --header="Редактирование чеклиста $1" --preview='bat --color=always --style=header,grid --line-range :$LINES $(echo {} | sed "s/ *#.*//").md' | tail -1)
 
 if [ -z "$dir" ] ; then
   exit;
 fi
 
-nohup br "http://$2/howto.html?pth=howtos/$(echo $dir | sed 's/ *#.*//').md" > /dev/null
+open-in-gvim $1/"$(echo $dir | sed 's/ *#.*//')".md

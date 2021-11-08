@@ -1,0 +1,14 @@
+#!/bin/bash
+xset -display :0 dpms force off
+xset -display :1 dpms force off
+
+sleep 2
+
+xset -display :0 dpms force off
+xset -display :1 dpms force off
+
+sleep 2
+
+xset -display :0 dpms force off
+xset -display :1 dpms force off
+

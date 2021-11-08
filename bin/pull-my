@@ -9,6 +9,7 @@ for dir in \
   ~/.password-store \
   ~/.bu.bin \
   ~/.db/prj/websites \
+  ~/.db/prj/hb \
   ~/.myi3status
 do
   if [ -d $dir ]; then
