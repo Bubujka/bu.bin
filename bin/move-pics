@@ -12,9 +12,10 @@ makedirs(DIR, exist_ok=True)
 
 
 def main():
-    exts = ('jpg', 'jpeg', 'gif', 'png', 'JPG')
+    exts = ('jpg', 'mov', 'webp', 'webm', 'mp4', 'jpeg', 'gif', 'png')
+    all_exts = [v.upper() for v in exts] + list(exts)
     ts = time()
-    for ext in exts:
+    for ext in all_exts:
         for f in glob('*.'+ext):
             print('Moving:', f)
             move(f, "{}/{}_{}".format(DIR, ts, basename(f)))

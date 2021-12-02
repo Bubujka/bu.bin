@@ -1,4 +1,3 @@
 #!/bin/bash
-
-gvim--remote-send "<esc><esc>:sp $1<CR>"
+gvim--remote-send "<esc><esc>:sp ${1#gvim:}<CR>"
 i3-workspace vim

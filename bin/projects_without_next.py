@@ -59,6 +59,7 @@ def check_prj(prj):
 
 def have_tasks(prj):
     """Проверить есть ли задачи по проекту"""
+    return True ## fixme
     return check_output(['task', 'project:{}'.format(prj), 'and', 'status:pending','count']).decode('utf-8').strip() != '0'
 
 def check_all_projects_exists():

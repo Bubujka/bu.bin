@@ -9,6 +9,7 @@ for dir in \
   ~/.password-store \
   ~/.bu.bin \
   ~/.db/prj/websites \
+  ~/.db/beta/howto-basic \
   ~/.db/prj/hb \
   ~/.myi3status
 do

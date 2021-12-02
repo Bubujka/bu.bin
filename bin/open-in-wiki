@@ -1,0 +1,3 @@
+#!/bin/bash
+PTH="${1#wiki:}"
+open-in-gvim "~/.db/wiki/$PTH.md"
