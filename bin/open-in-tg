@@ -1,0 +1,4 @@
+#!/bin/bash
+~/.Telegram/Telegram -- $1
+i3-workspace 5
+sleep 0.5
