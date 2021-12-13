@@ -1,6 +1,9 @@
 #!/bin/bash
 killall -KILL -w node
 killall -KILL -w php7.1
+killall -KILL -w php7.2
+killall -KILL -w php7.3
+killall -KILL -w php7.4
 killall -KILL -w php
 killall -KILL -w gulp
 killall -KILL -w mailcatcher
