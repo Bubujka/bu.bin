@@ -196,6 +196,8 @@ def check_all_on_git():
     for root_dir in ("beta", "prj", "omega"):
         contents = glob(expanduser("~/.db/{}/*".format(root_dir)))
         for something in contents:
+            if '_files' in something:
+                continue
             if islink(something):
                 continue
             if not isdir(something):
@@ -297,7 +299,7 @@ def main():
     check_wiki_have_title()
     check_directory_empty(expanduser("~"), whitelisted=HOME_WHITELISTED)
     check_directory_empty(expanduser("~/_"))
-    check_files_indexed()
+    #check_files_indexed() # Переделать
     check_all_on_git()
     check_wiki_indexed()
     check_db_indexed()
