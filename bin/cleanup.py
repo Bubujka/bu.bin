@@ -193,7 +193,7 @@ def check_db_indexed():
 
 def check_all_on_git():
     """Проверить что все проекты под гитом"""
-    for root_dir in ("beta", "prj", "omega"):
+    for root_dir in ("beta", "prj", "warpa", "omega"):
         contents = glob(expanduser("~/.db/{}/*".format(root_dir)))
         for something in contents:
             if '_files' in something:
