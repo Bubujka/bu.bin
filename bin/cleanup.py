@@ -301,7 +301,7 @@ def main():
     check_directory_empty(expanduser("~/_"))
     #check_files_indexed() # Переделать
     check_all_on_git()
-    check_wiki_indexed()
+    #check_wiki_indexed()
     check_db_indexed()
     check_all_reps_pushed()
     exit(min(1, STATE["errors"]))
