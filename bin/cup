@@ -6,6 +6,8 @@
 #important: true
 #---
 
-cleanup.py | tee -a  ~/.db/wiki/plan.md
+FILE="$(mktemp --suffix='.md')"
+echo "# Проверка проводилась $(date)"| tee -a  $FILE
+cleanup.py | tee -a  $FILE
 #projects_without_next.py | tee -a  ~/.db/wiki/plan.md
-open-in-gvim ~/.db/wiki/plan.md
+open-in-gvim $FILE
