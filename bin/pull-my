@@ -18,3 +18,11 @@ do
     git pull &
   fi
 done
+
+sleep 3
+
+cd ~/.db/dotfiles
+./install.py
+
+cd ~/.db/dotfiles-private
+./install.sh
