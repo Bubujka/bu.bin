@@ -14,12 +14,11 @@ for dir in \
   ~/.myi3status
 do
   if [ -d $dir ]; then
+    echo "Updating $dir"
     cd $dir
-    git pull &
+    git pull
   fi
 done
-
-sleep 3
 
 cd ~/.db/dotfiles
 ./install.py
