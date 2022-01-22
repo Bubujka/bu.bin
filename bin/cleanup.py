@@ -198,6 +198,8 @@ def check_all_on_git():
         for something in contents:
             if '_files' in something:
                 continue
+            if '_bin' in something:
+                continue
             if islink(something):
                 continue
             if not isdir(something):
