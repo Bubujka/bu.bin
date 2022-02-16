@@ -1,0 +1,7 @@
+#!/bin/bash
+cd ~/.db/wiki/timing/
+FILE="$(date +%Y-%m-%d).ods"
+if [ ! -f $FILE ] ; then
+  cp template.ods $FILE
+fi
+nohup soffice "$FILE"

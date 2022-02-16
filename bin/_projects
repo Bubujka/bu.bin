@@ -9,6 +9,7 @@ projects = {
   stud: File.expand_path('~/.db/stud/*'),
   beta: File.expand_path('~/.db/beta/*'),
   warpa: File.expand_path('~/.db/warpa/*'),
+  citynature: File.expand_path('~/.db/citynature/*'),
   dokuro: File.expand_path('~/.db/dokuro/prj/*'),
   websites: File.expand_path('~/.db/prj/websites/*'),
 }
