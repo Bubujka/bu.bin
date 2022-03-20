@@ -30,7 +30,7 @@ md5sum "$container-backup".tar.gz  > sums.md5
 
 echo "#!/bin/bash" > restore.sh
 echo "lxc image import ${container}-backup.tar.gz --alias ${container}-backup" >> restore.sh
-echo "lxc launch ${container}-backup ${container}-backup" >> restore.sh
+echo "lxc launch ${container}-backup ${container}" >> restore.sh
 echo "lxc image delete ${container}-backup" >> restore.sh
 chmod +x restore.sh
 
