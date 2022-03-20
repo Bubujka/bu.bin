@@ -28,4 +28,12 @@ lxc delete "$container/backup"
 lxc image delete "$container-backup"
 md5sum "$container-backup".tar.gz  > sums.md5
 
+echo "#!/bin/bash" > restore.sh
+echo "lxc image import $container-backup.tar.gz --alias $conatainer-backup" >> restore.sh
+echo "lxc launch $conatainer-backup $conatainer-backup" >> restore.sh
+echo "lxc image delete $container-backup" >> restore.sh
+chmod +x restore.sh
+
+lxc start "$container" || true
+
 echo "done"
