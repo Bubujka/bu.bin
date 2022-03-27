@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while IFS= read -r string; do
+  gvim--remote-send "<esc><esc>:sp ${string}<CR>"
+done
+
+i3-workspace vim

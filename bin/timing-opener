@@ -1,0 +1,12 @@
+#!/bin/bash
+i3-workspace 5
+sleep 0.2
+PTH="${1#timing:}"
+PTH="${PTH/#\~/$HOME}"
+PTH="$PTH.ods"
+TPL="$(dirname $PTH)/template.ods"
+if [ ! -f "$PTH" ]; then
+  cp "$TPL" "$PTH"
+fi
+nohup soffice "$PTH"
+

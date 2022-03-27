@@ -1,0 +1,6 @@
+#!/bin/bash
+i3-workspace 5
+sleep 0.2
+PTH="${1#ods:}"
+PTH="${PTH/#\~/$HOME}"
+nohup soffice "$PTH.ods"
