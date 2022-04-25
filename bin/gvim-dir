@@ -1,0 +1,6 @@
+#!/bin/bash
+DIR="$(realpath $1)"
+gvim--remote-send "<esc><esc>:1,100bd<CR>"
+gvim--remote-send "<esc><esc>:cd $DIR<CR>"
+
+nohup i3-workspace vim
