@@ -1,6 +1,7 @@
 #!/bin/bash
 echo "Downloading..."
 for dir in \
+  ~/.db/howto \
   ~/.db/wiki \
   ~/.db/gnucash \
   ~/.db/dotfiles \
