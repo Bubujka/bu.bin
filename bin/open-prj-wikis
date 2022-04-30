@@ -17,6 +17,9 @@ def main():
             continue
         if row[0] == '':
             continue
-        check_output(["open-in-gvim", expanduser("~/.db/wiki/prj/{}.md".format(row[1]))])
+        if row[2] == '':
+            check_output(["open-in-gvim", expanduser("~/.db/wiki/prj/{}.md".format(row[1]))])
+        else:
+            check_output(["br", row[2]])
 if __name__ == '__main__':
     main()
