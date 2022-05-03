@@ -1,4 +1,5 @@
 #!/bin/bash
+export PASSWORD_STORE_X_SELECTION=primary
 PTH="${1#pass:}"
 nohup pass show -c "$PTH"
 notify-send "copied: $PTH"
