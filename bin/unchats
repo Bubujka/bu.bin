@@ -2,3 +2,4 @@
 killall -KILL slack
 killall -KILL telegram
 killall -KILL Telegram
+killall -KILL teams
