@@ -1,0 +1,10 @@
+#!/bin/bash
+
+touch .mrconfig
+for dir in *; do
+  if [ -d "$dir/.git" ]; then
+    cd "$dir"
+    mr register
+    cd ..
+  fi
+done
