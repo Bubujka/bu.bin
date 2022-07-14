@@ -1,0 +1,8 @@
+#!/bin/bash
+
+rm -rf ~/.config/clean-chrome
+mkdir ~/.config/clean-chrome
+google-chrome  https://ifconfig.io \
+  --user-data-dir=~/.config/clean-chrome
+  #--proxy-bypass-list="$(cat ~/.db/wiki/noproxy.md)" \
+i3-workspace www
