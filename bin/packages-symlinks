@@ -10,6 +10,11 @@ def main():
             dpath = "{}-{}".format(dirname(d), basename(v))
             if not exists(dpath):
                 symlink(v, dpath)
+    for d in glob('*/websites'):
+        for v in glob('{}/*'.format(d)):
+            dpath = "{}-{}".format(dirname(d), basename(v))
+            if not exists(dpath):
+                symlink(v, dpath)
 
 if __name__ == '__main__':
     main()
