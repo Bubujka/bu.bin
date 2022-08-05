@@ -1,6 +1,5 @@
 #!/usr/bin/env php
 <?php
-mb_internal_encoding("utf-8");
 
 $file = $argv[1];
 $t = file_get_contents($file);
