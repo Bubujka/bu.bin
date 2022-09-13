@@ -6,4 +6,4 @@
 #important: true
 #---
 docker commit $1 test
-docker run --rm -it test bash
+docker run --rm -it test bash || docker run --rm -it test sh
