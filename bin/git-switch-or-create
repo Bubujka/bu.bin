@@ -1,0 +1,5 @@
+#!/bin/bash
+FROM="$1"
+TO="$2"
+git checkout "$TO" || (git checkout "origin/$FROM" && git checkout -b "$TO")
+git push -u "origin/$TO"
