@@ -1,0 +1,5 @@
+#!/bin/bash
+cd ~/.db/prj/tpl-laravel
+git pull
+cd -
+rsync -aP --exclude .git --exclude vendor --exclude node_modules /home/bubujka/.db/prj/tpl-laravel/. .
