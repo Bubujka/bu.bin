@@ -1,0 +1,2 @@
+#!/bin/bash
+git repack --max-pack-size 10m -a
