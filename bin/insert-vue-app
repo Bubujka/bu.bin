@@ -1,4 +1,4 @@
 #!/bin/bash
 COMPONENT=$(find resources/js/apps -iname '*.vue' | sed  's/resources\/js\/apps\///' | sed 's/\.vue//' | sed 's/\//./g' | sort | fzf )
 CAMELCOMPONENT=$(echo $COMPONENT | sed -E 's/[\/_-]([a-z])/\U\1/gi;s/^([a-z])/\U\1/')
-echo "@inlinevueapp('$CAMELCOMPONENT', [])"
+echo "@vueapp('$CAMELCOMPONENT', [])"
