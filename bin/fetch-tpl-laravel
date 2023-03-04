@@ -1,5 +1,3 @@
 #!/bin/bash
-cd ~/.db/prj/tpl-laravel
-git pull
-cd -
-rsync -aP --exclude .git --exclude vendor --exclude node_modules /home/bubujka/.db/prj/tpl-laravel/. .
+git remote add tpl-laravel git@gitlab.najomi.org:tpl/laravel.git
+git pull tpl-laravel master
