@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ -f "$1/start" ] ; then
+  br "$(cat $1/start)"
+fi
