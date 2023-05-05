@@ -22,21 +22,33 @@ IGNORE=(
 #)
 
 
-export CHANGED_FILES=$(git diff --name-only HEAD 'HEAD@{'$DAYS' days ago}')
+export CHANGED_FILES=$(git diff --name-only 'HEAD@{'$DAYS' days ago}' HEAD )
 
 for i in "${IGNORE[@]}"; do
   CHANGED_FILES=$(echo "$CHANGED_FILES" | grep -v "$i")
 done
 
+printFile() {
+      echo '## ' "$1"
+      if [ $SHOW_DIFF == '-d' ]; then
+        git --no-pager log --oneline  'HEAD@{'$DAYS' days ago}' HEAD  -- "$1"
+        echo
+        echo
+        git --no-pager diff  'HEAD@{'$DAYS' days ago}' HEAD  -- "$1"  | bat --no-pager
+        echo
+      fi
+}
+printRest() {
+    for file in $(echo "$CHANGED_FILES") ; do
+      printFile "$file"
+    done
+}
+
 printAndClear() {
   for var in "$@"
   do
     for file in $(echo "$CHANGED_FILES" | grep ${var}) ; do
-      echo $file
-      if [ $SHOW_DIFF == '-d' ]; then
-        git --no-pager diff  'HEAD@{'$DAYS' days ago}' HEAD  -- $file  | bat --no-pager
-        echo
-      fi
+      printFile "$file"
     done
     CHANGED_FILES=$(echo "$CHANGED_FILES" | grep -v ${var})
   done
@@ -102,4 +114,4 @@ echo '# Переводы'
 printAndClear lang/
 
 echo '# Всё остальное'
-echo "$CHANGED_FILES"
+printRest
