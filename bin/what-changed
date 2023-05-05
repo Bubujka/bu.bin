@@ -1,0 +1,105 @@
+#!/bin/bash
+DAYS=${1-7}
+
+SHOW_DIFF=${2-false}
+
+IGNORE=(
+  yarn.lock
+  composer.lock
+  resources/views/stories
+  .png
+  .svg
+  .jpg
+  .pdf
+  .mp3
+)
+
+#declare -A GROUPING=(
+#  [Почтовые шаблоны]=resources/views/mail
+#  [Приложение]=app/
+#  [Шаблоны]=resources/views
+#  [Роутинг]=routes/
+#)
+
+
+export CHANGED_FILES=$(git diff --name-only HEAD 'HEAD@{'$DAYS' days ago}')
+
+for i in "${IGNORE[@]}"; do
+  CHANGED_FILES=$(echo "$CHANGED_FILES" | grep -v "$i")
+done
+
+printAndClear() {
+  for var in "$@"
+  do
+    for file in $(echo "$CHANGED_FILES" | grep ${var}) ; do
+      echo $file
+      if [ $SHOW_DIFF == '-d' ]; then
+        git --no-pager diff  'HEAD@{'$DAYS' days ago}' HEAD  -- $file  | bat --no-pager
+        echo
+      fi
+    done
+    CHANGED_FILES=$(echo "$CHANGED_FILES" | grep -v ${var})
+  done
+  echo
+  echo '-------------------'
+  echo
+}
+
+echo '# Архитектура'
+printAndClear \
+  .gitlab-ci.yml \
+  .env.example \
+  composer.json \
+  package.json \
+  vite.config.js \
+  install.sh \
+  app/Providers \
+  config/ \
+  docker \
+  app/Http/Kernel.php
+
+
+echo '# Приложение'
+printAndClear \
+  app/Services \
+  resources/js
+
+echo '# Роутинг'
+printAndClear routes/ app/Http/Controllers
+
+echo '# Консольные команды'
+printAndClear app/Console
+
+echo '# Модели'
+printAndClear app/Models
+
+echo '# Страницы'
+printAndClear resources/views/pages resources/css/pages
+
+echo '# Блоки'
+printAndClear app/Nova/Flexible resources/views/blocks
+
+echo '# JS-приложения'
+printAndClear resources/js/apps
+
+echo '# Nova Actions'
+printAndClear app/Nova/Actions
+
+echo '# Nova'
+printAndClear app/Nova
+
+
+echo '# Структура базы'
+printAndClear database/migrations
+
+echo '# Сидинг'
+printAndClear database/factories database/seeders
+
+echo '# Почтовые шаблоны'
+printAndClear app/Mail resources/views/mail
+
+echo '# Переводы'
+printAndClear lang/
+
+echo '# Всё остальное'
+echo "$CHANGED_FILES"
