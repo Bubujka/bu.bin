@@ -7,6 +7,8 @@ IGNORE=(
   yarn.lock
   composer.lock
   resources/views/stories
+  ^nova
+  ^public/vendor
   .png
   .svg
   .jpg
@@ -44,21 +46,35 @@ printRest() {
     done
 }
 
-printAndClear() {
+somethingChanged() {
   for var in "$@"
   do
-    for file in $(echo "$CHANGED_FILES" | grep ${var}) ; do
-      printFile "$file"
-    done
-    CHANGED_FILES=$(echo "$CHANGED_FILES" | grep -v ${var})
+    if echo "$CHANGED_FILES" | grep "$var" > /dev/null;
+    then
+      return 0;
+    fi
   done
-  echo
-  echo '-------------------'
-  echo
+  return 1;
+}
+printAndClear() {
+  TITLE="$1"
+  shift
+  if somethingChanged "$@"; then
+    echo $TITLE
+    for var in "$@"
+    do
+      for file in $(echo "$CHANGED_FILES" | grep ${var}) ; do
+        printFile "$file"
+      done
+      CHANGED_FILES=$(echo "$CHANGED_FILES" | grep -v ${var})
+    done
+    echo
+    echo '-------------------'
+    echo
+  fi
 }
 
-echo '# Архитектура'
-printAndClear \
+printAndClear '# Архитектура' \
   .gitlab-ci.yml \
   .env.example \
   composer.json \
@@ -71,47 +87,32 @@ printAndClear \
   app/Http/Kernel.php
 
 
-echo '# Приложение'
-printAndClear \
+printAndClear '# Приложение' \
   app/Services \
+  app/Traits \
   resources/js
 
-echo '# Роутинг'
-printAndClear routes/ app/Http/Controllers
+printAndClear '# Компоненты' \
+  resources/views/components \
+  resources/css/components
 
-echo '# Консольные команды'
-printAndClear app/Console
+printAndClear '# Шаблоны' \
+  resources/views
 
-echo '# Модели'
-printAndClear app/Models
-
-echo '# Страницы'
-printAndClear resources/views/pages resources/css/pages
-
-echo '# Блоки'
-printAndClear app/Nova/Flexible resources/views/blocks
-
-echo '# JS-приложения'
-printAndClear resources/js/apps
-
-echo '# Nova Actions'
-printAndClear app/Nova/Actions
-
-echo '# Nova'
-printAndClear app/Nova
-
-
-echo '# Структура базы'
-printAndClear database/migrations
-
-echo '# Сидинг'
-printAndClear database/factories database/seeders
-
-echo '# Почтовые шаблоны'
-printAndClear app/Mail resources/views/mail
-
-echo '# Переводы'
-printAndClear lang/
+printAndClear '# Роутинг' routes/ app/Http/Controllers
+printAndClear '# Документация' docs/
+printAndClear '# Консольные команды' app/Console
+printAndClear '# Модели' app/Models
+printAndClear '# Страницы' resources/views/pages resources/css/pages
+printAndClear '# Блоки' app/Nova/Flexible resources/views/blocks
+printAndClear '# JS-приложения' resources/js/apps
+printAndClear '# Nova Actions' app/Nova/Actions
+printAndClear '# Nova' app/Nova
+printAndClear '# Структура базы' database/migrations
+printAndClear '# Сидинг' database/factories database/seeders
+printAndClear '# Почтовые шаблоны' app/Mail resources/views/mail
+printAndClear '# Переводы' lang/
+printAndClear '# Тесты' tests/
 
 echo '# Всё остальное'
 printRest
