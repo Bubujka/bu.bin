@@ -1,0 +1,3 @@
+#!/bin/bash
+
+emmet-bootstrap | tr '.' '\n' | sort | uniq | grep -v '^$' | sed 's/^/./g' | tr -d '\n'

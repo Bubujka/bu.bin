@@ -1,0 +1,5 @@
+#!/bin/bash
+TEMP=$(mktemp)
+xterm -title '[fzf]' -e "emmet-bootstrap-wrapper > $TEMP"
+cat $TEMP
+rm $TEMP

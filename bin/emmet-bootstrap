@@ -1,0 +1,106 @@
+#!/bin/bash
+LIST=".alert
+.alert-danger
+.alert-dark
+.alert-info
+.alert-light
+.alert-link
+.alert-primary
+.alert-secondary
+.alert-success
+.alert-warning
+.align-items-center
+.badge
+.bg-danger
+.bg-dark
+.bg-info
+.bg-light
+.bg-link
+.bg-primary
+.bg-secondary
+.bg-success
+.bg-warning
+.border
+.btn
+.btn-danger
+.btn-dark
+.btn-info
+.btn-light
+.btn-link
+.btn-outline-danger
+.btn-outline-dark
+.btn-outline-info
+.btn-outline-light
+.btn-outline-link
+.btn-outline-primary
+.btn-outline-secondary
+.btn-outline-success
+.btn-outline-warning
+.btn-primary
+.btn-secondary
+.btn-sm
+.btn-success
+.btn-warning
+.col
+.container
+.gap-1
+.gap-2
+.gap-3
+.gap-4
+.gap-5
+.hstack
+.justify-content-center
+.justify-content-end
+.mx-1
+.mx-2
+.mx-3
+.mx-4
+.mx-5
+.mx-auto
+.my-1
+.my-2
+.my-3
+.my-4
+.my-5
+.overflow-hidden
+.p-1
+.p-2
+.p-3
+.p-4
+.p-5
+.rounded-pill
+.row
+.shadow-lg
+.table
+.table
+.table-sm
+.text-bg-danger
+.text-bg-dark
+.text-bg-info
+.text-bg-light
+.text-bg-primary
+.text-bg-secondary
+.text-bg-success
+.text-bg-warning
+.vstack
+.w-100
+.w-25
+.w-50
+.w-75
+.w-auto"
+
+if [ "$2" != "" ]; then
+  REMOVE=$(echo "$2" | sed 's/^\.//' | tr '.' '\n' | sort | grep -v '^$')
+  for line in "$REMOVE"; do
+    LIST=$(echo "$LIST" | grep -v "^\.$line\$")
+  done
+fi
+
+CLASSES=$(echo "$LIST" | sort | fzf --prompt "$2" )
+if [ "$CLASSES" != "" ]; then
+  CLASSES="$CLASSES"$(emmet-bootstrap -q "$2$CLASSES")
+fi
+
+echo $CLASSES
+
+

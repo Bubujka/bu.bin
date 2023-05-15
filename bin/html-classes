@@ -1,0 +1,5 @@
+#!/bin/bash
+ONE=$(ag -Q 'class="' resources/views/components | sed 's/.*class="\([^"]*\)".*/\1/')
+TWO=$(ag -Q "class='" resources/views/components | sed "s/.*class='\([^']*\)'.*/\1/")
+
+echo "$ONE" "$TWO" | sort | uniq
