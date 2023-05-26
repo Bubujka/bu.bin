@@ -1,0 +1,12 @@
+#!/bin/bash
+set -o errexit
+set -o pipefail
+
+DIR=$(basename "$1")
+DATE=$(date +%Y-%m-%d)
+echo ${DIR}__$DATE
+DEST="/pool/storage/archive/${DIR}__${DATE}"
+mkdir -p $DEST || true
+pwd  > $DEST/pwd.txt
+echo "$1"  > $DEST/arg.txt
+tar cfz - "$1" | pv > $DEST/archive.tgz
