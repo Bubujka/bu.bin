@@ -1,2 +1,8 @@
 #!/bin/bash
-cp -r ~/.db/prj/tpl-laravel/* ./
+rsync -av \
+    --exclude '.git'\
+    --exclude 'storage'\
+    --exclude 'vendor'\
+    --exclude 'node_modules'\
+    --exclude 'nova'\
+    ~/.db/prj/tpl-laravel/. ./
