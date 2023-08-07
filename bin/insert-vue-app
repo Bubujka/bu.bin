@@ -1,4 +1,21 @@
 #!/bin/bash
 COMPONENT=$(find resources/js/apps -iname '*.vue' | sed  's/resources\/js\/apps\///' | sed 's/\.vue//' | sed 's/\//./g' | sort | fzf )
-CAMELCOMPONENT=$(echo $COMPONENT | sed -E 's/[\/_-]([a-z])/\U\1/gi;s/^([a-z])/\U\1/')
-echo "@vueapp('$CAMELCOMPONENT', [])"
+CAMELCOMPONENT=$(echo $COMPONENT | sed -E 's/[\/_-]([a-z])/\U\1/gi;      s/^([a-z])/\U\1/  ;   s/\.([a-z])/\U\1/gi    ')
+
+RESOURCE_DIR=$(echo $COMPONENT | sed 's/\..*//' | sed -E 's/[\/_-]([a-z])/\U\1/gi;      s/^([a-z])/\U\1/  ;   s/\.([a-z])/\U\1/gi    ')
+RESOURCE_FILE=$(echo $COMPONENT | sed 's/.*\.//' | sed -E 's/[\/_-]([a-z])/\U\1/gi;      s/^([a-z])/\U\1/  ;   s/\.([a-z])/\U\1/gi    ')
+
+
+if [ "$RESOURCE_FILE" = "$RESOURCE_DIR" ] ; then
+  if [ -f "app/Resources/$RESOURCE_FILE.php" ] ; then
+    echo "@vueapp('$CAMELCOMPONENT', new \\App\\Resources\\$RESOURCE_FILE([]))"
+  else
+    echo "@vueapp('$CAMELCOMPONENT', [])"
+  fi
+else
+  if [ -f "app/Resources/$RESOURCE_DIR/$RESOURCE_FILE.php" ] ; then
+    echo "@vueapp('$CAMELCOMPONENT', new \\App\\Resources\\$RESOURCE_DIR\\$RESOURCE_FILE([]))"
+  else
+    echo "@vueapp('$CAMELCOMPONENT', [])"
+  fi
+fi
