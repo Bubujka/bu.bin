@@ -1,4 +1,4 @@
 #!/bin/bash
 export WINEPREFIX=$HOME/.wine
-cd ~/.wine/drive_c/Program\ Files\ \(x86\)/Adobe/Photoshop\ CS
+cd ~/.wine/drive_c/Program\ Files\ \(x86\)/Adobe/Adobe\ Photoshop\ CS5
 wine Photoshop.exe $@

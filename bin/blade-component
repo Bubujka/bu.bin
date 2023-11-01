@@ -1,5 +1,11 @@
 #!/bin/bash
-COMPONENT=$(find resources/views/components -iname '*.blade.php' | sed  's/resources\/views\/components\///' | sed 's/\.blade\.php//' | sed 's/\//./g' | sort | fzf )
+COMPONENT=$(find resources/views/components resources/views/common-components -iname '*.blade.php' |
+  sed  's/resources\/views\/components\///' |
+  sed  's/resources\/views\/common-components\///' |
+  sed 's/\.blade\.php//' |
+  sed 's/\//./g' |
+  sort |
+  fzf )
 if [[ "$COMPONENT" == "" ]]; then
   exit;
 fi
