@@ -1,0 +1,11 @@
+#!/bin/bash
+COMPONENT=$(find resources/views/parts -iname '*.blade.php' |
+  sed  's/resources\/views\/parts\///' |
+  sed 's/\.blade\.php//' |
+  sed 's/\//./g' |
+  sort |
+  fzf )
+if [[ "$COMPONENT" == "" ]]; then
+  exit;
+fi
+echo "@include('parts.$COMPONENT')"

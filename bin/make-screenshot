@@ -43,7 +43,7 @@ cp ~/screenshot.jpg ./$NAME_LOW
 cp ~/screenshot.tn.jpg ./$NAME_TN
 
 
-rm ~/screenshot.jpg ~/screenshot.png ~/screenshot.tn.jpg
+#rm ~/screenshot.jpg ~/screenshot.png ~/screenshot.tn.jpg
 cd ~/.db/history/screenshot
 echo "Screenshot!" | dzen2-wrapper green
 

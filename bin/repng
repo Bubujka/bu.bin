@@ -1,2 +1,2 @@
 #!/bin/bash
-pngquant --force --ext ".png" *.png
+find . -type f -exec pngquant {} --quality 40-80 --speed 1 --skip-if-larger --strip --ext .png -f \;

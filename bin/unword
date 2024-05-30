@@ -1,0 +1,5 @@
+#!/bin/bash
+for file in *.docx; do
+  pandoc -f docx -t markdown "$file" -o "$file.md"
+done
+

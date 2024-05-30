@@ -1,0 +1,13 @@
+#!/bin/bash
+
+DIRECTORY=`date +%F`
+NAME=`date +%X | sed 's/:/-/g'`_`pwgen -s 30 1`
+
+if [ -f mkdocs.yml ]; then
+  mkdir docs/images || true
+  cat ~/screenshot.png | pngquant --speed 1 - > docs/images/$DIRECTORY_$NAME.png
+  echo "<img src='/images/$DIRECTORY_$NAME.png' >"
+else
+  cat ~/screenshot.png | pngquant --speed 1 - > resources/assets/screens/$DIRECTORY_$NAME.png
+  echo "<img src='/assets/screens/$DIRECTORY_$NAME.png' >"
+fi

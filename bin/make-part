@@ -1,0 +1,13 @@
+#!/bin/bash
+
+TARGET="$(zenity --text 'Как назвать' --entry --width 1000 --height 150)"
+if [[ "$TARGET" == "" ]]; then
+  exit;
+fi
+
+touch resources/views/parts/$TARGET.blade.php
+echo '<!-- resources/views/parts/'.$TARGET.'.blade.php -->' >> resources/views/parts/$TARGET.blade.php
+cat - >> resources/views/parts/$TARGET.blade.php
+echo "@include('parts.$TARGET')"
+open-in-gvim resources/views/parts/$TARGET.blade.php
+
