@@ -1,0 +1,9 @@
+#!/bin/bash
+
+DIRECTORY=`date +%F`
+NAME=`date +%X | sed 's/:/-/g'`_`pwgen -s 30 1`
+
+mkdir -p resources/assets/good-screens/ || true
+cat ~/screenshot.png | pngquant --speed 1 - > resources/assets/good-screens/$DIRECTORY_$NAME.png
+echo "<img src='/assets/good-screens/$DIRECTORY_$NAME.png' >"
+
