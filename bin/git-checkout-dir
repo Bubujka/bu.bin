@@ -1,0 +1,7 @@
+#!/bin/bash
+
+PTH=$(echo "$1" | sed -s 's/\/[^\/]*$//')
+git checkout -- $PTH || true
+git clean -fd $PTH || true
+
+

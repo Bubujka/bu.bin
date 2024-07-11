@@ -10,7 +10,7 @@ from os.path import expanduser
 
 import helpers
 
-DEFAULT_FILES = ["~/.sites", "~/.sites-private"]
+DEFAULT_FILES = ["~/.sites"]
 
 def rebuild_combined():
     """
