@@ -1,0 +1,5 @@
+#!/bin/bash
+cd
+mr status
+cd ~/.db/prj
+mr status
