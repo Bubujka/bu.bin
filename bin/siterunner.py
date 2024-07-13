@@ -47,6 +47,7 @@ def do_work():
         if "%s" in url:
             url = url.replace("%s", urllib.parse.quote(helpers.dmenu_ask('Value')))
         helpers.open_in_browser(url)
+        helpers.copy_to_clipboard(url)
         helpers.open_i3_workspace('www')
 
 if __name__ == '__main__':
