@@ -6,8 +6,10 @@
 #---
 if [ "$#" -eq 0 ]; then
   LINK=`cat /dev/stdin`
+  echo "$LINK" | xc
   google-chrome "$LINK" > /dev/null 2>&1  &
 else
+  echo "$1" | xc
   google-chrome "$1" > /dev/null 2>&1  &
 fi
 i3-workspace www
