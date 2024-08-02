@@ -1,0 +1,7 @@
+#!/bin/bash
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+dir=$(ls ~/.db/files | \
+  fzf +m \
+  --header="Переход к папке в хранилище" \
+  --preview='~/.bu.bin/bin/preview-dir ~/.db/files/{} | head -$LINES') \
+  && $(xdg-open ~/.db/files/"$dir" )

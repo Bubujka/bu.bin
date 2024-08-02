@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ -f "$1/README.md" ]; then
+cat "$1/README.md"
+echo ""
+echo "------------------"
+echo ""
+echo ""
+fi
+
+echo "# Файлы в папке: "
+echo ""
+ls --color "$1"
