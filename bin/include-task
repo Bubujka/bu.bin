@@ -1,0 +1,11 @@
+#!/bin/bash
+COMPONENT=$(find tasks -iname '*.yml' |
+  sed  's/tasks\///' |
+  sed 's/\.yml//' |
+  sort |
+  fzf +m --header="Выбор таска" --preview-window '60%' --preview='bat --color always tasks/{}.yml |  head -$LINES')
+if [[ "$COMPONENT" == "" ]]; then
+  exit;
+fi
+
+echo "    - include_tasks: ../tasks/$COMPONENT.yml"
