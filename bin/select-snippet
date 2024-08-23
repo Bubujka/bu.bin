@@ -2,7 +2,7 @@
 DIR="$2"
 
 if [ "$1" == "copy" ]; then
- SNIPPET=$(ls -p $DIR | grep -v '/' | \
+ SNIPPET=$(ls -p $DIR | grep -v '/' | sort -n | \
    fzf +m \
    --tac \
    --header="Скопировать сниппет" \
@@ -14,12 +14,12 @@ if [ "$1" == "copy" ]; then
 fi
 
 if [ "$1" == "edit" ]; then
-  SNIPPET=$(ls -p $DIR | grep -v '/' | \
+  SNIPPET=$(ls -p $DIR | grep -v '/' | sort -n | \
     fzf \
     --print-query \
     +m \
     --tac \
-    --bind "ctrl-y:execute-silent(rm $DIR/{})+reload(ls -p $DIR | grep -v '/')" \
+    --bind "ctrl-y:execute-silent(rm $DIR/{})+reload(ls -p $DIR | grep -v '/' | sort -n)" \
     --header="Отредактировать сниппет" \
 	  --preview-window '70%' \
     --preview="bat --color always $DIR/{} | head -\$LINES" |\

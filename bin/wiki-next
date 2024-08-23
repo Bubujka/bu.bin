@@ -1,0 +1,9 @@
+#!/bin/bash
+LAST=$(ls ~/.db/wiki | sed 's/-.*//' | sort -n | tail -1 | sed 's/^0*//')
+NEXT=$((LAST + 1))
+
+TARGET="$(zenity --text 'Название файла придумай (С РАСШИРЕНИЕМ)' --entry --width 1000 --height 150)"
+if [ "$TARGET" != "" ]; then
+  touch ~/.db/wiki/$(printf %04d $NEXT)-$TARGET
+  open-in-gvim ~/.db/wiki/$(printf %04d $NEXT)-$TARGET
+fi
