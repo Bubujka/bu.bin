@@ -10,7 +10,7 @@ if [ "$1" == "copy" ]; then
    --preview="bat --color always $DIR/{} | head -\$LINES" |\
    tail -1
  )
-  cat ~/.db/wiki/snippets/$SNIPPET | nohup xc
+  cat ~/.db/wiki/$SNIPPET | nohup xc
 fi
 
 if [ "$1" == "edit" ]; then
