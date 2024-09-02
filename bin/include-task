@@ -8,4 +8,4 @@ if [[ "$COMPONENT" == "" ]]; then
   exit;
 fi
 
-echo "    - include_tasks: ../tasks/$COMPONENT.yml"
+echo "    - import_tasks: ../tasks/$COMPONENT.yml"
