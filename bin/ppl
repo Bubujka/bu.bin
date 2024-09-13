@@ -1,0 +1,7 @@
+#!/bin/bash
+URL=$(git config --get remote.origin.url)
+URL=${URL/git@/}
+URL=${URL/://}
+URL=${URL/.git/}
+br https://$URL/-/pipelines
+

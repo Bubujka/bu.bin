@@ -4,4 +4,5 @@ NEXT=$((LAST + 1))
 TARGET="$(zenity --text 'Какую ссылку сохранить?' --entry --width 1000 --height 150)"
 if [ "$TARGET" != "" ]; then
   echo "#$NEXT                                        $TARGET" >> ~/.sites
+  notify-send "#$NEXT"
 fi
