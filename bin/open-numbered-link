@@ -1,0 +1,12 @@
+#!/bin/bash
+TARGET="$(zenity --text 'Открыть ссылку по номеру ' --entry --width 300 --height 350)"
+#TARGET="137"
+LINES=$(cat ~/.sites | grep '^\#'$TARGET' ')
+
+
+if [ "$LINES" != "" ] ; then
+  while IFS= read -r line; do
+    echo "$line" | sed  's/^.*\(https\{0,1\}:\/\/\)/\1/' | br
+  done <<< "$LINES"
+fi
+
