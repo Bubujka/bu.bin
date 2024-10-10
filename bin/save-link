@@ -2,6 +2,12 @@
 LAST=$(cat ~/.sites | grep '^#' | tail -1 | sed 's/ .*//' | sed 's/\#//')
 NEXT=$((LAST + 1))
 TARGET="$(zenity --text 'Какую ссылку сохранить?' --entry --width 1000 --height 150)"
+if grep "$TARGET" ~/.sites; then
+  notify-send "Ссылка уже есть в архиве "
+  notify-send "$(grep $TARGET ~/.sites)"
+  exit
+fi
+
 if [ "$TARGET" != "" ]; then
   echo "#$NEXT                                        $TARGET" >> ~/.sites
   notify-send "#$NEXT"

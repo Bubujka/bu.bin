@@ -2,8 +2,15 @@
 LAST=$(ls ~/.db/wiki | sed 's/-.*//' | sort -n | tail -1 | sed 's/^0*//')
 NEXT=$((LAST + 1))
 
-TARGET="$(zenity --text 'Название файла придумай (С РАСШИРЕНИЕМ)' --entry --width 1000 --height 150)"
+TARGET="$(zenity --text 'Название файла придумай' --entry --width 1000 --height 350)"
 if [ "$TARGET" != "" ]; then
-  touch ~/.db/wiki/$(printf %04d $NEXT)-$TARGET
-  open-in-gvim ~/.db/wiki/$(printf %04d $NEXT)-$TARGET
+
+  if [[ "$TARGET" =~ \.[a-z0-9]{2,5}$ ]] ; then
+    EXT=""
+  else
+    EXT=".md"
+  fi
+
+  touch ~/.db/wiki/$(printf %04d $NEXT)-$TARGET$EXT
+  open-in-gvim ~/.db/wiki/$(printf %04d $NEXT)-$TARGET$EXT
 fi
