@@ -1,0 +1,14 @@
+#!/bin/bash
+cd ~/.db/files
+rmdir *
+
+LAST=$(ls ~/.db/files  | tail -1 | sed 's/-.*//' | sed 's/^0*//')
+NEXT=$((LAST + 1))
+TARGET="$(zenity --text 'Как папку для хранения файлов назовём?' --entry --width 1000 --height 150)"
+DIRECTORY=$(printf %04d $NEXT)-$TARGET
+
+if [ "$TARGET" != "" ]; then
+  mkdir ~/.db/files/$DIRECTORY
+  sed -i "1ifile:///home/bubujka/.db/files/$DIRECTORY" ~/.config/gtk-3.0/bookmarks
+  notify-send "Добавил папку в nautilus $DIRECTORY"
+fi

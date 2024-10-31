@@ -1,6 +1,6 @@
 #!/bin/bash
-find . -maxdepth 1 -type f  -executable  -print 2> /dev/null
-find ./bin -type f  -executable  -print 2> /dev/null
-find ./_bin -type f  -executable  -print 2> /dev/null
-find ./playbooks -type f  -executable  -print 2> /dev/null
-find ./deploy -type f  -executable  -print 2> /dev/null
+find . -maxdepth 1 -type f  -executable  -print 2> /dev/null || true
+find ./bin -type f  -executable  -print 2> /dev/null || true
+find ./_bin -type f  -executable  -print 2> /dev/null || true
+find ./playbooks -type f  -executable  -print 2> /dev/null || true
+find ./deploy -type f  -executable  -print 2> /dev/null || true

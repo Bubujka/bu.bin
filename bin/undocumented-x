@@ -1,0 +1,10 @@
+#!/usr/bin/env tclsh
+
+set files [exec runnable-files]
+
+foreach f $files {
+  set obj [open $f]
+  puts [gets $obj]
+  #$puts $f
+}
+
