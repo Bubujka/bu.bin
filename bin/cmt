@@ -1,0 +1,8 @@
+#!/bin/bash
+URL=$(git config --get remote.origin.url)
+URL=${URL/git@/}
+URL=${URL/://}
+URL=${URL/.git//}
+COMMIT=$(git log --format="%H" -n 1)
+br "https://$URL-/commit/$COMMIT"
+
