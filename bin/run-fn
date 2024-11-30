@@ -5,7 +5,9 @@ dir=$(ls ~/.db/files | tac | \
   --header="Переход к папке в хранилище" \
   --preview='~/.bu.bin/bin/preview-dir ~/.db/files/{} | head -$LINES')
 
-nohup nautilus ~/.db/files/"$dir" > /dev/null 2>&1 &
-sleep 0.1;
-exit;
+if [[ "$dir" -ne "" ]]; then
+  nohup nautilus ~/.db/files/"$dir" > /dev/null 2>&1 &
+  sleep 0.1;
+  exit;
+fi
 

@@ -1,0 +1,59 @@
+#!/usr/bin/tclsh
+# www - without ww
+# ww - work wiki
+
+
+proc main {} {
+  puts "Файлы без документации:"
+
+  foreach f [files] {
+    if { ! [have-docs $f] }  {
+      puts "- $f"
+    }
+  }
+}
+
+proc have-docs {pth} {
+    set content [fgets $pth]
+
+    return [regexp {ww:\d+} $content]
+}
+
+proc files {} {
+  set ignores {
+    ./node_modules/*
+    ./.git/*
+    ./nova/*
+    ./public/vendor/*
+    ./public/build/*
+    ./tests/*
+    ./storage/*
+    ./vendor/*
+    ./public/swagger/*
+    ./public/swagger-ui/*
+    ./nova-components/*
+    ./stage-indexer/*
+    *.png
+    *.jpg
+    *.svg
+    *.sqlite
+    *.sqlite*
+  }
+
+  set opts {}
+  foreach ign $ignores {
+    lappend opts -not -path $ign
+  }
+  return [
+    exec find . -type f {*}$opts
+  ]
+}
+
+proc fgets {pth} {
+    set f [open $pth r]
+    set r [read $f]
+    close $f
+    return $r
+}
+
+main
