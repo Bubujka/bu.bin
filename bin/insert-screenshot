@@ -1,13 +1,68 @@
-#!/bin/bash
+#!/usr/bin/tclsh
 
-DIRECTORY=`date +%F`
-NAME=`date +%X | sed 's/:/-/g'`_`pwgen -s 30 1`
+# Последний сделанный скриншот - скопировать в проект и распечатать его имя
+#
+# Возможно два стиля вызова
+# - insert-screenshot
+# - insert-screenshot ~/.db/prj/something/docs/123.md
+#
+# При указании путя - находит корень проекта, по наличию папки .git, кладёт туда
+#
+# Иначе считает что уже мы в корне проекта.
+#
 
-if [ -f mkdocs.yml ]; then
-  mkdir docs/images || true
-  cat ~/screenshot.png | pngquant --speed 1 - > docs/images/$DIRECTORY_$NAME.png
-  echo "<img src='/images/$DIRECTORY_$NAME.png' >"
-else
-  cat ~/screenshot.png | pngquant --speed 1 - > resources/assets/screens/$DIRECTORY_$NAME.png
-  echo "<img src='/assets/screens/$DIRECTORY_$NAME.png' >"
-fi
+variable screenname
+
+proc main {} {
+  if [ have-pth-argument ] {
+    change-directory-to-new-root
+  }
+
+  setup-screenname
+  ensure-directory-exists
+  copy-latest-screenshot
+
+  print-image-tag
+}
+
+proc setup-screenname {} {
+  set dv [exec date +%F]
+  set tv [exec date +%X | sed s/:/-/g]
+  set iv [exec pwgen -s 30 1]
+  set ::screenname "${dv}_${tv}_${iv}.png"
+}
+
+proc have-pth-argument {} {
+  return [llength $::argv]
+}
+
+proc editing-file {} {
+  return [lindex $::argv 0]
+}
+
+proc find_root_for {fullpth} {
+  if [ file exists "$fullpth/.git" ] {
+    return $fullpth
+  } else {
+    return [find_root_for [file dirname $fullpth]]
+  }
+}
+
+proc change-directory-to-new-root {} {
+  cd [find_root_for [editing-file]]
+}
+
+proc ensure-directory-exists {} {
+  file mkdir resources/assets/screens
+}
+
+proc copy-latest-screenshot {} {
+  file copy [file normalize ~/screenshot.png] resources/assets/screens/$::screenname
+  exec pngquant  --speed 1 -f --ext .png resources/assets/screens/$::screenname
+}
+
+proc print-image-tag {} {
+  puts "<img src='/assets/screens/$::screenname' >"
+}
+
+main
