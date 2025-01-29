@@ -4,9 +4,9 @@
 #---
 . ~/.bashrc
 
-mkdir ~/.config/client-chrome
-google-chrome  https://ifconfig.io \
+chromium-browser  https://ifconfig.io \
   --proxy-server="socks5://127.0.0.1:9998" \
-  --user-data-dir=~/.config/client-chrome
+  --user-data-dir=/home/bubujka/.config/chromium-vpn2
+
   #--proxy-bypass-list="$(cat ~/.db/wiki/noproxy.md)" \
-i3-workspace www
+#i3-workspace www
