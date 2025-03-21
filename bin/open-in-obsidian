@@ -1,0 +1,3 @@
+#!/bin/bash
+nohup xdg-open obsidian://open?path=$1 &
+i3-workspace 5

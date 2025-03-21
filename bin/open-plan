@@ -1,5 +1,10 @@
 #!/bin/bash
-rm ~/.db/wiki/.*swp
-gvim--remote-send ':sp ~/.db/wiki/plan.md<CR>'
-sleep 0.3
-i3-workspace vim
+
+# doccofile: Открыть план на день (wiki)
+
+open-in-obsidian ~/.db/wiki/plan.md
+
+#rm ~/.db/wiki/.*swp
+#gvim--remote-send ':sp ~/.db/wiki/plan.md<CR>'
+#sleep 0.3
+#i3-workspace vim

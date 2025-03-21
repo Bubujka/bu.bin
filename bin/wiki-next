@@ -1,4 +1,5 @@
 #!/bin/bash
+# doccofile: Создание нового файла (wiki)
 LAST=$(ls ~/.db/wiki | sed 's/-.*//' | sort -n | tail -1 | sed 's/^0*//')
 NEXT=$((LAST + 1))
 
@@ -12,5 +13,6 @@ if [ "$TARGET" != "" ]; then
   fi
 
   touch ~/.db/wiki/$(printf %04d $NEXT)-$TARGET$EXT
-  open-in-gvim ~/.db/wiki/$(printf %04d $NEXT)-$TARGET$EXT
+  open-in-obsidian ~/.db/wiki/$(printf %04d $NEXT)-$TARGET$EXT
+  #open-in-gvim ~/.db/wiki/$(printf %04d $NEXT)-$TARGET$EXT
 fi

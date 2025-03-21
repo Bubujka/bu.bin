@@ -1,4 +1,5 @@
 #!/bin/bash
+# doccofile: Открыть или скопировать вики файл (wiki)
 DIR="$2"
 
 if [ "$1" == "copy" ]; then
@@ -28,7 +29,11 @@ if [ "$1" == "edit" ]; then
 
   if [ "$SNIPPET" != "" ]; then
     touch $DIR/$SNIPPET
-    open-in-gvim $DIR/$SNIPPET
+
+    # open-in-gvim $DIR/$SNIPPET
+
+    # Для вики сейчас использую обсидиан
+    open-in-obsidian $DIR/$SNIPPET
   fi
 fi
 
